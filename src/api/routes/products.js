@@ -1,34 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const orm = require('sequelize');
 const db = require('../../database');
 
-
-router.get('/', async (req, res, next) => {
+//users request the list of avaiable products
+router.get('/list', async (req, res, next) => {
     const result = await db.runQuery('SELECT id, name, description, price '
                                     +'FROM products');
     res.status(200).body();
 
 });
 
- router.post('/:prodId', async (req, res, next) => {
-    const name = req.body.name|| 'dsf';
-    const description = req.body.description|| 'dsfdsdsfghjkljhjgcxfdzszfxgchvjbnklmjkhgfdsafghsd';
-    const price = req.body.price|| 1;
-    const result = await db.runQuery('INSERT INTO products(name, description, price)'
-                                    +'VALUES (' +name+ ',' +description+ ',' +price+ ')');
-    
-    
+//admin add new product
+ router.post('/new-product', async (req, res, next) => {
+    const name = req.body.name || 'roba a caso';
+    const desc = req.body.description || 'roba a caso2';
+    const price = req.body.price || 1;
+    const result = await db.runQuery(`INSERT INTO products(name, description, price)`
+                                    +`VALUES ('${name}', '${desc}', ${price})`);
 });
+
 router.patch('/', (req, res, next) => {
     res.status(200).json({
         message : 'patch request'
     });
 });
-router.delete('/', (req, res, next) => {
-    res.status(200).json({
-        message : 'delete request'
-    });
+
+router.delete('/delete-product/:id', async (req, res, next) => {
+    const id = req.id;
+    const result = await db.runQuery(`DELETE FROM`
+                                    +`WHERE id = ${id}`);
 });
 
 module.exports = router;
