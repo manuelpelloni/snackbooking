@@ -4,7 +4,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const productsRoute = require('./api/routes/products');
 const ordersRoute = require('./api/routes/orders');
-const usersRoute = require('./api/routes/users');
+const usersRoute = require('./api/routes/auth');
+const meRoute = require('./api/routes/me');
 
 /*
 app.use((req, res, next) => {
@@ -23,9 +24,10 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-app.use('/users', usersRoute);
-app.use('/products', productsRoute);
-app.use('/orders', ordersRoute);
+app.use('/api/users', usersRoute);
+app.use('/api/products', productsRoute);
+app.use('/api/orders', ordersRoute);
+app.use('/api/me', meRoute);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
