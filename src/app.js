@@ -2,17 +2,13 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const path = require("path");
+
 const productsRoute = require("./api/routes/products");
 const ordersRoute = require("./api/routes/orders");
 const usersRoute = require("./api/routes/auth");
 const meRoute = require("./api/routes/me");
 
-/*
-app.use((req, res, next) => {
-    res.status(200).json({
-        message: 'It works!'
-    });
-});*/
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -27,7 +23,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 
-app.use("/api/users", usersRoute);
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+app.use("/api/auth", usersRoute);
 app.use("/api/products", productsRoute);
 app.use("/api/orders", ordersRoute);
 app.use("/api/me", meRoute);

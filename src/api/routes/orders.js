@@ -30,16 +30,12 @@ router.get("/", async (req, res, next) => {
         name: item.product_name,
         description: item.product_description,
         price: item.product_price,
+        quantity: item.quantity,
       },
-      quantity: item.quantity,
     });
     orders[item.id] = order;
   }
   res.json(orders.flat(1));
-});
-
-router.get("/", async (req, res, next) => {
-  const result = await db.createQuery();
 });
 
 router.post("/", (req, res, next) => {});
