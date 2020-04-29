@@ -64,11 +64,7 @@ router.post("/login", async (req, res, next) => {
       .input("id", sql.VarChar, token)
       .input("user_id", sql.Int, user_id)
       .query("INSERT INTO sessions(id, user_id) VALUES(@id, @user_id)")
-      .catch((err) => {
-        return res.json({
-          message: "Something gone wrong while logging in, please try again",
-        });
-      });
+      
     return res.json({
       token: token,
     });
