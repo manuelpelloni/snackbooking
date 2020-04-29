@@ -24,7 +24,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
     "format": "prettier --write \"**/*.+(js|ts|tsx|json|css|scss|md)\"",
-    "build": "npm run build",
+    "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -39,6 +39,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://localhost:3000/",
   "author": "",
   "license": "ISC"
 }
