@@ -30,8 +30,8 @@ router.get("/", async (req, res, next) => {
         name: item.product_name,
         description: item.product_description,
         price: item.product_price,
-        quantity: item.quantity,
       },
+      quantity: item.quantity,
     });
     orders[item.id] = order;
   }
