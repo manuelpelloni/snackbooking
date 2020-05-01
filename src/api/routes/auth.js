@@ -7,7 +7,7 @@ const sql = require("mssql");
 const { v4: uuidv4 } = require("uuid");
 
 router.post("/signup", async (req, res, next) => {
-  const { class_number, section, admin, email, password } = req.body;
+  const { class_number, section, email, password } = req.body;
 
   if (!validator.isEmail(email)) {
     return res.status(403).json({

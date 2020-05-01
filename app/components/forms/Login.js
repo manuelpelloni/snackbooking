@@ -9,31 +9,30 @@ import logo from "../../logo.svg";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
   const onSubmit = async (event) => {
     let response;
-    try{
-      response = await fetch("/api/auth/login",{
+    try {
+      response = await fetch("/api/auth/login", {
         method: "POST",
-        credentials: 'same-origin',
+        credentials: "same-origin",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email,
           password,
-        })
-      })
-    }
-    catch(err){
+        }),
+      });
+    } catch (err) {
       console.error(err);
     }
-    console.log(response)
+    console.log(response);
   };
 
   return (
     <div className="Form-container">
-      <Form 
+      <Form
         onFinish={onSubmit}
         name="normal_login"
         className="login-form center"
