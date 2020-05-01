@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -7,19 +7,39 @@ import "./Forms.css";
 import logo from "../../logo.svg";
 
 const Login = () => {
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  const onSubmit = async (event) => {
+    let response;
+    try{
+      response = await fetch("/api/auth/login",{
+        method: "POST",
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        })
+      })
+    }
+    catch(err){
+      console.error(err);
+    }
+    console.log(response)
   };
 
   return (
     <div className="Form-container">
-      <Form
+      <Form 
+        onFinish={onSubmit}
         name="normal_login"
         className="login-form center"
         initialValues={{
           remember: true,
         }}
-        onFinish={onFinish}
       >
         <img src={logo} alt="Logo" className="form-logo" />
 
@@ -36,6 +56,7 @@ const Login = () => {
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Email"
             size="large"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Item>
 
@@ -53,6 +74,7 @@ const Login = () => {
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Item>
         <Form.Item className="no-whitespace">
