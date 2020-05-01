@@ -23,10 +23,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 
-console.log(process.cwd());
-app.get("/", function (req, res) {
+app.get(["/", "/login", "/register"], function (req, res) {
   res.sendFile(path.join(process.cwd(), "build", "index.html"));
 });
+app.use("/static", express.static("build/static"));
 
 app.use("/api/auth", usersRoute);
 app.use("/api/products", productsRoute);
