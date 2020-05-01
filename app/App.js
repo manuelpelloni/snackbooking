@@ -5,7 +5,7 @@ import Register from "./components/forms/Register";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content } = Layout;
 function App() {
   return (
     <Layout className="Layout">
