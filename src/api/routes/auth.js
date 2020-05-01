@@ -75,9 +75,8 @@ router.post("/login", async (req, res, next) => {
       .input("user_id", sql.Int, user_id)
       .query("INSERT INTO sessions(id, user_id) VALUES(@id, @user_id)");
 
-    return res.json({
-      token: token,
-    });
+    res.cookie("token", token, { maxAge: 900000, httpOnly: true });
+    return res.send("");
   } else {
     return res.json({
       message: "To login you must first sign up",
