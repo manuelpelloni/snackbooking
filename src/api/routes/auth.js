@@ -6,7 +6,7 @@ const validator = require("validator");
 const sql = require("mssql");
 const { v4: uuidv4 } = require("uuid");
 
-router.post("/signup", async (req, res, next) => {
+router.post("/register", async (req, res, next) => {
   const { class_number, section, email, password } = req.body;
 
   if (!validator.isEmail(email)) {
