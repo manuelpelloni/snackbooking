@@ -1,14 +1,45 @@
-import React from "react";
+import React, { useState, reactDOM, mountNode } from "react";
 import { Link } from "react-router-dom";
 import { UserOutlined, LockOutlined, BookOutlined } from "@ant-design/icons";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Alert } from "antd";
 import "./Forms.css";
 import logo from "../../logo.svg";
 
 const Register = () => {
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [class_section, setYear] = useState("");
+
+  const onSubmit = async () => {
+    console.log(password, confirm)
+    let response;
+    if (password === confirm) {
+      try {
+        response = await fetch("/api/auth/register", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            class_section,
+            email,
+            password,
+          }),
+        });
+      } catch (err) {
+        console.error(err);
+      }
+      console.log(response);
+    }
   };
+
+  const passwordComparator = () => {
+    if (!password === confirm) {
+
+    }
+  }
   const year = Math.round(Math.random() * 4 + 1);
   const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const section = uppercaseLetters.charAt(
@@ -23,7 +54,7 @@ const Register = () => {
         initialValues={{
           remember: true,
         }}
-        onFinish={onFinish}
+        onFinish={onSubmit}
       >
         <img src={logo} alt="Logo" className="form-logo" />
 
@@ -37,6 +68,7 @@ const Register = () => {
           ]}
         >
           <Input
+            onChange={(e) => setEmail(e.target.value)}
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Email"
             size="large"
@@ -53,6 +85,7 @@ const Register = () => {
           ]}
         >
           <Input.Password
+            onChange={(e) => setPassword(e.target.value)}
             size="large"
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
@@ -67,9 +100,18 @@ const Register = () => {
               required: true,
               message: "Conferma la tua Password",
             },
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject('Le password non coincidono');
+              }
+            }),
           ]}
         >
           <Input.Password
+            onChange={(e) => setConfirm(e.target.value)}
             size="large"
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
@@ -87,11 +129,14 @@ const Register = () => {
           ]}
         >
           <Input
+            className="uppercase-input"
+            onChange={(e) => setYear(e.target.value)}
             prefix={
-              <BookOutlined className="site-form-item-icon uppercase-input" />
+              <BookOutlined className="site-form-item-icon" />
             }
             placeholder={`Classe (es ${year}${section})`}
             size="large"
+            maxLength="2"
           />
         </Form.Item>
 
