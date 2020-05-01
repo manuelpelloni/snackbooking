@@ -1,32 +1,32 @@
 .login-form-button {
-    width: 100%;
-  }
+  width: 100%;
+}
 
-.form-logo{
-    width:64px;
-    height:64px;
-    margin: 10px auto;
-    display: block;
+.form-logo {
+  width: 64px;
+  height: 64px;
+  margin: 10px auto;
+  display: block;
 }
 
 .Form-container {
-    background-color: #ffffff;
-    max-width: 100%;
-    width: 400px;
-    margin: 0 auto;
-    padding: 28px 35px;
-    box-shadow: 0 6.2px 16.1px -3px rgba(0, 0, 0, 0.34);
-    border-radius: 4px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
+  background-color: #ffffff;
+  max-width: 100%;
+  width: 400px;
+  margin: 0 auto;
+  padding: 28px 35px;
+  box-shadow: 0 6.2px 16.1px -3px rgba(0, 0, 0, 0.34);
+  border-radius: 4px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 
-.no-whitespace{
-    margin: 0;
-  }
-  
-  .uppercase-input{
-    text-transform:uppercase;
+.no-whitespace {
+  margin: 0;
+}
+
+.uppercase-input {
+  text-transform: uppercase;
 }

@@ -6,7 +6,6 @@ import "antd/dist/antd.css";
 import "./Forms.css";
 import logo from "../../logo.svg";
 
-
 const Login = () => {
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -22,7 +21,7 @@ const Login = () => {
         }}
         onFinish={onFinish}
       >
-      <img src={logo} className="form-logo" />
+        <img src={logo} className="form-logo" />
 
         <Form.Item
           name="email"
@@ -57,7 +56,7 @@ const Login = () => {
           />
         </Form.Item>
         <Form.Item className="no-whitespace">
-          <Button 
+          <Button
             type="primary"
             htmlType="submit"
             className="login-form-button"

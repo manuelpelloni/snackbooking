@@ -5,14 +5,15 @@ import { Form, Input, Button } from "antd";
 import "./Forms.css";
 import logo from "../../logo.svg";
 
-
 const Register = () => {
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
   };
   const year = Math.round(Math.random() * 4 + 1);
   const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const section = uppercaseLetters.charAt(Math.round(Math.random() * uppercaseLetters.length - 1));
+  const section = uppercaseLetters.charAt(
+    Math.round(Math.random() * uppercaseLetters.length - 1)
+  );
 
   return (
     <div className="Form-container">
@@ -24,7 +25,7 @@ const Register = () => {
         }}
         onFinish={onFinish}
       >
-      <img src={logo} className="form-logo" />
+        <img src={logo} className="form-logo" />
 
         <Form.Item
           name="email"
@@ -86,10 +87,11 @@ const Register = () => {
           ]}
         >
           <Input
-            prefix={<BookOutlined className="site-form-item-icon uppercase-input" />}
+            prefix={
+              <BookOutlined className="site-form-item-icon uppercase-input" />
+            }
             placeholder={`Classe (es ${year}${section})`}
             size="large"
-
           />
         </Form.Item>
 
