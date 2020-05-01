@@ -12,7 +12,7 @@ const Register = () => {
   const [class_section, setYear] = useState("");
 
   const onSubmit = async () => {
-    console.log(password, confirm)
+    console.log(password, confirm);
     let response;
     if (password === confirm) {
       try {
@@ -37,9 +37,8 @@ const Register = () => {
 
   const passwordComparator = () => {
     if (!password === confirm) {
-
     }
-  }
+  };
   const year = Math.round(Math.random() * 4 + 1);
   const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const section = uppercaseLetters.charAt(
@@ -102,11 +101,11 @@ const Register = () => {
             },
             ({ getFieldValue }) => ({
               validator(rule, value) {
-                if (!value || getFieldValue('password') === value) {
+                if (!value || getFieldValue("password") === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject('Le password non coincidono');
-              }
+                return Promise.reject("Le password non coincidono");
+              },
             }),
           ]}
         >
@@ -131,9 +130,7 @@ const Register = () => {
           <Input
             className="uppercase-input"
             onChange={(e) => setYear(e.target.value)}
-            prefix={
-              <BookOutlined className="site-form-item-icon" />
-            }
+            prefix={<BookOutlined className="site-form-item-icon" />}
             placeholder={`Classe (es ${year}${section})`}
             size="large"
             maxLength="2"
