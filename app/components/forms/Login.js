@@ -21,7 +21,7 @@ const Login = () => {
         }}
         onFinish={onFinish}
       >
-        <img src={logo} className="form-logo" />
+        <img src={logo} alt="Logo" className="form-logo" />
 
         <Form.Item
           name="email"
