@@ -17,15 +17,18 @@ function createQuery() {
   return pool.request();
 }
 
-async function tokenValidator(res, token){
-  const result = await db.createQuery()
+async function tokenValidator(res, token) {
+  const result = await db
+    .createQuery()
     .input("token", sql.validator, token)
-    .query('SELECT users.id, CONCAT(users.class_number, users.section) as class, users.email, users.admin\
+    .query(
+      "SELECT users.id, CONCAT(users.class_number, users.section) as class, users.email, users.admin\
             FROM sessions INNER JOIN users on users.id = sessions.user_id\
-            WHERE sessions.id = @token and getdate() <= expires_at')
+            WHERE sessions.id = @token and getdate() <= expires_at"
+    );
 
-    console.log(result.recordset[0]);
-    return result.recordset[0];
+  console.log(result.recordset[0]);
+  return result.recordset[0];
 }
 
 module.exports = { createQuery, tokenValidator };

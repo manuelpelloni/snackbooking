@@ -23,8 +23,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 
+console.log(process.cwd());
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(process.cwd(), "build", "index.html"));
 });
 
 app.use("/api/auth", usersRoute);

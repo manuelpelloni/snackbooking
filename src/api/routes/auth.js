@@ -63,8 +63,8 @@ router.post("/login", async (req, res, next) => {
       .createQuery()
       .input("id", sql.VarChar, token)
       .input("user_id", sql.Int, user_id)
-      .query("INSERT INTO sessions(id, user_id) VALUES(@id, @user_id)")
-      
+      .query("INSERT INTO sessions(id, user_id) VALUES(@id, @user_id)");
+
     return res.json({
       token: token,
     });
