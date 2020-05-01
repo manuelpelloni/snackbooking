@@ -7,8 +7,21 @@ const sql = require("mssql");
 const { v4: uuidv4 } = require("uuid");
 
 router.post("/register", async (req, res, next) => {
-  const { class_number, section, email, password } = req.body;
+  const { class_section, email, password } = req.body;
+  let { year, section } = 0;
 
+  if (
+    class_section.length === 2 &&
+    !class_section[0].isNan &&
+    class_section[1].toUpperCase().match(/[A-Z]/i)
+  ) {
+    year = class_section[0];
+    section = class_section[1];
+  } else {
+    return res.json({
+      message: "Classe e Sezione non valide",
+    });
+  }
   if (!validator.isEmail(email)) {
     return res.status(403).json({
       status: 403,
@@ -25,7 +38,7 @@ router.post("/register", async (req, res, next) => {
     try {
       const result = await db
         .createQuery()
-        .input("class_number", sql.Int, class_number)
+        .input("class_number", sql.Int, year)
         .input("section", sql.Char, section)
         .input("email", sql.VarChar, email)
         .input("password_digest", sql.VarChar, hash)
