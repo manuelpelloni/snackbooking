@@ -1,7 +1,7 @@
-import React, { useState, reactDOM, mountNode } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { UserOutlined, LockOutlined, BookOutlined } from "@ant-design/icons";
-import { Form, Input, Button, Alert } from "antd";
+import { Form, Input, Button } from "antd";
 import "./Forms.css";
 import logo from "../../logo.svg";
 
@@ -35,10 +35,6 @@ const Register = () => {
     }
   };
 
-  const passwordComparator = () => {
-    if (!password === confirm) {
-    }
-  };
   const year = Math.round(Math.random() * 4 + 1);
   const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const section = uppercaseLetters.charAt(
