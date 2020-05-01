@@ -12,38 +12,35 @@ router.post("/signup", async (req, res, next) => {
   if (!validator.isEmail(email)) {
     return res.status(403).json({
       status: 403,
-      message: "Invalid email address",
+      message: "Indirizzo email non valido",
     });
   }
   bcrypt.hash(password, 12, async function (err, hash) {
     if (err) {
-      return res.status().json({
-        message: "Something gone wrong with your password, please try again",
+      return res.json({
+        message: "Password o Email sbagliate",
       });
     }
-    const result = await db
-      .createQuery()
-      .input("class_number", sql.Int, class_number)
-      .input("section", sql.Char, section)
-      .input("email", sql.VarChar, email)
-      .input("password_digest", sql.VarChar, hash)
-      .query(
-        "INSERT INTO users(class_number, section, email, password_digest)\
-                        VALUES(@class_number, @section, @email, @password_digest)"
-      )
-      .then((result) => {
-        console.log(result);
-        res.send.json({
-          //TODO-----------------
-          message: "Success, account Created!",
-        });
-      })
-      .catch((err) => {
-        res.json({
-          message: "Something gone wrong, please try signup again",
-          err: err,
-        });
+
+    try {
+      const result = await db
+        .createQuery()
+        .input("class_number", sql.Int, class_number)
+        .input("section", sql.Char, section)
+        .input("email", sql.VarChar, email)
+        .input("password_digest", sql.VarChar, hash)
+        .query(
+          "INSERT INTO users(class_number, section, email, password_digest)\
+                          VALUES(@class_number, @section, @email, @password_digest)"
+        )
+      res.json({
+        message: "Account creato!",
       });
+    } catch (err) {
+      res.json({
+        message: "Account non creato",
+      });
+    };
   });
 });
 
