@@ -32,7 +32,7 @@ router.post("/signup", async (req, res, next) => {
         .query(
           "INSERT INTO users(class_number, section, email, password_digest)\
                           VALUES(@class_number, @section, @email, @password_digest)"
-        )
+        );
       res.json({
         message: "Account creato!",
       });
@@ -40,7 +40,7 @@ router.post("/signup", async (req, res, next) => {
       res.json({
         message: "Account non creato",
       });
-    };
+    }
   });
 });
 
