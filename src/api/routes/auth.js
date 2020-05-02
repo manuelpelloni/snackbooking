@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../../database");
 const validator = require("validator");
+const bcrypt = require("bcrypt");
 const sql = require("mssql");
 
 router.post("/register", async (req, res, next) => {
