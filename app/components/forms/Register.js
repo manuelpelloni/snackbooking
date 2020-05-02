@@ -10,6 +10,13 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [class_section, setYear] = useState("");
+  const [year] = useState(Math.round(Math.random() * 4 + 1));
+  const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const [section] = useState(
+    uppercaseLetters.charAt(
+      Math.round(Math.random() * uppercaseLetters.length - 1)
+    )
+  );
   const navigate = useNavigate();
 
   const onSubmit = async () => {
@@ -47,14 +54,6 @@ const Register = () => {
       }
     }
   };
-
-  const [year, setRandomYear] = useState(Math.round(Math.random() * 4 + 1));
-  const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const [section, setRandomSection] = useState(
-    uppercaseLetters.charAt(
-      Math.round(Math.random() * uppercaseLetters.length - 1)
-    )
-  );
 
   return (
     <div className="Form-container">

@@ -21,8 +21,7 @@ function createQuery() {
 }
 
 async function userFromToken(res, token) {
-  const result = await db
-    .createQuery()
+  const result = await createQuery()
     .input("token", sql.validator, token)
     .query(
       "SELECT users.id, CONCAT(users.class_number, users.section) as class, users.email, users.admin\
@@ -34,10 +33,9 @@ async function userFromToken(res, token) {
   return result.recordset[0];
 }
 
-async function validateCredentialsAndLogin() {
+async function validateCredentialsAndLogin(req, res) {
   const { email, password } = req.body;
-  const result = await db
-    .createQuery()
+  const result = await createQuery()
     .input("email", sql.VarChar, email)
     .query(
       "SELECT id AS user_id, password_digest FROM users WHERE email = @email"
@@ -48,8 +46,7 @@ async function validateCredentialsAndLogin() {
   const match = await bcrypt.compare(password, password_digest);
   if (match) {
     const token = uuidv4();
-    await db
-      .createQuery()
+    await createQuery()
       .input("id", sql.VarChar, token)
       .input("user_id", sql.Int, user_id)
       .query("INSERT INTO sessions(id, user_id) VALUES(@id, @user_id)");
