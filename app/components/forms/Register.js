@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { UserOutlined, LockOutlined, BookOutlined } from "@ant-design/icons";
 import { Form, Input, Button } from "antd";
 import "./Forms.css";
