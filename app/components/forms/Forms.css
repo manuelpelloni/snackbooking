@@ -4,8 +4,8 @@
 
 .form-logo {
   width: 200px;
-  height: 150px;
-  margin: 5px auto 10px auto;
+  height: auto;
+  margin: 5px auto 15px;
   display: block;
 }
 
