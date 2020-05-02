@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { UserOutlined, LockOutlined, BookOutlined } from "@ant-design/icons";
 import { Form, Input, Button } from "antd";
 import "./Forms.css";
@@ -10,6 +10,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [class_section, setYear] = useState("");
+  const navigate = useNavigate();
 
   const onSubmit = async () => {
     console.log(password, confirm);
@@ -41,6 +42,7 @@ const Register = () => {
             password,
           }),
         });
+        navigate("/");
       } catch (err) {
         console.error(err);
       }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
@@ -9,6 +9,7 @@ import logo from "../../logo.svg";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const onSubmit = async (event) => {
     let response;
@@ -27,7 +28,7 @@ const Login = () => {
     } catch (err) {
       console.error(err);
     }
-    console.log(response);
+    navigate("/");
   };
 
   return (
