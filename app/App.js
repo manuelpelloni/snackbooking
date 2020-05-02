@@ -2,6 +2,7 @@ import React from "react";
 import { Layout } from "antd";
 import Login from "./components/forms/Login";
 import Register from "./components/forms/Register";
+import Home from "./components/forms/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Home />} />
           </Routes>
         </Router>
       </Content>
