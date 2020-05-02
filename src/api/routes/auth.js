@@ -1,10 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../database");
-const bcrypt = require("bcrypt");
 const validator = require("validator");
 const sql = require("mssql");
-const { v4: uuidv4 } = require("uuid");
 
 router.post("/register", async (req, res, next) => {
   const { class_section, email, password } = req.body;
@@ -12,13 +10,15 @@ router.post("/register", async (req, res, next) => {
 
   if (
     class_section.length === 2 &&
-    !class_section[0].isNan &&
+    class_section[0] >= 1 &&
+    class_section[0] <= 5 &&
     class_section[1].toUpperCase().match(/[A-Z]/i)
   ) {
     year = class_section[0];
     section = class_section[1];
   } else {
     return res.json({
+      status: 403,
       message: "Classe e Sezione non valide",
     });
   }
@@ -31,10 +31,9 @@ router.post("/register", async (req, res, next) => {
   bcrypt.hash(password, 12, async function (err, hash) {
     if (err) {
       return res.json({
-        message: "Password o Email sbagliate",
+        message: "Qualcosa è andato storto, riprova",
       });
     }
-
     try {
       const result = await db
         .createQuery()
@@ -58,30 +57,7 @@ router.post("/register", async (req, res, next) => {
 });
 
 router.post("/login", async (req, res, next) => {
-  const { email, password } = req.body;
-  const result = await db
-    .createQuery()
-    .input("email", sql.VarChar, email)
-    .query("SELECT id, password_digest FROM users WHERE email = @email");
-
-  const { user_id, password_digest } = result.recordset[0];
-
-  const match = await bcrypt.compare(password, password_digest);
-  if (match) {
-    const token = uuidv4();
-    const result = await db
-      .createQuery()
-      .input("id", sql.VarChar, token)
-      .input("user_id", sql.Int, user_id)
-      .query("INSERT INTO sessions(id, user_id) VALUES(@id, @user_id)");
-
-    res.cookie("token", token, { maxAge: 900000, httpOnly: true });
-    return res.send("");
-  } else {
-    return res.json({
-      message: "To login you must first sign up",
-    });
-  }
+  validateCredentialsAndLogin();
 });
 
 module.exports = router;
