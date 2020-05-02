@@ -58,7 +58,7 @@ router.post("/register", async (req, res, next) => {
 });
 
 router.post("/login", async (req, res, next) => {
-  validateCredentialsAndLogin();
+  db.validateCredentialsAndLogin(req, res);
 });
 
 module.exports = router;
