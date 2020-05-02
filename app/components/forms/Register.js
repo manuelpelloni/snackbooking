@@ -14,10 +14,9 @@ const Register = () => {
 
   const onSubmit = async () => {
     console.log(password, confirm);
-    let response;
     if (password === confirm) {
       try {
-        response = await fetch("/api/auth/register", {
+        await fetch("/api/auth/register", {
           method: "POST",
           credentials: "same-origin",
           headers: {

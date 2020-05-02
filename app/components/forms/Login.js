@@ -12,9 +12,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (event) => {
-    let response;
     try {
-      response = await fetch("/api/auth/login", {
+      await fetch("/api/auth/login", {
         method: "POST",
         credentials: "same-origin",
         headers: {
@@ -25,10 +24,10 @@ const Login = () => {
           password,
         }),
       });
+      navigate("/");
     } catch (err) {
       console.error(err);
     }
-    navigate("/");
   };
 
   return (
