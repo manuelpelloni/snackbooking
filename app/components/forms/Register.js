@@ -48,10 +48,12 @@ const Register = () => {
     }
   };
 
-  const year = Math.round(Math.random() * 4 + 1);
+  const [year, setRandomYear] = useState(Math.round(Math.random() * 4 + 1));
   const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const section = uppercaseLetters.charAt(
-    Math.round(Math.random() * uppercaseLetters.length - 1)
+  const [section, setRandomSection] = useState(
+    uppercaseLetters.charAt(
+      Math.round(Math.random() * uppercaseLetters.length - 1)
+    )
   );
 
   return (
@@ -137,7 +139,6 @@ const Register = () => {
           ]}
         >
           <Input
-            className="uppercase-input"
             onChange={(e) => setYear(e.target.value)}
             prefix={<BookOutlined className="site-form-item-icon" />}
             placeholder={`Classe (es ${year}${section})`}
