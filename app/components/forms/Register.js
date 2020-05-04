@@ -91,6 +91,14 @@ const Register = () => {
               required: true,
               message: "Inserisci la tua Password",
             },
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                if (!value || value.length >= 8) return Promise.resolve();
+                return Promise.reject(
+                  "La password deve avere almeno 8 caratteri"
+                );
+              },
+            }),
           ]}
         >
           <Input.Password
@@ -111,9 +119,8 @@ const Register = () => {
             },
             ({ getFieldValue }) => ({
               validator(rule, value) {
-                if (!value || getFieldValue("password") === value) {
+                if (!value || getFieldValue("password") === value)
                   return Promise.resolve();
-                }
                 return Promise.reject("Le password non coincidono");
               },
             }),
