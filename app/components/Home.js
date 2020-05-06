@@ -15,7 +15,7 @@ const Home = () => {
     setProducts(data);
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     fetchProducts();
   }, []);
 
