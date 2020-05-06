@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Button } from "antd";
+import React from "react";
 import "./Product.css";
 
 const Product = ({ product }) => {
