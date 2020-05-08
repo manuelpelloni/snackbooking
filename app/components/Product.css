@@ -10,3 +10,7 @@
   background-color: white;
   border: #6b8caa 1px solid;
 }
+
+.Product:hover {
+  background-color: lightblue;
+}
