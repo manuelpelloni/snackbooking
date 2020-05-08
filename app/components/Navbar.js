@@ -4,7 +4,7 @@ import "./Navbar.css";
 import Logo from "../navbarHome.svg";
 
 const Navbar = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   return (
     <ul className="Navbar">
