@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
 import Product from "./Product";
+import Navbar from "./Navbar";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -24,7 +25,12 @@ const Home = () => {
     components.push(<Product key={item.id} product={item} />);
   }
 
-  return <div className="Home">{components}</div>;
+  return (
+    <div className="Home">
+      <div className="products-container ">{components}</div>
+      <Navbar />
+    </div>
+  );
 };
 
 export default Home;
