@@ -1,2 +1,41 @@
 .Navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75px;
+  box-shadow: 0 0 8px 2px #b5b5b5;
+  background-color: #001529;
+  border-bottom: #ffffff solid 1px;
+  list-style-type: none;
+  user-select: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-template-rows: auto;
+  padding: 0.5%;
+  margin: 0;
+}
+
+.pages {
+  height: 100px;
+  width: 100%;
+  text-align: center;
+}
+
+.navbar-icon {
+  width: 48px;
+  height: auto;
+  margin: 0px auto;
+  display: block;
+}
+
+::marker {
+  color: blue;
+  font-size: 0;
+}
+
+.link-color {
+  color: #ffffff;
+  font-weight: bold;
 }
