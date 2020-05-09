@@ -5,6 +5,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import "./Forms.css";
 import logo from "../../logo.svg";
+import http from "../utils/http";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,17 +14,9 @@ const Login = () => {
 
   const onSubmit = async (event) => {
     try {
-      await fetch("/api/auth/login", {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+      const body = { email, password };
+      await http.request("POST", "/api/auth/login", body);
+
       navigate("/");
     } catch (err) {
       console.error(err);

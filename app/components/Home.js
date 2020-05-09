@@ -2,17 +2,15 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 import Product from "./Product";
 import Navbar from "./Navbar";
+import http from "../utils/http";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
 
   async function fetchProducts() {
-    const rensponse = await fetch("/api/products", {
-      methode: "GET",
-      credsentials: "same-origin",
-      headers: { "Content-Type": "application/json" },
-    });
+    const rensponse = await http("GET", "/api/products");
     const data = await rensponse.json();
+
     setProducts(data);
   }
 
