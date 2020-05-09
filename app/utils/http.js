@@ -9,7 +9,6 @@ async function request(method, url, body) {
   return fetch(url, {
     method,
     credentials: "same-origin",
-    headers,
     ...extra,
   });
 }

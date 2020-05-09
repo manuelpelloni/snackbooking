@@ -4,7 +4,7 @@ import { UserOutlined, LockOutlined, BookOutlined } from "@ant-design/icons";
 import { Form, Input, Button } from "antd";
 import "./Forms.css";
 import logo from "../../logo.svg";
-import http from "../utils/http";
+import http from "../../utils/http";
 
 const Register = () => {
   const [email, setEmail] = useState("");

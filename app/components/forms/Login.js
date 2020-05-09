@@ -5,7 +5,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import "./Forms.css";
 import logo from "../../logo.svg";
-import http from "../utils/http";
+import http from "../../utils/http";
 
 const Login = () => {
   const [email, setEmail] = useState("");
