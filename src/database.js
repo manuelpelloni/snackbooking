@@ -20,17 +20,23 @@ function createQuery() {
   return pool.request();
 }
 
-async function userFromToken(res, token) {
+async function userFromToken(token) {
   const result = await createQuery()
-    .input("token", sql.validator, token)
+    .input("token", sql.VarChar, token)
     .query(
       "SELECT users.id, CONCAT(users.class_number, users.section) as class, users.email, users.admin\
             FROM sessions INNER JOIN users on users.id = sessions.user_id\
             WHERE sessions.id = @token and getdate() <= expires_at"
     );
 
-  console.log(result.recordset[0]);
   return result.recordset[0];
+}
+
+async function userFromRequest(req) {
+  const { session } = req.cookies;
+  if (!session) return null;
+
+  return userFromToken(session);
 }
 
 async function validateCredentialsAndLogin(req, res) {
@@ -63,4 +69,9 @@ async function validateCredentialsAndLogin(req, res) {
   }
 }
 
-module.exports = { createQuery, userFromToken, validateCredentialsAndLogin };
+module.exports = {
+  createQuery,
+  userFromToken,
+  validateCredentialsAndLogin,
+  userFromRequest,
+};

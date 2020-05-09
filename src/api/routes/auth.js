@@ -5,7 +5,7 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const sql = require("mssql");
 
-router.post("/register", async (req, res, next) => {
+router.post("/register", async (req, res) => {
   const { class_section, email, password } = req.body;
   let { year, section } = 0;
 
@@ -57,7 +57,7 @@ router.post("/register", async (req, res, next) => {
   });
 });
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", async (req, res) => {
   db.validateCredentialsAndLogin(req, res);
 });
 
