@@ -4,7 +4,10 @@ const db = require("../../database");
 const sql = require("mssql");
 
 //users request the list of avaiable products
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
+  const user = await db.userFromRequest(req);
+  if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
+
   const result = await db
     .createQuery()
     .query(
@@ -13,6 +16,7 @@ router.get("/", async (req, res, next) => {
   return res.json(result.recordset);
 });
 
+/*
 router.get("/:id", async (req, res, next) => {
   const id = req.params.id;
   const result = await db
@@ -20,10 +24,15 @@ router.get("/:id", async (req, res, next) => {
     .input("id", sql.Int, id)
     .query("SELECT id, name, description, price FROM products WHERE id = @id");
   res.json(result.recordset);
-});
+});*/
 
 //admin add new product
-router.post("/", async (req, res, next) => {
+router.post("/", async (req, res) => {
+  const user = await db.userFromRequest(req);
+  if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
+  if (!user.admin)
+    return res.status(403).json({ message: "Non sei un amministratore" });
+
   const { price, name, description } = req.body;
   const result = await db
     .createQuery()
@@ -37,7 +46,12 @@ router.post("/", async (req, res, next) => {
   res.send();
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch("/:id", async (req, res) => {
+  const user = await db.userFromRequest(req);
+  if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
+  if (!user.admin)
+    return res.status(403).json({ message: "Non sei un amministratore" });
+
   const { id } = req.params;
   const { price, name, description } = req.body;
   const result = await db
@@ -53,7 +67,12 @@ router.patch("/:id", async (req, res, next) => {
   res.send();
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", async (req, res) => {
+  const user = await db.userFromRequest(req);
+  if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
+  if (!user.admin)
+    return res.status(403).json({ message: "Non sei un amministratore" });
+
   const { id } = req.params;
   const result = await db
     .createQuery()

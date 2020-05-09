@@ -4,6 +4,9 @@ const db = require("../../database");
 const sql = require("mssql");
 
 router.get("/orders", async (req, res) => {
+  const user = await db.userFromRequest(req);
+  if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
+
   const { id } = req.query;
   const result = await db
     .createQuery()

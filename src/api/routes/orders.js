@@ -2,7 +2,12 @@ const express = require("express");
 const router = express.Router();
 const db = require("../../database");
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
+  const user = await db.userFromRequest(req);
+  if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
+  if (!user.admin)
+    return res.status(403).json({ message: "Non sei un amministratore" });
+
   const result = await db
     .createQuery()
     .query(
@@ -38,8 +43,8 @@ router.get("/", async (req, res, next) => {
   res.json(orders.flat(1));
 });
 
-router.post("/", (req, res, next) => {});
-router.delete("/", (req, res, next) => {});
-router.patch("/", (req, res, next) => {});
+router.post("/", (req, res) => {});
+router.delete("/", (req, res) => {});
+router.patch("/", (req, res) => {});
 
 module.exports = router;
