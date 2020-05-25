@@ -13,12 +13,12 @@ router.get("/orders", async (req, res) => {
     .input("id", sql.Int, id)
     .query(
       "SELECT CONCAT(users.class_number, users.section) AS class,\
-                    orders.id, orders.description, products.name AS product_name,\
+                    orders.id, orders.submit, products.name AS product_name,\
                     products.description AS product_description, products.price AS product_price,\
                     orders_products.quantity, orders_products.product_id, orders.created_at\
                 FROM orders\
+                LEFT OUTER JOIN orders_products ON orders_products.order_id = orders.id\
                 INNER JOIN products ON products.id = orders_products.product_id\
-                INNER JOIN orders_products ON orders_products.order_id = orders.id\
                 INNER JOIN users ON users.id = orders.user_id\
                 WHERE orders.user_id = @id"
     );
