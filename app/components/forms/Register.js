@@ -74,7 +74,7 @@ const Register = () => {
               message: "Inserisci la tua Password",
             },
             ({ getFieldValue }) => ({
-              validatnpor(rule, value) {
+              validator(rule, value) {
                 if (!value || value.length >= 8) return Promise.resolve();
                 return Promise.reject(
                   "La password deve avere almeno 8 caratteri"
