@@ -4,7 +4,7 @@ import { UserOutlined, LockOutlined, BookOutlined } from "@ant-design/icons";
 import { Form, Input, Button } from "antd";
 import "./Forms.css";
 import logo from "../../logo.svg";
-import http from "../../utils/http";
+import request from "../../utils/http";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -21,14 +21,14 @@ const Register = () => {
   const navigate = useNavigate();
 
   const onSubmit = async () => {
-    console.log(password, confirm);
     if (password === confirm) {
       try {
-        const registratioBody = { email, password, class_section };
-        await http.request("POST", "/api/auth/login", registratioBody);
+        console.log(password, confirm);
+        const registrationBody = { email, password, class_section };
+        await request("POST", "/api/auth/register", registrationBody);
 
         const loginBody = { email, password };
-        await http.request("POST", "/api/auth/login", loginBody);
+        await request("POST", "/api/auth/login", loginBody);
 
         navigate("/");
       } catch (err) {
@@ -74,7 +74,7 @@ const Register = () => {
               message: "Inserisci la tua Password",
             },
             ({ getFieldValue }) => ({
-              validator(rule, value) {
+              validatnpor(rule, value) {
                 if (!value || value.length >= 8) return Promise.resolve();
                 return Promise.reject(
                   "La password deve avere almeno 8 caratteri"
