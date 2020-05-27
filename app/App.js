@@ -3,6 +3,7 @@ import { Layout } from "antd";
 import Login from "./components/forms/Login";
 import Register from "./components/forms/Register";
 import Home from "./components/Home";
+import Cart from "./components/Cart";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -19,6 +20,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
+            <Route path="/orders" element={<Cart />} />
           </Routes>
         </Router>
       </Content>
