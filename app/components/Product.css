@@ -9,6 +9,7 @@
   font-weight: bold;
   background-color: white;
   border: #6b8caa 1px solid;
+  cursor: pointer;
 }
 
 .Product:hover {
