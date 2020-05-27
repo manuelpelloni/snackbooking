@@ -1,0 +1,21 @@
+.Cart {
+  width: 100%;
+  max-width: 100%;
+}
+
+.items-container {
+  max-width: 80%;
+  width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
+    0 7px 19px -8px rgba(0, 0, 0, 0.43);
+  background-color: white;
+  margin: 80px auto 90px auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .items-container {
+    max-width: 100%;
+    width: 100%;
+  }
+}

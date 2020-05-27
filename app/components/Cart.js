@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 const Cart = () => {
   return (
     <div className="Cart">
-      <div className="products-container "></div>
+      <div className="items-container "></div>
       <Navbar />
     </div>
   );
