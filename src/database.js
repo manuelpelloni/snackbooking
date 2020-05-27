@@ -1,7 +1,7 @@
 const sql = require("mssql");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
-const cookieSessionValidity = 60 * 60 * 24 * 30; // 30 days
+const cookieSessionValidity = 1000 * 60 * 60 * 24 * 30; // 30 days
 
 const config = {
   connectionLimit: process.env.CONNECTION_LIMIT,
