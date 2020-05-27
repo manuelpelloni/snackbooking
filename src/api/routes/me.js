@@ -7,11 +7,9 @@ router.get("/orders", async (req, res) => {
   const user = await db.userFromRequest(req);
   if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
 
-  const { id } = await db.userFromRequest(req);
-
   const result = await db
     .createQuery()
-    .input("id", sql.Int, id)
+    .input("id", sql.Int, user.id)
     .query(
       "SELECT CONCAT(users.class_number, users.section) AS class,\
                     orders.id, orders.submit, products.name AS product_name,\

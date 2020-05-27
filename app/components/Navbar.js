@@ -18,7 +18,7 @@ const Navbar = () => {
         </Link>
       </li>
       <li className="pages">
-        <Link to="/orders" className="link-color">
+        <Link to="/cart" className="link-color">
           <FontAwesomeIcon icon={faShoppingBag} size="2x" />
           <span className="icon-description">Carrello</span>
         </Link>
