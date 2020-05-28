@@ -26,7 +26,6 @@ router.get("/orders", async (req, res) => {
     const order = orders[item.id] || {
       id: item.id,
       class: item.class,
-      description: item.description,
       items: [],
     };
     order.items.push({
@@ -40,7 +39,7 @@ router.get("/orders", async (req, res) => {
     });
     orders[item.id] = order;
   }
-  res.json(orders.flat(1));
+  res.json(orders.flat(1)[0]);
 });
 
 module.exports = router;
