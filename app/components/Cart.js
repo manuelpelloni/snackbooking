@@ -1,15 +1,16 @@
-import { React, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import Navbar from "./Navbar";
-import request from "../../utils/http";
+import CartItem from "./CartItem";
+import request from "../utils/http";
 
 const Cart = () => {
-  const [items, setitems] = useState([]);
+  const [list, setList] = useState([]);
 
   async function fetchItems() {
-    const response = await request("GET", "api/orders");
+    const response = await request("GET", "api/me/orders");
     const data = await response.json();
-    setitems(data);
+    setList(data);
   }
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const Cart = () => {
   }, []);
 
   const components = [];
-  for (const item of items) {
+  for (const item of list) {
     components.push(<CartItem key={item.id} product={item} />);
   }
 
