@@ -3,6 +3,12 @@ const router = express.Router();
 const db = require("../../database");
 const sql = require("mssql");
 
+router.get("/info", async (req, res) => {
+  const user = await db.userFromRequest(req);
+  if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
+  res.json(user);
+});
+
 router.get("/orders", async (req, res) => {
   const user = await db.userFromRequest(req);
   if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
