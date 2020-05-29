@@ -10,7 +10,7 @@ import {
   faInfo
 } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import pdf from ''
+import pdf from './Prova.pdf'
 import "./App.css";
 
 const { Header, Content } = Layout;
