@@ -6,11 +6,9 @@ import Home from "./components/Home";
 import Cart from "./components/Cart";
 import User from "./components/User";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faInfo
-} from "@fortawesome/free-solid-svg-icons";
+import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import pdf from './Prova.pdf'
+import pdf from "./Prova.pdf";
 import "./App.css";
 
 const { Header, Content } = Layout;
@@ -20,7 +18,11 @@ function App() {
       <Header className="header">
         <span></span>
         <span className="header-title">Snack-Booking</span>
-        <span className="pdf"><a className="link" href={pdf}><FontAwesomeIcon icon={faInfo} size="1x" /></a></span>
+        <span className="pdf">
+          <a className="link" href={pdf}>
+            <FontAwesomeIcon icon={faInfo} size="1x" />
+          </a>
+        </span>
       </Header>
       <Content>
         <Router>
