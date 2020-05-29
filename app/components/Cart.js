@@ -14,8 +14,8 @@ const Cart = () => {
     setOrder(data);
   }
 
-  useEffect(async () => {
-    await fetchOrder();
+  useEffect(() => {
+    fetchOrder();
   }, []);
 
   const components = [];
