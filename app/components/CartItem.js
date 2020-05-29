@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "./CartItem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusSquare, faMinusSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlusSquare,
+  faMinusSquare,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 const CartItem = ({ item }) => {
   const [quantity, setQuantity] = useState(item.quantity);
@@ -12,16 +16,22 @@ const CartItem = ({ item }) => {
 
   return (
     <div>
-      <button className="CartItem" onClick="">
+      <div className="CartItem" onClick="">
         <span className="item-name">{item.product.name}</span>
-        <button className="remove-item" onClick={() => checkQuantity()}>
-          <FontAwesomeIcon icon={faMinusSquare} size="2x" />
-        </button>
-        <input type="text" className="quantity-value" value={quantity} />
-        <button className="add-item" onClick={() => setQuantity(quantity + 1)}>
-          <FontAwesomeIcon icon={faPlusSquare} size="2x" />
-        </button>
-      </button>
+        <span className="item-description">{item.product.description}</span>
+        <div className="button-container">
+          <button className="remove-item" onClick={() => checkQuantity()}>
+            <FontAwesomeIcon icon={faMinusSquare} className="icon-size" />
+          </button>
+          <span className="quantity-value">{quantity}</span>
+          <button className="add-item" onClick={() => setQuantity(quantity + 1)}>
+            <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
+          </button>
+          <button classname="delete-item">
+            <FontAwesomeIcon icon={faTrashAlt} className="icon-size" />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
