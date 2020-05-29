@@ -39,7 +39,7 @@ router.get("/orders", async (req, res) => {
     });
     orders[item.id] = order;
   }
-  res.json(orders.flat(1));
+  res.json(orders.flat(1)[0]);
 });
 
 module.exports = router;
