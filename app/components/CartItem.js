@@ -24,7 +24,10 @@ const CartItem = ({ item }) => {
             <FontAwesomeIcon icon={faMinusSquare} className="icon-size" />
           </button>
           <span className="quantity-value">{quantity}</span>
-          <button className="add-item" onClick={() => setQuantity(quantity + 1)}>
+          <button
+            className="add-item"
+            onClick={() => setQuantity(quantity + 1)}
+          >
             <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
           </button>
           <button classname="delete-item">
