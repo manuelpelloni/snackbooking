@@ -24,7 +24,7 @@ const Navbar = () => {
         </Link>
       </li>
       <li className="pages">
-        <Link to="/" className="link-color">
+        <Link to="/user" className="link-color">
           <FontAwesomeIcon icon={faUser} size="2x" />
           <span className="icon-description">Utente</span>
         </Link>
