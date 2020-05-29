@@ -5,26 +5,35 @@ import CartItem from "./CartItem";
 import request from "../utils/http";
 
 const Cart = () => {
-  const [list, setList] = useState([]);
+  const [order, setOrder] = useState({});
 
-  async function fetchItems() {
+  async function fetchOrder() {
     const response = await request("GET", "api/me/orders");
     const data = await response.json();
-    setList(data);
+
+    setOrder(data);
   }
 
   useEffect(() => {
-    fetchItems();
+    fetchOrder();
   }, []);
 
   const components = [];
-  for (const item of list) {
-    components.push(<CartItem key={item.id} product={item} />);
+  try {
+    const itemList = order.items;
+    console.log(itemList);
+    if (itemList) {
+      for (const item of itemList) {
+        components.push(<CartItem key={item.id} item={item} />);
+      }
+    }
+  } catch (err) {
+    console.error(err);
   }
 
   return (
     <div className="Cart">
-      <div className="items-container "></div>
+      <div className="items-container ">{components}</div>
       <Navbar />
     </div>
   );

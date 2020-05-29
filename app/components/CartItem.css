@@ -1,7 +1,45 @@
 .CartItem {
-  width: 100%;
   height: 150px;
+  width: 100%;
+  box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
+    0 7px 19px -8px rgba(0, 0, 0, 0.43);
+  border-radius: 4px;
+  color: #423737;
+  font-size: 11pt;
+  font-weight: bold;
   background-color: white;
+  border: #6b8caa 1px solid;
+}
+
+.add-item {
+  cursor: pointer;
+  color: #45991e;
+  background-color: white;
+  border: 0px;
+  box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
+    0 7px 19px -8px rgba(0, 0, 0, 0.43);
+}
+
+.remove-item {
+  cursor: pointer;
+  color: #b54141;
+  background-color: white;
+  border: 0px;
+  box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
+    0 7px 19px -8px rgba(0, 0, 0, 0.43);
+}
+
+.item-name {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.quantity-value {
+  width: 60px;
+  height: 32px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border: #6b8caa 1px solid;
   box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
     0 7px 19px -8px rgba(0, 0, 0, 0.43);
 }
