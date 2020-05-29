@@ -12,6 +12,10 @@
   box-shadow: 0 0 30px 0px rgba(0, 0, 0, 0.41);
   position: fixed;
   width: 100%;
+  display: grid;
+  grid-template-columns: auto auto 33%;
+  grid-template-rows: auto;
+  padding-right: 1%;
 }
 
 .header-title {
@@ -21,6 +25,14 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.pdf {
+  margin-left: 90%;
+}
+
+.link {
+  color: white;
 }
 
 @media (prefers-reduced-motion: no-preference) {
