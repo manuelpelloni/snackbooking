@@ -31,6 +31,10 @@ const CartItem = ({ item }) => {
             <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
           </button>
         </div>
+        <div className="price-container">
+          <span>Prezzo</span>
+          <span className="price"> {quantity * item.product.price}€</span>
+        </div>
         <button className="delete-item">
           <FontAwesomeIcon icon={faTrashAlt} className="icon-size" />
         </button>
