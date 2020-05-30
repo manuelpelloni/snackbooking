@@ -16,7 +16,6 @@ function App() {
   return (
     <Layout className="Layout">
       <Header className="header">
-        <span></span>
         <span className="header-title">Snack-Booking</span>
         <span className="pdf">
           <a className="link" href={userManual}>
