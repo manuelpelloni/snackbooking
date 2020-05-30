@@ -5,17 +5,18 @@
 
 .products-container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 33% 33% 33%;
   column-gap: 10px;
   row-gap: 15px;
   max-width: 80%;
   width: 800px;
   margin: 80px auto 90px auto;
+  padding: 0.5px 0;
 }
 
 @media only screen and (max-width: 600px) {
   .products-container {
-    grid-template-columns: auto auto;
+    grid-template-columns: 50% 50%;
     max-width: 90%;
   }
 }
