@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./User.css";
 import Navbar from "./Navbar";
 import request from "../utils/http";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 const User = () => {
   const [info, setInfo] = useState(null);
@@ -34,6 +35,13 @@ const User = () => {
         <br />
         Account: {admin}
       </div>
+      <Link to="/login" className="logout-link">
+        <FontAwesomeIcon
+          icon={faSignOutAlt}
+          size="4x"
+          className="logout-icon"
+        />
+      </Link>
       <Navbar />
     </div>
   );
