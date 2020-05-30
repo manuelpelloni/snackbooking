@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import http from "../utils/http";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
 
   async function fetchProducts() {
     const rensponse = await http("GET", "/api/products");
@@ -17,6 +17,8 @@ const Home = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  if (products === null) return null;
 
   const components = [];
   for (const item of products) {
