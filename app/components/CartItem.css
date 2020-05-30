@@ -9,7 +9,7 @@
   font-weight: bold;
   background-color: white;
   border: #6b8caa 1px solid;
-  padding: 10px;
+  padding: 10px 25px;
 }
 
 .item-name {
@@ -25,9 +25,14 @@
 }
 
 .button-container {
-  max-width: 300px;
   width: auto;
   height: 28px;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto;
+}
+
+.add-remove-item {
   display: inline-flex;
 }
 
@@ -41,12 +46,11 @@
   width: 24.5px;
   box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
     0 7px 19px -8px rgba(0, 0, 0, 0.43);
-  order: 0;
 }
 
 .quantity-value {
   height: auto;
-  width: auto;
+  width: 35px;
   border: #6b8caa 1px solid;
   border-radius: 4px;
   margin-left: 10px;
@@ -54,29 +58,31 @@
   text-align: center;
   box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
     0 7px 19px -8px rgba(0, 0, 0, 0.43);
-  background-color: white;
-  order: 1;
+  background-color: transparent;
 }
 
 .add-item {
   cursor: pointer;
   color: #45991e;
-  background-color: white;
+  background-color: transparent;
   border: 0px;
   padding-left: 0;
   height: 28px;
   width: 24.5px;
   box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
     0 7px 19px -8px rgba(0, 0, 0, 0.43);
-  order: 2;
 }
 
 .delete-item {
-  margin-left: 600px;
-  background: transparent;
-  border: 0px;
+  background-color: transparent;
   cursor: pointer;
-  order: 3;
+  border: 0px;
+  width: 24.5px;
+  height: 28px;
+  padding: 0;
+  margin: auto 0 0 auto;
+  box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
+    0 7px 19px -8px rgba(0, 0, 0, 0.43);
 }
 
 .icon-size {
