@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const User = () => {
-  const [info, setInfo] = useState([]);
+  const [info, setInfo] = useState(null);
 
   async function fetchInfo() {
     const response = await request("GET", "api/me/info");
@@ -14,13 +14,13 @@ const User = () => {
     setInfo(data);
   }
 
-  let admin;
-  if (info.admin) admin = "Paninara";
-  else admin = "Studente";
-
   useEffect(() => {
     fetchInfo();
   }, []);
+
+  if (info === null) return null;
+
+  const admin = info.admin ? "Paninara" : "Studente";
 
   return (
     <div className="User">
@@ -28,10 +28,11 @@ const User = () => {
         <FontAwesomeIcon icon={faUser} size="10x" />
       </div>
       <div className="info">
-        {" "}
         Email: {info.email}
         <br />
-        Classe: {info.class} <br /> Admin: {admin}{" "}
+        Classe: {info.class.toUpperCase()}
+        <br />
+        Account: {admin}
       </div>
       <Navbar />
     </div>
