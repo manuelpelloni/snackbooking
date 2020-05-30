@@ -8,7 +8,7 @@ import User from "./components/User";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import pdf from "./Prova.pdf";
+import userManual from "./userManual.pdf";
 import "./App.css";
 
 const { Header, Content } = Layout;
@@ -19,7 +19,7 @@ function App() {
         <span></span>
         <span className="header-title">Snack-Booking</span>
         <span className="pdf">
-          <a className="link" href={pdf}>
+          <a className="link" href={userManual}>
             <FontAwesomeIcon icon={faInfo} size="1x" />
           </a>
         </span>
