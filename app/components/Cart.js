@@ -30,7 +30,7 @@ const Cart = () => {
 
   return (
     <div className="Cart">
-      <div className="items-container ">{components}</div>
+      <div className="items-container ">{components.reverse()}</div>
       <Navbar />
     </div>
   );
