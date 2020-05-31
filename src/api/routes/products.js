@@ -10,10 +10,9 @@ router.get("/", async (req, res) => {
 
   const result = await db
     .createQuery()
-    .query(
-      "SELECT id, name, description, price FROM products WHERE deleted_at IS NULL ORDER BY name"
-    );
-  return res.json(result.recordset);
+    .query("SELECT id, name, description, price FROM products ORDER BY name");
+
+    return res.json(result.recordset);
 });
 
 /*
