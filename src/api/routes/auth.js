@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
       });
     }
     try {
-      const result = await db
+      await db
         .createQuery()
         .input("class_number", sql.Int, year)
         .input("section", sql.Char, section)
