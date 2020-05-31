@@ -32,7 +32,7 @@ const CartItem = ({ item }) => {
           </button>
         </div>
         <div className="price-container">
-          <span>Prezzo</span>
+          <span>Importo</span>
           <span className="price"> {quantity * item.product.price}€</span>
         </div>
         <button className="delete-item">
