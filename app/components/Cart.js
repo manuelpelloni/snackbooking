@@ -18,7 +18,7 @@ const Cart = () => {
     fetchOrder();
   }, []);
 
-  if (order === null) return null;
+  if (order === null) return <Navbar />;
 
   const itemList = order.items;
   const components = [];
