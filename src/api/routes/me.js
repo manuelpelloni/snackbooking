@@ -13,9 +13,11 @@ router.get("/orders", async (req, res) => {
   const user = await db.userFromRequest(req);
   if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
 
+  const { user_id } = user;
+
   const result = await db
     .createQuery()
-    .input("id", sql.Int, user.id)
+    .input("id", sql.Int, user_id)
     .query(
       "SELECT CONCAT(users.class_number, users.section) AS class,\
                     orders.id, orders.submit, products.name AS product_name,\
