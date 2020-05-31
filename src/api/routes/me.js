@@ -32,6 +32,7 @@ router.get("/orders", async (req, res) => {
     const order = orders[item.id] || {
       id: item.id,
       class: item.class,
+      submit: item.submit,
       items: [],
     };
     order.items.push({
