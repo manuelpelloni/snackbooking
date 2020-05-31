@@ -12,6 +12,9 @@
   cursor: pointer;
 }
 
-.Product:hover {
-  background-color: lightblue;
+@media (hover: hover) {
+  .Product:hover {
+    background-color: #e4e1d6;
+    border: 2px solid #0c3256;
+  }
 }
