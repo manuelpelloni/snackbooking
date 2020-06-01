@@ -19,6 +19,9 @@ const User = () => {
     fetchInfo();
   }, []);
 
+  const logout = async () => {
+    await request("PATCH", "api/auth/logout");
+  };
   if (info === null) return null;
 
   const admin = info.admin ? "Paninara" : "Studente";
@@ -35,13 +38,16 @@ const User = () => {
         <br />
         Account: {admin}
       </div>
-      <Link to="/login" className="logout-link">
-        <FontAwesomeIcon
-          icon={faSignOutAlt}
-          size="4x"
-          className="logout-icon"
-        />
-      </Link>
+      <button onClick={logout} className="logout-link">
+        <Link to="/login" className="">
+          <FontAwesomeIcon
+            icon={faSignOutAlt}
+            size="4x"
+            className="logout-icon"
+          />
+        </Link>
+      </button>
+
       <Navbar />
     </div>
   );
