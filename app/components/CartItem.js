@@ -16,32 +16,28 @@ const CartItem = ({ item }) => {
   };
 
   async function addItemToDB() {
-    const { added, message } = await request(
+    const { success, message } = await request(
       "POST",
       "api/products/add-to-cart",
       body
     );
-    if (added) console.log("implementa sti cazzo di alert", message);
+    if (!success) console.log("implementa sti cazzo di alert", message);
   }
   async function removeOneItemFromDB() {
-    const { added, message } = await request(
+    const { success, message } = await request(
       "POST",
       "api/products/remove-one-from-cart",
       body
     );
-    if (added) console.log("implementa sti cazzo di alert", message);
+    if (!success) console.log("implementa sti cazzo di alert", message);
   }
   async function deleteItemFromDB() {
-    const { deleted, message } = await request(
+    const { success, message } = await request(
       "POST",
       "api/products/delete-from-cart",
       body
     );
-    if (deleted) console.log("implementa sti cazzo di alert", message);
-  }
-
-  function checkQuantity() {
-    if (quantity >= 2) setQuantity(quantity - 1);
+    if (!success) console.log("implementa sti cazzo di alert", message);
   }
 
   const addItemToCart = async () => {
