@@ -6,13 +6,31 @@ import {
   faMinusSquare,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import request from "../utils/http";
 
 const CartItem = ({ item }) => {
   const [quantity, setQuantity] = useState(item.quantity);
 
+  async function addItemToDB() {
+    const body = {
+      product_id: item.product.id,
+    };
+    const { added, message } = await request(
+      "POST",
+      "api/products/add-to-cart",
+      body
+    );
+    if (added) console.log("implementa sti cazzo di alert", message);
+  }
+
   function checkQuantity() {
     if (quantity >= 2) setQuantity(quantity - 1);
   }
+
+  const addItemToCart = () => {
+    addItemToDB();
+    setQuantity(quantity + 1);
+  };
 
   return (
     <div className="CartItem" onClick="">
@@ -24,10 +42,7 @@ const CartItem = ({ item }) => {
             <FontAwesomeIcon icon={faMinusSquare} className="icon-size" />
           </button>
           <span className="quantity-value">{quantity}</span>
-          <button
-            className="add-item"
-            onClick={() => setQuantity(quantity + 1)}
-          >
+          <button className="add-item" onClick={addItemToCart}>
             <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
           </button>
         </div>
