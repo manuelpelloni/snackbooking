@@ -17,14 +17,15 @@ router.get("/orders", async (req, res) => {
 
   const result = await db
     .createQuery()
-    .input("user_id", sql.Int, user_id)
+    .input("id", sql.Int, user_id)
     .query(
-      "SELECT users_products.quantity AS product_quantity,products.id AS product_id, products.name AS product_name,\
-              products.description AS product_description, products.price AS product_price\
-       FROM users_products \
-        INNER JOIN products on products.id = users_products.product_id\
-      WHERE users_products.user_id = @user_id\
-      ORDER BY users_products.add_at DESC"
+      "SELECT users_products.quantity AS product_quantity,\
+              products.id AS product_id, products.name AS product_name,\
+            products.description AS product_description, products.price AS product_price\
+  FROM users_products \
+    INNER JOIN products on products.id = users_products.product_id\
+  WHERE users_products.user_id = 5\
+  ORDER BY users_products.add_at DESC"
     );
 
   const cart = {
