@@ -61,11 +61,11 @@ router.post("/login", async (req, res) => {
   db.validateCredentialsAndLogin(req, res);
 });
 
-router.get("/logout", async (req, res) => {
+router.patch("/logout", async (req, res) => {
   const user = await db.userFromRequest(req);
   if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
 
-  const { user_id } = user;
+  const { user_id, token } = user;
 
   try {
     await db
@@ -74,7 +74,7 @@ router.get("/logout", async (req, res) => {
       .query(
         "UPDATE sessions\
          SET expires_at = GETDATE()\
-         WHERE user_id = @user_id"
+         WHERE user_id = @user_id AND getdate() <= expires_at"
       );
     res.json({
       message: "Logout effettuato con successo",
