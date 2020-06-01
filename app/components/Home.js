@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 import Product from "./Product";
 import Navbar from "./Navbar";
-import http from "../utils/http";
+import request from "../utils/http";
 
 const Home = () => {
   const [products, setProducts] = useState(null);
 
   async function fetchProducts() {
-    const rensponse = await http("GET", "/api/products");
+    const rensponse = await request("GET", "/api/products");
     const data = await rensponse.json();
 
     setProducts(data);
