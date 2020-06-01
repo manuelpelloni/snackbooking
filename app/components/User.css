@@ -27,14 +27,18 @@
   text-align: center;
 }
 
-.logout-link {
-  display: inherit;
-  margin: 20px auto;
-  width: 52px;
+.logout-icon-color {
+  color: #b54141;
 }
 
-.logout-icon {
-  color: #b54141;
+.logout-button {
+  width: auto;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 90px;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
 }
 
 @media only screen and (max-width: 600px) {

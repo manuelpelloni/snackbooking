@@ -38,8 +38,8 @@ const User = () => {
         <br />
         Account: {admin}
       </div>
-      <button onClick={logout} className="logout-link">
-        <Link to="/login" className="">
+      <button onClick={logout} className="logout-button">
+        <Link to="/login" className="logout-icon-color ">
           <FontAwesomeIcon
             icon={faSignOutAlt}
             size="4x"
