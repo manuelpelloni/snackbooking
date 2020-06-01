@@ -24,7 +24,7 @@ async function userFromToken(token) {
   const result = await createQuery()
     .input("token", sql.VarChar, token)
     .query(
-      "SELECT users.id as user_id, CONCAT(users.class_number, UPPER(users.section)) as class, users.email, users.admin, users.submitted_at\
+      "SELECT users.id as user_id, CONCAT(users.class_number, UPPER(users.section)) as class, users.email, users.admin, users.submitted_at, sessions.id as token\
         FROM sessions\
           INNER JOIN users on users.id = sessions.user_id\
         WHERE sessions.id = @token and getdate() <= expires_at"
