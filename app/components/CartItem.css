@@ -52,7 +52,7 @@
   display: inline-flex;
 }
 
-.show-text{
+.show-text {
   height: auto;
   width: 35px;
   border: #6b8caa 1px solid;
@@ -67,7 +67,7 @@
   margin: 0 10px;
 }
 
-.money-amount{
+.money-amount {
   margin-right: 2px;
 }
 

@@ -75,7 +75,11 @@ const CartItem = ({ item }) => {
               </button>
             </div>
             <div className="price-container">
-              <span className="show-text money-amount"> {quantity * item.product.price}</span>€
+              <span className="show-text money-amount">
+                {" "}
+                {quantity * item.product.price}
+              </span>
+              €
             </div>
             <button className="delete-item" onClick={deleteItemFromCart}>
               <FontAwesomeIcon icon={faTrashAlt} className="icon-size" />

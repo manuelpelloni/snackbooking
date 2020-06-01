@@ -61,4 +61,29 @@ router.post("/login", async (req, res) => {
   db.validateCredentialsAndLogin(req, res);
 });
 
+router.get("/logout", async (req, res) => {
+  const user = await db.userFromRequest(req);
+  if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
+
+  const { user_id } = user;
+
+  try {
+    await db
+      .createQuery()
+      .input("user_id", sql.Int, user_id)
+      .query(
+        "UPDATE sessions\
+         SET expires_at = GETDATE()\
+         WHERE user_id = @user_id"
+      );
+    res.json({
+      message: "Logout effettuato con successo",
+    });
+  } catch (err) {
+    res.json({
+      message: "Logout non effettuato",
+    });
+  }
+});
+
 module.exports = router;
