@@ -62,18 +62,20 @@ const CartItem = ({ item }) => {
           <span className="item-name">{item.product.name}</span>
           <span className="item-description">{item.product.description}</span>
           <div className="button-container">
+            <span>Quantità</span>
+            <span>Importo</span>
+            <span></span>
             <div className="add-remove-item">
               <button className="remove-item" onClick={removeOneItemFromCart}>
                 <FontAwesomeIcon icon={faMinusSquare} className="icon-size" />
               </button>
-              <span className="quantity-value">{quantity}</span>
+              <span className="show-text quantity">{quantity}</span>
               <button className="add-item" onClick={addItemToCart}>
                 <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
               </button>
             </div>
             <div className="price-container">
-              <span>Importo</span>
-              <span className="price"> {quantity * item.product.price}€</span>
+              <span className="show-text money-amount"> {quantity * item.product.price}</span>€
             </div>
             <button className="delete-item" onClick={deleteItemFromCart}>
               <FontAwesomeIcon icon={faTrashAlt} className="icon-size" />

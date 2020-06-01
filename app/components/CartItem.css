@@ -20,7 +20,7 @@
   font-size: 9pt;
   font-weight: lighter;
   display: block;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .button-container {
@@ -28,7 +28,8 @@
   height: 28px;
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-template-rows: auto;
+  grid-template-rows: auto, auto;
+  row-gap: 5px;
 }
 
 .add-remove-item {
@@ -51,26 +52,23 @@
   display: inline-flex;
 }
 
-.price {
+.show-text{
   height: auto;
   width: 35px;
   border: #6b8caa 1px solid;
   border-radius: 4px;
-  text-align: center;
-  margin-left: 10px;
-}
-
-.quantity-value {
-  height: auto;
-  width: 35px;
-  border: #6b8caa 1px solid;
-  border-radius: 4px;
-  margin-left: 10px;
-  margin-right: 10px;
   text-align: center;
   box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
     0 7px 19px -8px rgba(0, 0, 0, 0.43);
   background-color: transparent;
+}
+
+.quantity {
+  margin: 0 10px;
+}
+
+.money-amount{
+  margin-right: 2px;
 }
 
 .add-item {
