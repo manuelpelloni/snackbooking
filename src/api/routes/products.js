@@ -169,4 +169,56 @@ router.post("/delete-from-cart", async (req, res) => {
   }
 });
 
+router.post("/remove-one-from-cart", async (req, res) => {
+  const user = await db.userFromRequest(req);
+  if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
+
+  const { product_id } = req.body;
+  const { user_id } = user;
+  const result = await db
+    .createQuery()
+    .input("product_id", sql.Int, product_id)
+    .input("user_id", sql.Int, user_id)
+    .query(
+      "SELECT users_products.quantity as product_quantity\
+       FROM users_products\
+       WHERE users_products.user_id = @user_id\
+        and users_products.product_id = @product_id"
+    );
+
+  const product_quantity = result.recordset[0]
+    ? result.recordset[0].product_quantity
+    : 0;
+
+  try {
+    if (product_quantity >= 2) {
+      await db
+        .createQuery()
+        .input("product_id", sql.Int, product_id)
+        .input("user_id", sql.Int, user_id)
+        .input("product_quantity", sql.Int, product_quantity - 1)
+        .query(
+          "UPDATE users_products\
+           SET quantity = @product_quantity, add_at = GETDATE()\
+           WHERE users_products.user_id = @user_id and product_id = @product_id"
+        );
+      res.json({
+        message: "Tolto 1 pezzo dal carrello",
+        removed: true,
+      });
+    } else {
+      res.json({
+        message:
+          "Hai solo 1 pezzo dal carrello, impossinile toglierlo, devi eliminare il prodotto",
+        removed: false,
+      });
+    }
+  } catch (err) {
+    res.json({
+      message: "Impossibile togliere 1 pezzo dal carrello",
+      removde: false,
+    });
+  }
+});
+
 module.exports = router;
