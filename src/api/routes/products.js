@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     .createQuery()
     .query("SELECT id, name, description, price FROM products ORDER BY name");
 
-    return res.json(result.recordset);
+  return res.json(result.recordset);
 });
 
 /*
@@ -86,20 +86,17 @@ router.post("/add-to-cart", async (req, res) => {
   if (!user) return res.status(401).json({ message: "Devi prima loggarti" });
 
   const { product_id } = req.body;
-  const { user_id, order_id } = user;
+  const { user_id } = user;
 
   const result = await db
     .createQuery()
     .input("product_id", sql.Int, product_id)
     .input("user_id", sql.Int, user_id)
-    .input("order_id", sql.Int, order_id)
     .query(
-      "SELECT orders_products.quantity as product_quantity, orders.id as order_id\
-            FROM orders_products\
-                join orders on orders.id = orders_products.order_id\
-            WHERE orders.id = @order_id \
-              and orders.user_id = @user_id\
-              and orders_products.product_id = @product_id"
+      "SELECT users_products.quantity as product_quantity\
+       FROM users_products\
+       WHERE users_products.user_id = @user_id\
+        and users_products.product_id = @product_id"
     );
 
   const product_quantity = result.recordset[0]
@@ -111,22 +108,22 @@ router.post("/add-to-cart", async (req, res) => {
       await db
         .createQuery()
         .input("product_id", sql.Int, product_id)
-        .input("order_id", sql.Int, order_id)
+        .input("user_id", sql.Int, user_id)
         .input("product_quantity", sql.Int, product_quantity + 1)
         .query(
-          "UPDATE orders_products\
-                SET quantity =  @product_quantity\
-                WHERE order_id = @order_id and product_id = @product_id"
+          "UPDATE users_products\
+           SET quantity = @product_quantity, add_at = GETDATE()\
+           WHERE users_products.user_id = @user_id and product_id = @product_id"
         );
     } else {
       await db
         .createQuery()
         .input("product_id", sql.Int, product_id)
-        .input("order_id", sql.Int, order_id)
+        .input("user_id", sql.Int, user_id)
         .input("product_quantity", sql.Int, product_quantity + 1)
         .query(
-          "INSERT INTO orders_products(order_id, product_id, quantity)\
-              VALUES (@order_id, @product_id, @product_quantity)"
+          "INSERT INTO users_products(product_id, user_id, quantity)\
+           VALUES (@product_id, @user_id, @product_quantity)"
         );
     }
 
