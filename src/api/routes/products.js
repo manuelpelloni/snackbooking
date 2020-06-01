@@ -129,13 +129,13 @@ router.post("/add-to-cart", async (req, res) => {
 
     res.json({
       message: "Aggiunto al carrello",
-      added: true,
+      success: true,
     });
   } catch (err) {
     res.json({
       err: err.message,
       message: "Non aggiunto al carrello",
-      added: false,
+      success: false,
     });
   }
 });
@@ -156,15 +156,15 @@ router.post("/delete-from-cart", async (req, res) => {
         "DELETE FROM users_products\
          WHERE users_products.user_id = @user_id and users_products.product_id = @product_id"
       );
-    return res.json({
+    res.json({
       message: "Eliminato dal carrello",
-      deleted: true,
+      success: true,
     });
   } catch (err) {
-    return res.json({
+    res.json({
       err: err.message,
       message: "Non eliminato dal carrello",
-      deleted: false,
+      success: false,
     });
   }
 });
@@ -204,19 +204,19 @@ router.post("/remove-one-from-cart", async (req, res) => {
         );
       res.json({
         message: "Tolto 1 pezzo dal carrello",
-        removed: true,
+        success: true,
       });
     } else {
       res.json({
         message:
           "Hai solo 1 pezzo dal carrello, impossinile toglierlo, devi eliminare il prodotto",
-        removed: false,
+        success: false,
       });
     }
   } catch (err) {
     res.json({
       message: "Impossibile togliere 1 pezzo dal carrello",
-      removde: false,
+      success: false,
     });
   }
 });
