@@ -9,13 +9,13 @@ import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 const User = () => {
   const navigate = useNavigate();
   const [info, setInfo] = useState(null);
+  const [redirect, setRedirect] = useState();
 
   async function fetchInfo() {
     const response = await request("GET", "api/me/info");
     const data = await response.json();
 
-    if (data.redirect) return navigate("/login");
-
+    setRedirect(data.redirect);
     setInfo(data);
   }
 
@@ -26,7 +26,9 @@ const User = () => {
   const logout = async () => {
     await request("PATCH", "api/auth/logout");
   };
-  if (info === null) return null;
+
+  if (redirect) navigate("/login");
+  if (info === null) return <Navbar />;
 
   const admin = info.admin ? "Paninara" : "Studente";
 

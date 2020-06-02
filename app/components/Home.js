@@ -8,13 +8,13 @@ import request from "../utils/http";
 const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState(null);
+  const [redirect, setRedirect] = useState();
 
   async function fetchProducts() {
     const rensponse = await request("GET", "/api/products");
     const data = await rensponse.json();
 
-    if (data.redirect) return navigate("/login");
-
+    setRedirect(data.redirect);
     setProducts(data);
   }
 
@@ -22,7 +22,8 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-  if (products === null) return null;
+  if (redirect) navigate("/login");
+  if (products === null) return <Navbar />;
 
   const components = [];
   for (const item of products) {

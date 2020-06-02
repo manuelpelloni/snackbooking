@@ -8,12 +8,13 @@ import request from "../utils/http";
 const Cart = () => {
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
+  const [redirect, setRedirect] = useState();
 
   async function fetchOrder() {
     const response = await request("GET", "api/me/orders");
     const data = await response.json();
-    if (data.redirect) return navigate("/login");
 
+    setRedirect(data.redirect);
     setOrder(data);
   }
 
@@ -21,6 +22,7 @@ const Cart = () => {
     fetchOrder();
   }, []);
 
+  if (redirect) navigate("/login");
   if (order === null) return <Navbar />;
 
   const itemList = order.items;
