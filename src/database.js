@@ -70,9 +70,19 @@ async function validateCredentialsAndLogin(req, res) {
   }
 }
 
+async function checkUserLogin(req, res) {
+  const user = await userFromRequest(req);
+  if (!user)
+    return res
+      .status(401)
+      .json({ message: "Devi prima loggarti", login: false });
+  return user;
+}
+
 module.exports = {
   createQuery,
   userFromToken,
   validateCredentialsAndLogin,
   userFromRequest,
+  checkUserLogin,
 };
