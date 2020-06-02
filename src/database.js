@@ -75,7 +75,7 @@ async function checkUserLogin(req, res) {
   if (!user)
     return res
       .status(401)
-      .json({ message: "Devi prima loggarti", login: false });
+      .json({ message: "Devi prima loggarti", redirect: true });
   return user;
 }
 

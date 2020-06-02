@@ -13,7 +13,7 @@ const Home = () => {
     const rensponse = await request("GET", "/api/products");
     const data = await rensponse.json();
 
-    if (!data.login) return navigate("/login");
+    if (data.redirect) return navigate("/login");
 
     setProducts(data);
   }

@@ -14,7 +14,7 @@ const User = () => {
     const response = await request("GET", "api/me/info");
     const data = await response.json();
 
-    if (!data.login) return navigate("/login");
+    if (data.redirect) return navigate("/login");
 
     setInfo(data);
   }

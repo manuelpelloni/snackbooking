@@ -12,8 +12,7 @@ const Cart = () => {
   async function fetchOrder() {
     const response = await request("GET", "api/me/orders");
     const data = await response.json();
-
-    if (!data.login) return navigate("/login");
+    if (data.redirect) return navigate("/login");
 
     setOrder(data);
   }
