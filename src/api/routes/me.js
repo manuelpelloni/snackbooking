@@ -5,14 +5,14 @@ const sql = require("mssql");
 
 router.get("/info", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
-  if(!user) return;
+  if (!user) return;
 
   res.json(user);
 });
 
 router.get("/orders", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
-  if(!user) return;
+  if (!user) return;
 
   const { user_id } = user;
 
