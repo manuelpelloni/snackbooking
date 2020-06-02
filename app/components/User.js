@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./User.css";
 import Navbar from "./Navbar";
 import request from "../utils/http";
@@ -7,11 +7,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 const User = () => {
+  const navigate = useNavigate();
   const [info, setInfo] = useState(null);
 
   async function fetchInfo() {
     const response = await request("GET", "api/me/info");
     const data = await response.json();
+
+    if (!data.login) return navigate("/login");
+
     setInfo(data);
   }
 
