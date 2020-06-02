@@ -6,12 +6,13 @@ const sql = require("mssql");
 //users request the list of avaiable products
 router.get("/", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
+  if (!user) return;
 
   const result = await db
     .createQuery()
     .query("SELECT id, name, description, price FROM products ORDER BY name");
 
-  return res.json(result.recordset);
+  res.json(result.recordset);
 });
 
 /*
@@ -27,6 +28,7 @@ router.get("/:id", async (req, res, next) => {
 //admin add new product
 router.post("/", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
+  if (!user) return;
 
   if (!user.admin)
     return res.status(403).json({ message: "Non sei un amministratore" });
@@ -46,6 +48,7 @@ router.post("/", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
+  if (!user) return;
 
   if (!user.admin)
     return res.status(403).json({ message: "Non sei un amministratore" });
@@ -67,6 +70,7 @@ router.patch("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
+  if (!user) return;
 
   if (!user.admin)
     return res.status(403).json({ message: "Non sei un amministratore" });
@@ -82,6 +86,7 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/add-to-cart", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
+  if (!user) return;
 
   const { product_id } = req.body;
   const { user_id } = user;
@@ -140,6 +145,7 @@ router.post("/add-to-cart", async (req, res) => {
 
 router.post("/delete-from-cart", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
+  if (!user) return;
 
   const { product_id } = req.body;
   const { user_id } = user;
@@ -168,6 +174,7 @@ router.post("/delete-from-cart", async (req, res) => {
 
 router.post("/remove-one-from-cart", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
+  if (!user) return;
 
   const { product_id } = req.body;
   const { user_id } = user;
