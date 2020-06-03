@@ -9,6 +9,7 @@
   font-weight: bold;
   background-color: white;
   padding: 10px 25px;
+  list-style-type: none;
 }
 
 .item-name {
@@ -97,4 +98,21 @@
 
 .icon-size {
   font-size: 28px;
+}
+
+li.removed-item {
+  animation: removed-item-animation 0.3s cubic-bezier(0.55, -0.04, 0.91, 0.94)
+    forwards;
+}
+
+@keyframes removed-item-animation {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
 }
