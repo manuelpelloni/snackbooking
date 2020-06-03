@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import "./SubmitOrder.css";
-import request from "../utils/http";
 
 const SubmitOrder = ({ submitted }) => {
   let buttonText = submitted ? "Annulla Ordine" : "Ordina";
