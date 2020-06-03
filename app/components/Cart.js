@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Cart.css";
 import Navbar from "./Navbar";
 import CartItem from "./CartItem";
+import SubmitOrder from "./SubmitOrder";
 import request from "../utils/http";
 
 const Cart = () => {
@@ -32,10 +33,12 @@ const Cart = () => {
       components.push(<CartItem key={item.id} item={item} />);
     }
   }
+  components.push(<SubmitOrder submitted={order.submitted_at} />);
 
   return (
     <div className="Cart">
       <div className="items-container ">{components}</div>
+
       <Navbar />
     </div>
   );
