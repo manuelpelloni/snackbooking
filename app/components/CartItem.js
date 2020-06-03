@@ -53,7 +53,6 @@ const CartItem = ({ item }) => {
   const deleteItemFromCart = async () => {
     await deleteItemFromDB();
     setItemClasses("CartItem removed-item");
-    setVisible(false);
   };
 
   return (
