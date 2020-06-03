@@ -33,11 +33,13 @@ const Cart = () => {
       components.push(<CartItem key={item.id} item={item} />);
     }
   }
-  components.push(<SubmitOrder submitted={order.submitted_at} />);
 
   return (
     <div className="Cart">
-      <div className="items-container ">{components}</div>
+      <div className="items-container ">
+        {components}
+        <SubmitOrder submitted={order.submitted_at} />
+      </div>
 
       <Navbar />
     </div>
