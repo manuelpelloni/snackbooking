@@ -11,6 +11,7 @@ import request from "../utils/http";
 const CartItem = ({ item }) => {
   const [quantity, setQuantity] = useState(item.quantity);
   const [visible, setVisible] = useState(true);
+  const [itemClasses, setItemClasses] = useState("CartItem");
   const body = {
     product_id: item.product.id,
   };
@@ -52,42 +53,39 @@ const CartItem = ({ item }) => {
   };
   const deleteItemFromCart = async () => {
     await deleteItemFromDB();
+    setItemClasses("CartItem removed-item");
     setVisible(false);
   };
 
   return (
-    <>
-      {visible && (
-        <div className="CartItem" onClick="">
-          <span className="item-name">{item.product.name}</span>
-          <span className="item-description">{item.product.description}</span>
-          <div className="button-container">
-            <span>Quantità</span>
-            <span>Importo</span>
-            <span></span>
-            <div className="add-remove-item">
-              <button className="remove-item" onClick={removeOneItemFromCart}>
-                <FontAwesomeIcon icon={faMinusSquare} className="icon-size" />
-              </button>
-              <span className="show-text quantity">{quantity}</span>
-              <button className="add-item" onClick={addItemToCart}>
-                <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
-              </button>
-            </div>
-            <div className="price-container">
-              <span className="show-text money-amount">
-                {" "}
-                {quantity * item.product.price}
-              </span>
-              €
-            </div>
-            <button className="delete-item" onClick={deleteItemFromCart}>
-              <FontAwesomeIcon icon={faTrashAlt} className="icon-size" />
-            </button>
-          </div>
+    <li className={itemClasses} onClick="">
+      <span className="item-name">{item.product.name}</span>
+      <span className="item-description">{item.product.description}</span>
+      <div className="button-container">
+        <span>Quantità</span>
+        <span>Importo</span>
+        <span></span>
+        <div className="add-remove-item">
+          <button className="remove-item" onClick={removeOneItemFromCart}>
+            <FontAwesomeIcon icon={faMinusSquare} className="icon-size" />
+          </button>
+          <span className="show-text quantity">{quantity}</span>
+          <button className="add-item" onClick={addItemToCart}>
+            <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
+          </button>
         </div>
-      )}
-    </>
+        <div className="price-container">
+          <span className="show-text money-amount">
+            {" "}
+            {quantity * item.product.price}
+          </span>
+          €
+        </div>
+        <button className="delete-item" onClick={deleteItemFromCart}>
+          <FontAwesomeIcon icon={faTrashAlt} className="icon-size" />
+        </button>
+      </div>
+    </li>
   );
 };
 
