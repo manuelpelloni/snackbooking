@@ -10,7 +10,6 @@ import request from "../utils/http";
 
 const CartItem = ({ item }) => {
   const [quantity, setQuantity] = useState(item.quantity);
-  const [visible, setVisible] = useState(true);
   const [itemClasses, setItemClasses] = useState("CartItem");
   const body = {
     product_id: item.product.id,
