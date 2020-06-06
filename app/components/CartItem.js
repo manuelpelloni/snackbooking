@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import request from "../utils/http";
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, removeChildItem }) => {
   const [quantity, setQuantity] = useState(item.quantity);
   const [itemClasses, setItemClasses] = useState("CartItem");
   const body = {
@@ -53,6 +53,8 @@ const CartItem = ({ item }) => {
   const deleteItemFromCart = async () => {
     await deleteItemFromDB();
     setItemClasses("CartItem removed-item");
+    //setTimeout(setVisibile(false), 3000);
+    removeChildItem(item.product.id);
   };
 
   return (

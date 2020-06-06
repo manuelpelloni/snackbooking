@@ -8,7 +8,7 @@ import request from "../utils/http";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const [order, setOrder] = useState(null);
+  const [orderItems, setOrderItems] = useState(null);
   const [redirect, setRedirect] = useState();
 
   async function fetchOrder() {
@@ -16,31 +16,36 @@ const Cart = () => {
     const data = await response.json();
 
     setRedirect(data.redirect);
-    setOrder(data);
+    setOrderItems(data.items);
   }
+
+  const removeItem = (id) => {
+    setOrderItems((orderItems) => {
+      return orderItems.filter((item) => item.product.id !== id);
+    });
+  };
 
   useEffect(() => {
     fetchOrder();
   }, []);
 
   if (redirect) navigate("/login");
-  if (order === null) return <Navbar />;
+  if (orderItems === null) return <Navbar />;
 
-  const itemList = order.items;
   const components = [];
-  if (itemList) {
-    for (const item of itemList) {
-      components.push(<CartItem key={item.id} item={item} />);
-    }
+  for (const item of orderItems) {
+    components.push(
+      <CartItem
+        key={item.product.id}
+        item={item}
+        removeChildItem={removeItem}
+      />
+    );
   }
 
   return (
     <div className="Cart">
-      <div className="items-container ">
-        {components}
-        <SubmitOrder submitted={order.submitted_at} />
-      </div>
-
+      <div className="items-container ">{components}</div>
       <Navbar />
     </div>
   );
