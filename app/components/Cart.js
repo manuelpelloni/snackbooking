@@ -12,11 +12,10 @@ const Cart = () => {
   const [redirect, setRedirect] = useState();
 
   async function fetchOrder() {
-    const response = await request("GET", "api/me/orders");
-    const data = await response.json();
+    const response = await request("GET", "api/me/orders", navigate);
 
-    setRedirect(data.redirect);
-    setOrderItems(data.items);
+    setRedirect(response.redirect);
+    setOrderItems(response.items);
   }
 
   const removeItem = (id) => {
@@ -29,7 +28,6 @@ const Cart = () => {
     fetchOrder();
   }, []);
 
-  if (redirect) navigate("/login");
   if (orderItems === null) return <Navbar />;
 
   const components = [];
@@ -39,13 +37,14 @@ const Cart = () => {
         key={item.product.id}
         item={item}
         removeChildItem={removeItem}
+        redirectTo={navigate}
       />
     );
   }
 
   return (
     <div className="Cart">
-      <div className="items-container ">{components}</div>
+      <div className="items-container ">{components}{<SubmitOrder />}</div>
       <Navbar />
     </div>
   );

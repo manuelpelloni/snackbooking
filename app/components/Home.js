@@ -11,23 +11,23 @@ const Home = () => {
   const [redirect, setRedirect] = useState();
 
   async function fetchProducts() {
-    const rensponse = await request("GET", "/api/products");
-    const data = await rensponse.json();
+    const response = await request("GET", "/api/products", navigate);
 
-    setRedirect(data.redirect);
-    setProducts(data);
+    setRedirect(response.redirect);
+    setProducts(response);
   }
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  if (redirect) navigate("/login");
   if (products === null) return <Navbar />;
 
   const components = [];
   for (const item of products) {
-    components.push(<Product key={item.id} product={item} />);
+    components.push(
+      <Product key={item.id} product={item} redirectTo={navigate} />
+    );
   }
 
   return (

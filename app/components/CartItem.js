@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import request from "../utils/http";
 
-const CartItem = ({ item, removeChildItem }) => {
+const CartItem = ({ item, removeChildItem, redirectTo }) => {
   const [quantity, setQuantity] = useState(item.quantity);
   const [itemClasses, setItemClasses] = useState("CartItem");
   const body = {
@@ -19,6 +19,7 @@ const CartItem = ({ item, removeChildItem }) => {
     const { success, message } = await request(
       "POST",
       "api/products/add-to-cart",
+      redirectTo,
       body
     );
     if (!success) console.log("implementa sti cazzo di alert", message);
@@ -27,6 +28,7 @@ const CartItem = ({ item, removeChildItem }) => {
     const { success, message } = await request(
       "POST",
       "api/products/remove-one-from-cart",
+      redirectTo,
       body
     );
     if (!success) console.log("implementa sti cazzo di alert", message);
@@ -35,6 +37,7 @@ const CartItem = ({ item, removeChildItem }) => {
     const { success, message } = await request(
       "POST",
       "api/products/delete-from-cart",
+      redirectTo,
       body
     );
     if (!success) console.log("implementa sti cazzo di alert", message);

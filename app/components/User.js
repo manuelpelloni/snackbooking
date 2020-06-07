@@ -12,11 +12,10 @@ const User = () => {
   const [redirect, setRedirect] = useState();
 
   async function fetchInfo() {
-    const response = await request("GET", "api/me/info");
-    const data = await response.json();
+    const response = await request("GET", "api/me/info", navigate);
 
-    setRedirect(data.redirect);
-    setInfo(data);
+    setRedirect(response.redirect);
+    setInfo(response);
   }
 
   useEffect(() => {
@@ -27,7 +26,6 @@ const User = () => {
     await request("PATCH", "api/auth/logout");
   };
 
-  if (redirect) navigate("/login");
   if (info === null) return <Navbar />;
 
   const admin = info.admin ? "Paninara" : "Studente";

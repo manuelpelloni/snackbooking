@@ -1,4 +1,4 @@
-async function request(method, url, body) {
+async function request(method, url, redirectTo, body = undefined) {
   const extra = {};
 
   if (body) {
@@ -6,11 +6,21 @@ async function request(method, url, body) {
     extra.body = JSON.stringify(body);
   }
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method,
     credentials: "same-origin",
     ...extra,
   });
+
+  if (response.status === 401) return redirectTo("/login");
+
+  const contentType = response.headers.get("content-type");
+  const data =
+    contentType && contentType.indexOf("application/json") !== -1
+      ? await response.json()
+      : response;
+
+  return data;
 }
 
 export default request;

@@ -15,7 +15,7 @@ const Login = () => {
   const onSubmit = async (event) => {
     try {
       const body = { email, password };
-      await request("POST", "/api/auth/login", body);
+      await request("POST", "/api/auth/login", navigate, body);
 
       navigate("/");
     } catch (err) {
