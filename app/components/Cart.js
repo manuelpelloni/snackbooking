@@ -15,12 +15,6 @@ const Cart = () => {
     setOrderItems(response.items);
   }
 
-  const removeItem = (id) => {
-    setOrderItems((orderItems) => {
-      return orderItems.filter((item) => item.product.id !== id);
-    });
-  };
-
   useEffect(() => {
     fetchOrder();
   }, []);
@@ -30,12 +24,7 @@ const Cart = () => {
   const components = [];
   for (const item of orderItems) {
     components.push(
-      <CartItem
-        key={item.product.id}
-        item={item}
-        removeChildItem={removeItem}
-        redirectTo={navigate}
-      />
+      <CartItem key={item.product.id} item={item} redirectTo={navigate} />
     );
   }
 

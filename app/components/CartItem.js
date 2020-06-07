@@ -7,10 +7,11 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import request from "../utils/http";
+import { CSSTransition } from "react-transition-group";
 
-const CartItem = ({ item, removeChildItem, redirectTo }) => {
+const CartItem = ({ item, redirectTo }) => {
   const [quantity, setQuantity] = useState(item.quantity);
-  const [itemClasses, setItemClasses] = useState("CartItem");
+  const [itemVisibility, setItemVisibility] = useState(true);
   const body = {
     product_id: item.product.id,
   };
@@ -55,40 +56,48 @@ const CartItem = ({ item, removeChildItem, redirectTo }) => {
   };
   const deleteItemFromCart = async () => {
     await deleteItemFromDB();
-    setItemClasses("CartItem removed-item");
-    //setTimeout(setVisibile(false), 3000);
-    removeChildItem(item.product.id);
   };
 
   return (
-    <li className={itemClasses} onClick="">
-      <span className="item-name">{item.product.name}</span>
-      <span className="item-description">{item.product.description}</span>
-      <div className="button-container">
-        <span>Quantità</span>
-        <span>Importo</span>
-        <span></span>
-        <div className="add-remove-item">
-          <button className="remove-item" onClick={removeOneItemFromCart}>
-            <FontAwesomeIcon icon={faMinusSquare} className="icon-size" />
-          </button>
-          <span className="show-text quantity">{quantity}</span>
-          <button className="add-item" onClick={addItemToCart}>
-            <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
+    <CSSTransition
+      in={itemVisibility}
+      timeout={300}
+      classNames="CartItem"
+      unmountOnExit
+      onExit={deleteItemFromCart}
+    >
+      <li onClick="">
+        <span className="item-name">{item.product.name}</span>
+        <span className="item-description">{item.product.description}</span>
+        <div className="button-container">
+          <span>Quantità</span>
+          <span>Importo</span>
+          <span></span>
+          <div className="add-remove-item">
+            <button className="remove-item" onClick={removeOneItemFromCart}>
+              <FontAwesomeIcon icon={faMinusSquare} className="icon-size" />
+            </button>
+            <span className="show-text quantity">{quantity}</span>
+            <button className="add-item" onClick={addItemToCart}>
+              <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
+            </button>
+          </div>
+          <div className="price-container">
+            <span className="show-text money-amount">
+              {" "}
+              {quantity * item.product.price}
+            </span>
+            €
+          </div>
+          <button
+            className="delete-item"
+            onClick={() => setItemVisibility(false)}
+          >
+            <FontAwesomeIcon icon={faTrashAlt} className="icon-size" />
           </button>
         </div>
-        <div className="price-container">
-          <span className="show-text money-amount">
-            {" "}
-            {quantity * item.product.price}
-          </span>
-          €
-        </div>
-        <button className="delete-item" onClick={deleteItemFromCart}>
-          <FontAwesomeIcon icon={faTrashAlt} className="icon-size" />
-        </button>
-      </div>
-    </li>
+      </li>
+    </CSSTransition>
   );
 };
 
