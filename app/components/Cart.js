@@ -9,12 +9,9 @@ import request from "../utils/http";
 const Cart = () => {
   const navigate = useNavigate();
   const [orderItems, setOrderItems] = useState(null);
-  const [redirect, setRedirect] = useState();
 
   async function fetchOrder() {
     const response = await request("GET", "api/me/orders", navigate);
-
-    setRedirect(response.redirect);
     setOrderItems(response.items);
   }
 

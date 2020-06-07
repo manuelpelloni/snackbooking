@@ -9,12 +9,9 @@ import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 const User = () => {
   const navigate = useNavigate();
   const [info, setInfo] = useState(null);
-  const [redirect, setRedirect] = useState();
 
   async function fetchInfo() {
     const response = await request("GET", "api/me/info", navigate);
-
-    setRedirect(response.redirect);
     setInfo(response);
   }
 

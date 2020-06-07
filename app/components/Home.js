@@ -8,12 +8,9 @@ import request from "../utils/http";
 const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState(null);
-  const [redirect, setRedirect] = useState();
 
   async function fetchProducts() {
     const response = await request("GET", "/api/products", navigate);
-
-    setRedirect(response.redirect);
     setProducts(response);
   }
 
