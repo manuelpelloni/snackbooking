@@ -66,7 +66,7 @@ const CartItem = ({ item, redirectTo }) => {
       unmountOnExit
       onExit={deleteItemFromCart}
     >
-      <li onClick="">
+      <li className="CartItem">
         <span className="item-name">{item.product.name}</span>
         <span className="item-description">{item.product.description}</span>
         <div className="button-container">
