@@ -44,7 +44,10 @@ const Cart = () => {
 
   return (
     <div className="Cart">
-      <div className="items-container ">{components}{<SubmitOrder />}</div>
+      <div className="items-container ">
+        {components}
+        {<SubmitOrder />}
+      </div>
       <Navbar />
     </div>
   );
