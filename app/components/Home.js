@@ -9,13 +9,16 @@ const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState(null);
 
-  async function fetchProducts() {
-    const response = await request("GET", "/api/products", navigate);
-    setProducts(response);
-  }
-
   useEffect(() => {
-    fetchProducts();
+    let isSubscribed = true;
+
+    request("GET", "/api/products", navigate).then((response) => {
+      if (isSubscribed) setProducts(response);
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
 
   if (products === null) return <Navbar />;

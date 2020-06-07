@@ -10,13 +10,16 @@ const Cart = () => {
   const navigate = useNavigate();
   const [orderItems, setOrderItems] = useState(null);
 
-  async function fetchOrder() {
-    const response = await request("GET", "api/me/orders", navigate);
-    setOrderItems(response.items);
-  }
-
   useEffect(() => {
-    fetchOrder();
+    let isSubscribed = true;
+
+    request("GET", "api/me/orders", navigate).then((response) => {
+      if (isSubscribed) setOrderItems(response.items);
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
 
   if (orderItems === null) return <Navbar />;

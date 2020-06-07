@@ -10,13 +10,16 @@ const User = () => {
   const navigate = useNavigate();
   const [info, setInfo] = useState(null);
 
-  async function fetchInfo() {
-    const response = await request("GET", "api/me/info", navigate);
-    setInfo(response);
-  }
-
   useEffect(() => {
-    fetchInfo();
+    let isSubscribed = true;
+
+    request("GET", "api/me/info", navigate).then((response) => {
+      if (isSubscribed) setInfo(response);
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
 
   const logout = async () => {
