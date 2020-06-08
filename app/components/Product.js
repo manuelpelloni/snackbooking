@@ -1,8 +1,10 @@
 import React from "react";
+
 import "./Product.css";
+
 import request from "../utils/http";
 
-const Product = ({ product, redirectTo }) => {
+const Product = ({ product }) => {
   const addProductToCart = async () => {
     const body = {
       product_id: product.id,
@@ -10,7 +12,6 @@ const Product = ({ product, redirectTo }) => {
     const { added, message } = await request(
       "POST",
       "api/products/add-to-cart",
-      redirectTo,
       body
     );
     if (added) console.log("implementa sti cazzo di alert", message);

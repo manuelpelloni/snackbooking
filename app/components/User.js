@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./User.css";
-import Navbar from "./Navbar";
-import request from "../utils/http";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import "./User.css";
+import Navbar from "./Navbar";
+
+import request from "../utils/http";
 
 const User = () => {
-  const navigate = useNavigate();
   const [info, setInfo] = useState(null);
 
   useEffect(() => {
     let isSubscribed = true;
 
-    request("GET", "api/me/info", navigate).then((response) => {
+    request("GET", "api/me/info").then((response) => {
       if (isSubscribed) setInfo(response);
     });
 

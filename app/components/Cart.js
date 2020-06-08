@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import "./Cart.css";
 import Navbar from "./Navbar";
 import CartItem from "./CartItem";
 import SubmitOrder from "./SubmitOrder";
+
 import request from "../utils/http";
 
 const Cart = () => {
-  const navigate = useNavigate();
   const [orderItems, setOrderItems] = useState(null);
 
   useEffect(() => {
     let isSubscribed = true;
 
-    request("GET", "api/me/orders", navigate).then((response) => {
+    request("GET", "api/me/orders").then((response) => {
       if (isSubscribed) setOrderItems(response.items);
     });
 
@@ -26,9 +26,7 @@ const Cart = () => {
 
   const components = [];
   for (const item of orderItems) {
-    components.push(
-      <CartItem key={item.product.id} item={item} redirectTo={navigate} />
-    );
+    components.push(<CartItem key={item.product.id} item={item} />);
   }
 
   return (

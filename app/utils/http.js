@@ -1,4 +1,4 @@
-async function request(method, url, redirectTo, body = undefined) {
+async function request(method, url, body = undefined) {
   const extra = {};
 
   if (body) {
@@ -12,7 +12,7 @@ async function request(method, url, redirectTo, body = undefined) {
     ...extra,
   });
 
-  if (response.status === 401) return redirectTo("/login");
+  if (response.status === 401) return (window.location.href = "/login");
 
   const contentType = response.headers.get("content-type");
   const data =

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { CSSTransition } from "react-transition-group";
+
 import "./CartItem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,10 +8,10 @@ import {
   faMinusSquare,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import request from "../utils/http";
-import { CSSTransition } from "react-transition-group";
 
-const CartItem = ({ item, redirectTo }) => {
+import request from "../utils/http";
+
+const CartItem = ({ item }) => {
   const [quantity, setQuantity] = useState(item.quantity);
   const [itemVisibility, setItemVisibility] = useState(true);
   const body = {
@@ -20,7 +22,6 @@ const CartItem = ({ item, redirectTo }) => {
     const { success, message } = await request(
       "POST",
       "api/products/add-to-cart",
-      redirectTo,
       body
     );
     if (!success) console.log("implementa sti cazzo di alert", message);
@@ -29,7 +30,6 @@ const CartItem = ({ item, redirectTo }) => {
     const { success, message } = await request(
       "POST",
       "api/products/remove-one-from-cart",
-      redirectTo,
       body
     );
     if (!success) console.log("implementa sti cazzo di alert", message);
@@ -38,7 +38,6 @@ const CartItem = ({ item, redirectTo }) => {
     const { success, message } = await request(
       "POST",
       "api/products/delete-from-cart",
-      redirectTo,
       body
     );
     if (!success) console.log("implementa sti cazzo di alert", message);
