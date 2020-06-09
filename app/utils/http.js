@@ -12,7 +12,11 @@ async function request(method, url, body = undefined) {
     ...extra,
   });
 
-  if (response.status === 401) return (window.location.href = "/login");
+  if (response.status === 401) {
+    const error = new Error("Devi effettuare il login");
+    window.location.href = "/login";
+    throw error;
+  }
 
   const contentType = response.headers.get("content-type");
   const data =
