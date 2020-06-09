@@ -25,7 +25,7 @@ const Register = () => {
       try {
         console.log(password, confirm);
         const registrationBody = { email, password, class_section };
-        await request("POST", "/api/auth/register", navigate, registrationBody);
+        await request("POST", "/api/auth/register", registrationBody);
 
         const loginBody = { email, password };
         await request("POST", "/api/auth/login", navigate, loginBody);
