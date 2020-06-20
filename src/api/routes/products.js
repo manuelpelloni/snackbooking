@@ -149,7 +149,6 @@ router.post("/delete-from-cart", async (req, res) => {
 
   const { product_id } = req.body;
   const { user_id } = user;
-
   try {
     await db
       .createQuery()
