@@ -33,10 +33,7 @@ const Cart = () => {
     <div className="Cart">
       <div className="items-container ">
         {components}
-        <button
-          className="submit-order"
-          onClick={() => navigate("/checkout", order.items)}
-        >
+        <button className="submit-order" onClick="">
           {order.submitted_at ? "Annulla Ordine" : "Ordina"}
         </button>
       </div>
