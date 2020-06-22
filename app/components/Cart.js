@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 
-import "./Cart.css";
 import Navbar from "./Navbar";
 import CartItem from "./CartItem";
-import SubmitOrder from "./SubmitOrder";
+
+import "./Cart.css";
 
 import request from "../utils/http";
 
 const Cart = () => {
-  const [orderItems, setOrderItems] = useState(null);
+  const [order, setOrder] = useState(null);
 
   useEffect(() => {
     let isSubscribed = true;
 
     request("GET", "api/me/orders").then((response) => {
-      if (isSubscribed) setOrderItems(response.items);
+      if (isSubscribed) setOrder(response);
     });
 
     return () => {
@@ -22,10 +22,10 @@ const Cart = () => {
     };
   }, []);
 
-  if (orderItems === null) return <Navbar />;
+  if (order === null) return <Navbar />;
 
   const components = [];
-  for (const item of orderItems) {
+  for (const item of order.items) {
     components.push(<CartItem key={item.product.id} item={item} />);
   }
 
@@ -33,7 +33,12 @@ const Cart = () => {
     <div className="Cart">
       <div className="items-container ">
         {components}
-        {<SubmitOrder />}
+        <button
+          className="submit-order"
+          onClick={() => navigate("/checkout", order.items)}
+        >
+          {order.submitted_at ? "Annulla Ordine" : "Ordina"}
+        </button>
       </div>
       <Navbar />
     </div>
