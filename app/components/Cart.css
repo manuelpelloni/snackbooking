@@ -3,23 +3,38 @@
   max-width: 100%;
 }
 
-.items-container {
+.container {
   max-width: 80%;
   width: 800px;
   margin: 80px auto 90px auto;
+}
+
+.items-container {
   display: grid;
   grid-template-columns: auto;
   row-gap: 15px;
 }
 
 @media only screen and (max-width: 600px) {
-  .items-container {
+  .container {
     max-width: 90%;
     width: 90%;
   }
 }
 
-.submit-order {
+.total-line {
+  margin-top: 30px;
+  margin-bottom: 0;
+  border-style: solid;
+}
+
+.total {
+  font-weight: bold;
+  text-align: center;
+  font-size: 15pt;
+}
+
+.order-button {
   height: 100px;
   width: 100%;
   margin-top: 20px;
@@ -33,4 +48,12 @@
   font-size: 16pt;
   font-weight: 700;
   cursor: pointer;
+}
+
+.submit-order {
+  background-color: #439337;
+}
+
+.cancel-order {
+  background-color: #b54141;
 }

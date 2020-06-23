@@ -11,7 +11,7 @@ import {
 
 import request from "../utils/http";
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, updateTotal }) => {
   const [quantity, setQuantity] = useState(item.quantity);
   const [itemVisibility, setItemVisibility] = useState(true);
   const body = {
@@ -46,15 +46,18 @@ const CartItem = ({ item }) => {
   const addItemToCart = async () => {
     await addItemToDB();
     setQuantity(quantity + 1);
+    updateTotal(item.product.price);
   };
   const removeOneItemFromCart = async () => {
     if (quantity >= 2) {
       await removeOneItemFromDB();
       setQuantity(quantity - 1);
+      updateTotal(-item.product.price);
     }
   };
   const deleteItemFromCart = async () => {
     await deleteItemFromDB();
+    updateTotal(-item.product.price * quantity);
   };
 
   return (
