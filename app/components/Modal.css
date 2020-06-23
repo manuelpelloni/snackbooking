@@ -43,14 +43,14 @@
 }
 
 .cancel-confirm-container {
-  width: calc(14rem + 20px);
+  width: calc(18rem + 20px);
   margin: 0 auto;
 }
 
 .confirm-button {
-  max-width: 7rem;
-  width: 7rem;
-  height: 40px;
+  max-width: 9rem;
+  width: 9rem;
+  height: 45px;
   margin-left: 20px;
   color: white;
   background-color: #45991e;
@@ -64,9 +64,9 @@
 }
 
 .cancel-button {
-  max-width: 7rem;
-  width: 7rem;
-  height: 40px;
+  max-width: 9rem;
+  width: 9rem;
+  height: 45px;
   color: white;
   background-color: #b54141;
   font-weight: bold;
