@@ -11,7 +11,7 @@
 
 .Form-container {
   background-color: #ffffff;
-  max-width: 100%;
+  max-width: 80%;
   width: 400px;
   margin: 0 auto;
   padding: 28px 35px;
@@ -25,4 +25,10 @@
 
 .no-whitespace {
   margin: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .Form-container {
+    max-width: 90%;
+  }
 }

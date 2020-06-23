@@ -44,7 +44,6 @@
 
 @media only screen and (max-width: 600px) {
   .info {
-    max-width: 100%;
-    width: 100%;
+    max-width: 90%;
   }
 }
