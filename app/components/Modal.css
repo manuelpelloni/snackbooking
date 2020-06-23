@@ -1,0 +1,89 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0.5;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+}
+
+.modal {
+  z-index: 100;
+  background: #fff;
+  position: relative;
+  border-radius: 3px;
+  margin: 0 auto;
+  margin-top: 0px;
+  width: 500px;
+  max-width: 90%;
+  padding: 2rem;
+  margin-top: 100px;
+}
+
+.modal-header {
+  font-size: 12pt;
+  margin-bottom: 10px;
+}
+
+.modal-close-button {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  opacity: 0.3;
+  cursor: pointer;
+  border: none;
+}
+
+.cancel-confirm-container {
+  display: inline;
+}
+
+.confirm-button {
+  max-width: 7rem;
+  width: 7rem;
+  height: 40px;
+  margin-left: 5px;
+  color: white;
+  background-color: #45991e;
+  border-radius: 4px;
+  box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
+    0 7px 19px -8px rgba(0, 0, 0, 0.43);
+  font-size: 11pt;
+  cursor: pointer;
+  border: 0;
+}
+
+.cancel-button {
+  max-width: 7rem;
+  width: 7rem;
+  height: 40px;
+  color: white;
+  background-color: #b54141;
+  border-radius: 4px;
+  box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
+    0 7px 19px -8px rgba(0, 0, 0, 0.43);
+  font-size: 11pt;
+  cursor: pointer;
+  border: 0;
+}
+
+.message {
+  font-weight: bold;
+  text-align: center;
+  font-size: 14pt;
+}
