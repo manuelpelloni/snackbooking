@@ -19,6 +19,11 @@
   border-radius: 4px;
 }
 
+.info-name {
+  font-weight: bold;
+  display: block;
+}
+
 .img {
   width: 800px;
   max-width: 80%;

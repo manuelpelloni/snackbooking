@@ -37,11 +37,11 @@ const User = () => {
         <FontAwesomeIcon icon={faUser} size="10x" />
       </div>
       <div className="info">
-        Email: {info.email}
+        <span className="info-name">Email:</span> {info.email}
         <br />
-        Classe: {info.class.toUpperCase()}
+        <span className="info-name">Classe:</span> {info.class.toUpperCase()}
         <br />
-        Account: {admin}
+        <span className="info-name">Account:</span> {admin}
       </div>
       <button onClick={logout} className="logout-button">
         <Link to="/login" className="logout-icon-color ">
