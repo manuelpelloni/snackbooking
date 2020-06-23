@@ -11,7 +11,7 @@ import {
 
 import request from "../utils/http";
 
-const CartItem = ({ item, updateTotal }) => {
+const CartItem = ({ item, updateTotal, buttonState }) => {
   const [quantity, setQuantity] = useState(item.quantity);
   const [itemVisibility, setItemVisibility] = useState(true);
   const body = {
@@ -68,7 +68,7 @@ const CartItem = ({ item, updateTotal }) => {
       unmountOnExit
       onExit={deleteItemFromCart}
     >
-      <li className="CartItem">
+      <li className={`CartItem ${buttonState.cartItem}`}>
         <span className="item-name">{item.product.name}</span>
         <span className="item-description">{item.product.description}</span>
         <div className="button-container">
@@ -76,11 +76,19 @@ const CartItem = ({ item, updateTotal }) => {
           <span>Importo</span>
           <span></span>
           <div className="add-remove-item">
-            <button className="remove-item" onClick={removeOneItemFromCart}>
+            <button
+              disabled={buttonState.disabled}
+              className={`remove-item ${buttonState.cursor}`}
+              onClick={removeOneItemFromCart}
+            >
               <FontAwesomeIcon icon={faMinusSquare} className="icon-size" />
             </button>
             <span className="show-text quantity">{quantity}</span>
-            <button className="add-item" onClick={addItemToCart}>
+            <button
+              disabled={buttonState.disabled}
+              className={`add-item ${buttonState.cursor}`}
+              onClick={addItemToCart}
+            >
               <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
             </button>
           </div>
@@ -92,7 +100,8 @@ const CartItem = ({ item, updateTotal }) => {
             €
           </div>
           <button
-            className="delete-item"
+            disabled={buttonState.disabled}
+            className={`delete-item ${buttonState.cursor}`}
             onClick={() => setItemVisibility(false)}
           >
             <FontAwesomeIcon icon={faTrashAlt} className="icon-size" />

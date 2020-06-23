@@ -11,6 +11,10 @@ import request from "../utils/http";
 
 const Cart = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [buttonState, setButtonState] = useState({
+    disabled: false,
+    class: "",
+  });
   const [order, setOrder] = useState(null);
   const [total, setTotal] = useState(null);
   const { isShowing, toggle } = useModal();
@@ -40,6 +44,13 @@ const Cart = () => {
             0
           )
         );
+        response.submitted_at
+          ? setButtonState({
+              disabled: true,
+              cartItem: "untouchable",
+              cursor: "",
+            })
+          : setButtonState({ disabled: false, cartItem: "", cursor: "cursor" });
       }
     });
 
@@ -53,7 +64,12 @@ const Cart = () => {
   const components = [];
   for (const item of order.items) {
     components.push(
-      <CartItem key={item.product.id} item={item} updateTotal={updateTotal} />
+      <CartItem
+        key={item.product.id}
+        item={item}
+        updateTotal={updateTotal}
+        buttonState={buttonState}
+      />
     );
   }
 
