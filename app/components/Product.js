@@ -1,11 +1,15 @@
 import React from "react";
-
+import { useState } from 'react';
 import "./Product.css";
 
 import request from "../utils/http";
 
 const Product = ({ product }) => {
+  const [classe, Setclasse] = useState("Product");
+
   const addProductToCart = async () => {
+    Setclasse("Added");
+    setTimeout(() => {Setclasse("Product")}, 2000);
     const body = {
       product_id: product.id,
     };
@@ -16,10 +20,11 @@ const Product = ({ product }) => {
     );
     if (added) console.log("implementa sti cazzo di alert", message);
   };
+  
 
   return (
     <div>
-      <button className="Product" onDoubleClick={addProductToCart}>
+      <button className= {classe} onDoubleClick={addProductToCart}>
         <span>{product.name}</span>
         <br />
         <span>{product.price}€</span>
