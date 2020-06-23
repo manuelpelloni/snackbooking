@@ -25,13 +25,14 @@
 .total-line {
   margin-top: 30px;
   margin-bottom: 0;
-  border-style: solid;
+  border: 2px solid;
+  border-radius: 4px;
 }
 
 .total {
   font-weight: bold;
   text-align: center;
-  font-size: 15pt;
+  font-size: 18pt;
 }
 
 .order-button {
