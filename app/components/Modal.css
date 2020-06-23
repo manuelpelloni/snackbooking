@@ -25,10 +25,13 @@
   z-index: 100;
   background: #fff;
   position: relative;
-  border-radius: 3px;
+  border-radius: 4px;
   width: 500px;
+  height: 200px;
   max-width: 90%;
-  margin: 100px auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   padding-bottom: 1rem;
 }
 
@@ -39,27 +42,16 @@
   color: white;
 }
 
-.modal-close-button {
-  font-size: 1.4rem;
-  font-weight: 700;
-  line-height: 1;
-  color: #000;
-  opacity: 0.3;
-  cursor: pointer;
-  border: none;
-}
-
 .cancel-confirm-container {
-  display: flex;
-  justify-content: end;
-  margin: 0 2rem;
+  width: calc(14rem + 20px);
+  margin: 0 auto;
 }
 
 .confirm-button {
   max-width: 7rem;
   width: 7rem;
   height: 40px;
-  margin-left: 5px;
+  margin-left: 20px;
   color: white;
   background-color: #45991e;
   font-weight: bold;
@@ -87,10 +79,12 @@
 }
 
 .message {
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
   margin: 1rem;
   font-size: 14pt;
+  height: 60px;
+  padding: 15px;
 }
 
 .error {
