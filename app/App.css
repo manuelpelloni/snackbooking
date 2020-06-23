@@ -4,6 +4,7 @@
 }
 
 .header {
+  z-index: 999;
   border-top: 1px solid #001529;
   font-size: 16pt;
   height: 60px;
