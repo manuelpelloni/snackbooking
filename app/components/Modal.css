@@ -26,17 +26,17 @@
   background: #fff;
   position: relative;
   border-radius: 3px;
-  margin: 0 auto;
-  margin-top: 0px;
   width: 500px;
   max-width: 90%;
-  padding: 2rem;
-  margin-top: 100px;
+  margin: 100px auto;
+  padding-bottom: 1rem;
 }
 
 .modal-header {
+  font-weight: 600;
   font-size: 12pt;
-  margin-bottom: 10px;
+  padding: 10px 2rem;
+  color: white;
 }
 
 .modal-close-button {
@@ -50,7 +50,9 @@
 }
 
 .cancel-confirm-container {
-  display: inline;
+  display: flex;
+  justify-content: end;
+  margin: 0 2rem;
 }
 
 .confirm-button {
@@ -60,6 +62,7 @@
   margin-left: 5px;
   color: white;
   background-color: #45991e;
+  font-weight: bold;
   border-radius: 4px;
   box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
     0 7px 19px -8px rgba(0, 0, 0, 0.43);
@@ -74,6 +77,7 @@
   height: 40px;
   color: white;
   background-color: #b54141;
+  font-weight: bold;
   border-radius: 4px;
   box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
     0 7px 19px -8px rgba(0, 0, 0, 0.43);
@@ -85,5 +89,13 @@
 .message {
   font-weight: bold;
   text-align: center;
+  margin: 1rem;
   font-size: 14pt;
+}
+
+.error {
+  background-color: #b54141;
+}
+.confirm {
+  background-color: #45991e;
 }

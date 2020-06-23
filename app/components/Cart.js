@@ -76,10 +76,11 @@ const Cart = () => {
         <Modal
           isShowing={isShowing}
           hide={toggle}
+          type={order.submitted_at ? "error" : "confirm"}
           title={
             order.submitted_at ? "Annullare Ordine?" : "Confermare l'ordine?"
           }
-          message={order.submitted_at ? "" : "Totale:" + total + "€"}
+          message={order.submitted_at ? "" : "Totale: " + total + "€"}
           callback={order.submitted_at ? cancelOrder : sumbitOrder}
         />
       </div>
