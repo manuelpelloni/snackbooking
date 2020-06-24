@@ -15,16 +15,6 @@ router.get("/", async (req, res) => {
   res.json(result.recordset);
 });
 
-/*
-router.get("/:id", async (req, res, next) => {
-  const id = req.params.id;
-  const result = await db
-    .createQuery()
-    .input("id", sql.Int, id)
-    .query("SELECT id, name, description, price FROM products WHERE id = @id");
-  res.json(result.recordset);
-});*/
-
 //admin add new product
 router.post("/", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
@@ -89,47 +79,31 @@ router.post("/add-to-cart", async (req, res) => {
   if (!user) return;
 
   const { product_id } = req.body;
-  const { user_id } = user;
-
-  const result = await db
-    .createQuery()
-    .input("product_id", sql.Int, product_id)
-    .input("user_id", sql.Int, user_id)
-    .query(
-      "SELECT users_products.quantity as product_quantity\
-       FROM users_products\
-       WHERE users_products.user_id = @user_id\
-        and users_products.product_id = @product_id"
-    );
-
-  const product_quantity = result.recordset[0]
-    ? result.recordset[0].product_quantity
-    : 0;
 
   try {
-    if (product_quantity) {
-      await db
-        .createQuery()
-        .input("product_id", sql.Int, product_id)
-        .input("user_id", sql.Int, user_id)
-        .input("product_quantity", sql.Int, product_quantity + 1)
-        .query(
-          "UPDATE users_products\
-           SET quantity = @product_quantity, add_at = GETDATE()\
-           WHERE users_products.user_id = @user_id and product_id = @product_id"
-        );
-    } else {
-      await db
-        .createQuery()
-        .input("product_id", sql.Int, product_id)
-        .input("user_id", sql.Int, user_id)
-        .input("product_quantity", sql.Int, product_quantity + 1)
-        .query(
-          "INSERT INTO users_products(product_id, user_id, quantity)\
-           VALUES (@product_id, @user_id, @product_quantity)"
-        );
-    }
-
+    await db
+      .createQuery()
+      .input("product_id", sql.Int, product_id)
+      .input("user_id", sql.Int, user.user_id)
+      .query(
+        `IF EXISTS (SELECT id
+                      FROM users_products
+                      WHERE user_id = @user_id
+                        AND product_id = @product_id
+                        AND quantity > 0)
+            BEGIN
+                UPDATE users_products
+                  SET users_products.quantity += 1,
+                      add_at = Getdate()
+                  FROM users_products
+                    INNER JOIN users ON users_products.user_id = users.id
+                  WHERE users_products.user_id = @user_id
+                    AND users_products.product_id = @product_id
+            END
+           ELSE
+            INSERT INTO users_products (product_id, user_id, quantity)
+              VALUES (@product_id, @user_id, 1)`
+      );
     res.json({
       message: "Aggiunto al carrello",
       success: true,
@@ -147,16 +121,21 @@ router.post("/delete-from-cart", async (req, res) => {
   if (!user) return;
 
   const { product_id } = req.body;
-  const { user_id } = user;
+
   try {
     await db
       .createQuery()
       .input("product_id", sql.Int, product_id)
-      .input("user_id", sql.Int, user_id)
+      .input("user_id", sql.Int, user.user_id)
       .query(
-        "DELETE FROM users_products\
-         WHERE users_products.user_id = @user_id and users_products.product_id = @product_id"
+        `DELETE users_products
+         FROM users_products 
+          INNER JOIN users on users_products.user_id = users.id
+         WHERE users_products.user_id = @user_id 
+          and users_products.product_id = @product_id
+          and users.submitted_at IS NULL`
       );
+
     res.json({
       message: "Eliminato dal carrello",
       success: true,
@@ -174,45 +153,27 @@ router.post("/remove-one-from-cart", async (req, res) => {
   if (!user) return;
 
   const { product_id } = req.body;
-  const { user_id } = user;
-  const result = await db
-    .createQuery()
-    .input("product_id", sql.Int, product_id)
-    .input("user_id", sql.Int, user_id)
-    .query(
-      "SELECT users_products.quantity as product_quantity\
-       FROM users_products\
-       WHERE users_products.user_id = @user_id\
-        and users_products.product_id = @product_id"
-    );
-
-  const product_quantity = result.recordset[0]
-    ? result.recordset[0].product_quantity
-    : 0;
 
   try {
-    if (product_quantity >= 2) {
-      await db
-        .createQuery()
-        .input("product_id", sql.Int, product_id)
-        .input("user_id", sql.Int, user_id)
-        .input("product_quantity", sql.Int, product_quantity - 1)
-        .query(
-          "UPDATE users_products\
-           SET quantity = @product_quantity, add_at = GETDATE()\
-           WHERE users_products.user_id = @user_id and product_id = @product_id"
-        );
-      res.json({
-        message: "Tolto 1 pezzo dal carrello",
-        success: true,
-      });
-    } else {
-      res.json({
-        message:
-          "Hai solo 1 pezzo dal carrello, impossinile toglierlo, devi eliminare il prodotto",
-        success: false,
-      });
-    }
+    await db
+      .createQuery()
+      .input("product_id", sql.Int, product_id)
+      .input("user_id", sql.Int, user.user_id)
+      .query(
+        `UPDATE users_products
+           SET users_products.quantity = quantity-1,
+               add_at = Getdate()
+           FROM users_products
+            INNER JOIN users ON users_products.user_id = users.id
+           WHERE users_products.user_id = @user_id
+            AND users_products.product_id = @product_id
+            AND users_products.quantity >= 2`
+      );
+
+    res.json({
+      message: "Tolto 1 pezzo dal carrello",
+      success: true,
+    });
   } catch (err) {
     res.status(500).json({
       message: "Impossibile togliere 1 pezzo dal carrello",
