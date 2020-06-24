@@ -50,7 +50,7 @@ router.post("/register", async (req, res) => {
         message: "Account creato!",
       });
     } catch (err) {
-      res.json({
+      res.status(500).json({
         message: "Account non creato",
       });
     }
@@ -80,7 +80,7 @@ router.patch("/logout", async (req, res) => {
       message: "Logout effettuato con successo",
     });
   } catch (err) {
-    res.json({
+    res.status(500).json({
       message: "Logout non effettuato",
     });
   }

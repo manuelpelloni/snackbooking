@@ -135,8 +135,7 @@ router.post("/add-to-cart", async (req, res) => {
       success: true,
     });
   } catch (err) {
-    res.json({
-      err: err.message,
+    res.status(500).json({
       message: "Non aggiunto al carrello",
       success: false,
     });
@@ -163,8 +162,7 @@ router.post("/delete-from-cart", async (req, res) => {
       success: true,
     });
   } catch (err) {
-    res.json({
-      err: err.message,
+    res.status(500).json({
       message: "Non eliminato dal carrello",
       success: false,
     });
@@ -216,7 +214,7 @@ router.post("/remove-one-from-cart", async (req, res) => {
       });
     }
   } catch (err) {
-    res.json({
+    res.status(500).json({
       message: "Impossibile togliere 1 pezzo dal carrello",
       success: false,
     });

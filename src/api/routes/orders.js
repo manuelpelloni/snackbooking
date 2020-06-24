@@ -14,12 +14,10 @@ router.post("/submit", async (req, res) => {
             WHERE id = @user_id`);
     res.json({
       message: "Ordine effettuato!",
-      err,
     });
   } catch (err) {
-    res.json({
-      message: "Non è possibile fare l'ordine",
-      err,
+    res.status(500).json({
+      message: "Non è possibile effettuare l'ordine",
     });
   }
 });
@@ -36,12 +34,10 @@ router.post("/cancel", async (req, res) => {
 
     res.json({
       message: "Ordine annullato",
-      err,
     });
   } catch (err) {
-    res.json({
+    res.status(500).json({
       message: "Non è possibile annullare l'ordine",
-      err,
     });
   }
 });
