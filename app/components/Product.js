@@ -5,13 +5,13 @@ import "./Product.css";
 import request from "../utils/http";
 
 const Product = ({ product }) => {
-  const [classe, Setclasse] = useState("Product");
+  const [doubleClickAnimation, setDoubleClickAnimation] = useState("");
 
   const addProductToCart = async () => {
-    Setclasse("Added");
+    setTimeout(setDoubleClickAnimation("Product-expand"));
     setTimeout(() => {
-      Setclasse("Product");
-    }, 2000);
+      setDoubleClickAnimation("");
+    }, 200);
     const body = {
       product_id: product.id,
     };
@@ -25,7 +25,10 @@ const Product = ({ product }) => {
 
   return (
     <div>
-      <button className={classe} onDoubleClick={addProductToCart}>
+      <button
+        className={`Product ${doubleClickAnimation}`}
+        onDoubleClick={addProductToCart}
+      >
         <span>{product.name}</span>
         <br />
         <span>{product.price}€</span>
