@@ -7,6 +7,8 @@ const sql = require("mssql");
 const sendGrid = require("@sendgrid/mail");
 const { message } = require("antd");
 
+sendGrid.setApiKey(process.env.SENDGRID_API_KEY);
+
 router.post("/register", async (req, res) => {
   const { class_section, email, password } = req.body;
   let { year, section } = 0;
@@ -38,16 +40,6 @@ router.post("/register", async (req, res) => {
       });
     }
     try {
-      sendGrid.setApiKey(process.env.SENDGRID_API_KEY);
-      const msg = {
-        to: email,
-        from: "snackbooking@manuelpelloni.it",
-        subject: "DO NOT REPLY",
-        html:
-          "<div>Grazie per esserti registrato a SnackBooking</div><a href = 'https://snackbooking.manuelpelloni.it/login'>Clicca per andare al sito</a>",
-      };
-      sendGrid.send(msg);
-
       await db
         .createQuery()
         .input("class_number", sql.Int, year)
@@ -58,6 +50,19 @@ router.post("/register", async (req, res) => {
           "INSERT INTO users(class_number, section, email, password_digest)\
                           VALUES(@class_number, @section, @email, @password_digest)"
         );
+
+      const msg = {
+        to: email,
+        from: `${process.env.SUBDOMAIN}@${process.env.DOMAIN}`,
+        subject: "DO NOT REPLY",
+        html: `<div>Grazie per esserti registrato a SnackBooking</div>
+            <br />
+            <div>
+            <a href="https://${process.env.SUBDOMAIN}.${process.env.DOMAIN}">Clicca per andare al sito</a>
+            </div>`,
+      };
+      sendGrid.send(msg);
+
       res.json({
         message: "Account creato!",
       });
