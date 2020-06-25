@@ -4,6 +4,7 @@ const db = require("../../database");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const sql = require("mssql");
+const sendGrid = require("@sendgrid/mail");
 
 router.post("/register", async (req, res) => {
   const { class_section, email, password } = req.body;
@@ -36,6 +37,15 @@ router.post("/register", async (req, res) => {
       });
     }
     try {
+      sendGrid.setApiKey(process.env.SENDGRID_API_KEY);
+      const msg = {
+        to: email,
+        from: "snackbooking@manuelpelloni.it",
+        subject: "DO NOT REPLY",
+        text: "Grazie per esserti registrato a SnackBooking",
+      };
+      sendGrid.send(msg);
+
       await db
         .createQuery()
         .input("class_number", sql.Int, year)
