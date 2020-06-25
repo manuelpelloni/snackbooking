@@ -81,7 +81,7 @@ router.post("/add-to-cart", async (req, res) => {
   const { product_id } = req.body;
 
   try {
-    await db
+    const result = await db
       .createQuery()
       .input("product_id", sql.Int, product_id)
       .input("user_id", sql.Int, user.user_id)
@@ -108,6 +108,9 @@ router.post("/add-to-cart", async (req, res) => {
               INSERT INTO users_products (product_id, user_id, quantity)
                 VALUES (@product_id, @user_id, 1)`
       );
+
+    if (!result.recordset) throw Error;
+
     res.json({
       message: "Aggiunto al carrello",
       success: true,
@@ -127,7 +130,7 @@ router.post("/delete-from-cart", async (req, res) => {
   const { product_id } = req.body;
 
   try {
-    await db
+    const result = await db
       .createQuery()
       .input("product_id", sql.Int, product_id)
       .input("user_id", sql.Int, user.user_id)
@@ -139,6 +142,8 @@ router.post("/delete-from-cart", async (req, res) => {
           AND users_products.product_id = @product_id
           AND users.submitted_at IS NULL`
       );
+
+    if (!result.recordset) throw Error;
 
     res.json({
       message: "Eliminato dal carrello",
@@ -159,7 +164,7 @@ router.post("/remove-one-from-cart", async (req, res) => {
   const { product_id } = req.body;
 
   try {
-    await db
+    const result = await db
       .createQuery()
       .input("product_id", sql.Int, product_id)
       .input("user_id", sql.Int, user.user_id)
@@ -174,6 +179,8 @@ router.post("/remove-one-from-cart", async (req, res) => {
             AND users_products.quantity >= 2
             AND users.submitted_at IS NULL`
       );
+
+    if (!result.recordset) throw Error;
 
     res.json({
       message: "Tolto 1 pezzo dal carrello",
