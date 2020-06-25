@@ -57,9 +57,10 @@ router.post("/register", async (req, res) => {
         html: `<div>Grazie per esserti registrato a SnackBooking</div>
             <br />
             <div>
-              <a href="${process.env.SUBDOMAIN}">Clicca per andare al sito</a>
-           </div>`,
+            <a href="${process.env.SUBDOMAIN}.${process.env.DOMAIN}">Clicca per andare al sito</a>
+            </div>`,
       };
+      console.log(process.env.SUBDOMAIN,"@",process.env.DOMAIN)
       sendGrid.send(msg);
 
       res.json({
