@@ -18,6 +18,13 @@ app.use(morgan("dev"));
 app.get(["/", "/login", "/register", "/cart", "/user"], function (req, res) {
   res.sendFile(path.join(process.cwd(), "build", "index.html"));
 });
+app.get(["/favicon.ico"], function (req, res) {
+  res.sendFile(path.join(process.cwd(), "build", "favicon.ico"));
+});
+app.get(["/manifest.json"], function (req, res) {
+  res.sendFile(path.join(process.cwd(), "build", "manifest.json"));
+});
+
 app.use("/static", express.static("build/static"));
 
 app.use("/api/auth", usersRoute);
@@ -25,13 +32,13 @@ app.use("/api/products", productsRoute);
 app.use("/api/orders", ordersRoute);
 app.use("/api/me", meRoute);
 
-app.use((req, res) => {
+app.use((req, res, next) => {
   const error = new Error("Not found");
   error.status = 404;
   next(error);
 });
 
-app.use((error, req, res) => {
+app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
     error: {
