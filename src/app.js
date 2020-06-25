@@ -27,7 +27,7 @@ app.use("/api/me", meRoute);
 
 app.use((req, res) => {
   const error = new Error("Not found");
-  error.status(404);
+  error.status = 404;
   next(error);
 });
 
