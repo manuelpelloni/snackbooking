@@ -109,7 +109,7 @@ router.post("/add-to-cart", async (req, res) => {
                 VALUES (@product_id, @user_id, 1)`
       );
 
-    if (!result.recordset) throw Error;
+    if (!result.rowsAffected[0]) throw Error;
 
     res.json({
       message: "Aggiunto al carrello",
@@ -143,7 +143,7 @@ router.post("/delete-from-cart", async (req, res) => {
           AND users.submitted_at IS NULL`
       );
 
-    if (!result.recordset) throw Error;
+    if (!result.rowsAffected[0]) throw Error;
 
     res.json({
       message: "Eliminato dal carrello",
@@ -180,7 +180,7 @@ router.post("/remove-one-from-cart", async (req, res) => {
             AND users.submitted_at IS NULL`
       );
 
-    if (!result.recordset) throw Error;
+    if (!result.rowsAffected[0]) throw Error;
 
     res.json({
       message: "Tolto 1 pezzo dal carrello",
