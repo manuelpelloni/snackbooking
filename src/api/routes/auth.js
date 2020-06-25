@@ -42,7 +42,7 @@ router.post("/register", async (req, res) => {
         to: email,
         from: "snackbooking@manuelpelloni.it",
         subject: "DO NOT REPLY",
-        text: "Grazie per esserti registrato a SnackBooking",
+        html: "<div>Grazie per esserti registrato a SnackBooking</div><a href = 'https://snackbooking.manuelpelloni.it/login'>Clicca per andare al sito</a>",
       };
       sendGrid.send(msg);
 
