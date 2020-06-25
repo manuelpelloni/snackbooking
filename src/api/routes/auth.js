@@ -4,7 +4,7 @@ const db = require("../../database");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const sql = require("mssql");
-const sendGrid = require("sendgrid/mail");
+const sendGrid = require("@sendgrid/mail");
 
 sendGrid.setApiKey(process.env.SENDGRID_API_KEY);
 
