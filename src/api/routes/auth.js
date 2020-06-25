@@ -60,7 +60,7 @@ router.post("/register", async (req, res) => {
             <a href="${process.env.SUBDOMAIN}.${process.env.DOMAIN}">Clicca per andare al sito</a>
             </div>`,
       };
-      console.log(process.env.SUBDOMAIN,"@",process.env.DOMAIN)
+      console.log(process.env.SUBDOMAIN, "@", process.env.DOMAIN);
       sendGrid.send(msg);
 
       res.json({
