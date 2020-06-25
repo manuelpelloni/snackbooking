@@ -86,23 +86,27 @@ router.post("/add-to-cart", async (req, res) => {
       .input("product_id", sql.Int, product_id)
       .input("user_id", sql.Int, user.user_id)
       .query(
-        `IF EXISTS (SELECT id
-                      FROM users_products
-                      WHERE user_id = @user_id
-                        AND product_id = @product_id
-                        AND quantity > 0)
-            BEGIN
-                UPDATE users_products
-                  SET users_products.quantity += 1,
-                      add_at = Getdate()
-                  FROM users_products
-                    INNER JOIN users ON users_products.user_id = users.id
-                  WHERE users_products.user_id = @user_id
-                    AND users_products.product_id = @product_id
-            END
-           ELSE
-            INSERT INTO users_products (product_id, user_id, quantity)
-              VALUES (@product_id, @user_id, 1)`
+        `IF EXISTS (SELECT id 
+                    FROM users 
+                    WHERE submitted_at IS NULL 
+                      AND id = @user_id)
+          IF EXISTS (SELECT id
+                        FROM users_products
+                        WHERE user_id = @user_id
+                          AND product_id = @product_id
+                          AND quantity > 0)
+              BEGIN
+                  UPDATE users_products
+                    SET users_products.quantity += 1,
+                        add_at = Getdate()
+                    FROM users_products
+                      INNER JOIN users ON users_products.user_id = users.id
+                    WHERE users_products.user_id = @user_id
+                      AND users_products.product_id = @product_id
+              END
+            ELSE
+              INSERT INTO users_products (product_id, user_id, quantity)
+                VALUES (@product_id, @user_id, 1)`
       );
     res.json({
       message: "Aggiunto al carrello",
@@ -132,8 +136,8 @@ router.post("/delete-from-cart", async (req, res) => {
          FROM users_products 
           INNER JOIN users on users_products.user_id = users.id
          WHERE users_products.user_id = @user_id 
-          and users_products.product_id = @product_id
-          and users.submitted_at IS NULL`
+          AND users_products.product_id = @product_id
+          AND users.submitted_at IS NULL`
       );
 
     res.json({
@@ -167,7 +171,8 @@ router.post("/remove-one-from-cart", async (req, res) => {
             INNER JOIN users ON users_products.user_id = users.id
            WHERE users_products.user_id = @user_id
             AND users_products.product_id = @product_id
-            AND users_products.quantity >= 2`
+            AND users_products.quantity >= 2
+            AND users.submitted_at IS NULL`
       );
 
     res.json({
