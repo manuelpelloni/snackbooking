@@ -87,16 +87,18 @@ router.patch("/logout", async (req, res) => {
     await db
       .createQuery()
       .input("user_id", sql.Int, user_id)
+      .input("token", sql.VarChar, token)
       .query(
         "UPDATE sessions\
          SET expires_at = GETDATE()\
-         WHERE user_id = @user_id AND getdate() <= expires_at"
+         WHERE id = @token"
       );
+      
     res.json({
       message: "Logout effettuato con successo",
     });
   } catch (err) {
-    res.status(500).json({
+    res.json({
       message: "Logout non effettuato",
     });
   }
