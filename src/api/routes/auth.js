@@ -5,6 +5,7 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const sql = require("mssql");
 const sendGrid = require("@sendgrid/mail");
+const { message } = require("antd");
 
 router.post("/register", async (req, res) => {
   const { class_section, email, password } = req.body;

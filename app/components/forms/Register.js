@@ -6,6 +6,7 @@ import "./Forms.css";
 import logo from "../../logo.svg";
 import request from "../../utils/http";
 
+
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,12 +26,17 @@ const Register = () => {
       try {
         console.log(password, confirm);
         const registrationBody = { email, password, class_section };
-        await request("POST", "/api/auth/register", registrationBody);
+        const {message1} = await request("POST", "/api/auth/register", registrationBody);
+        if(message1)
+          alert(message1);
 
         const loginBody = { email, password };
-        await request("POST", "/api/auth/login", loginBody);
+        const {message2} = await request("POST", "/api/auth/login", loginBody);
+        if(!message2)
+          navigate("/");
+        else
+          alert(message2);
 
-        navigate("/");
       } catch (err) {
         console.error(err);
       }

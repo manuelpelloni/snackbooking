@@ -24,7 +24,9 @@ const User = () => {
   }, []);
 
   const logout = async () => {
-    await request("PATCH", "api/auth/logout");
+    const {message} = await request("PATCH", "api/auth/logout");
+    if(message)
+      alert(message);
   };
 
   if (info === null) return <Navbar />;

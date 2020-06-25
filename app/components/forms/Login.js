@@ -7,19 +7,23 @@ import "./Forms.css";
 import logo from "../../logo.svg";
 import request from "../../utils/http";
 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  
   const onSubmit = async (event) => {
     try {
       const body = { email, password };
-      await request("POST", "/api/auth/login", body);
-
-      navigate("/");
+      const {message} = await request("POST", "/api/auth/login", body);
+      if(!message)
+        navigate("/");
+      else
+        alert(message);
+      
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   };
 
@@ -81,6 +85,7 @@ const Login = () => {
           <Link to="/register">Registrati ora</Link>
         </Form.Item>
       </Form>
+   
     </div>
   );
 };

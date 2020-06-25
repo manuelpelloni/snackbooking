@@ -67,6 +67,7 @@ async function validateCredentialsAndLogin(req, res) {
     return res.json({
       message: "Devi registrarti prima di fare il login",
     });
+    
   }
 }
 

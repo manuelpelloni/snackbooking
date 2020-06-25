@@ -24,7 +24,7 @@ const CartItem = ({ item, updateTotal, buttonState }) => {
       "api/products/add-to-cart",
       body
     );
-    if (!success) console.log("implementa sti cazzo di alert", message);
+    if (success) alert(message);
   }
   async function removeOneItemFromDB() {
     const { success, message } = await request(
@@ -32,7 +32,7 @@ const CartItem = ({ item, updateTotal, buttonState }) => {
       "api/products/remove-one-from-cart",
       body
     );
-    if (!success) console.log("implementa sti cazzo di alert", message);
+    if (success) alert(message);
   }
   async function deleteItemFromDB() {
     const { success, message } = await request(
@@ -40,7 +40,7 @@ const CartItem = ({ item, updateTotal, buttonState }) => {
       "api/products/delete-from-cart",
       body
     );
-    if (!success) console.log("implementa sti cazzo di alert", message);
+    if (success) alert(message);
   }
 
   const addItemToCart = async () => {
