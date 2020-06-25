@@ -35,7 +35,7 @@ const CartItem = ({ item, updateTotal, buttonState }) => {
     if (!success) alert(message);
   }
   async function deleteItemFromDB() {
-    const { success, message } = await request(
+    const { message } = await request(
       "POST",
       "api/products/delete-from-cart",
       body
