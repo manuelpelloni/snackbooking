@@ -52,7 +52,7 @@ router.post("/register", async (req, res) => {
 
       const msg = {
         to: email,
-        from: "snackbooking@manuelpelloni.it",
+        from: `${process.env.SUBDOMAIN}@${process.env.DOMAIN}`,
         subject: "DO NOT REPLY",
         html: `<div>Grazie per esserti registrato a SnackBooking</div>
             <br />
