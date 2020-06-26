@@ -15,11 +15,11 @@ const Login = () => {
   const onSubmit = async (event) => {
     try {
       const body = { email, password };
-      await request("POST", "/api/auth/login", body);
-
-      navigate("/");
+      const { message } = await request("POST", "/api/auth/login", body);
+      if (!message) navigate("/");
+      else alert(message);
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   };
 

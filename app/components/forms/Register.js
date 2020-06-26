@@ -25,12 +25,21 @@ const Register = () => {
       try {
         console.log(password, confirm);
         const registrationBody = { email, password, class_section };
-        await request("POST", "/api/auth/register", registrationBody);
+        const { message1 } = await request(
+          "POST",
+          "/api/auth/register",
+          registrationBody
+        );
+        if (message1) alert(message1);
 
         const loginBody = { email, password };
-        await request("POST", "/api/auth/login", loginBody);
-
-        navigate("/");
+        const { message2 } = await request(
+          "POST",
+          "/api/auth/login",
+          loginBody
+        );
+        if (!message2) navigate("/");
+        else alert(message2);
       } catch (err) {
         console.error(err);
       }
