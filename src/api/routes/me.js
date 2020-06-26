@@ -7,7 +7,13 @@ router.get("/info", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
   if (!user) return;
 
-  res.json(user);
+  const order_time_limit = process.env.ORDER_TIME_LIMIT.split(":");
+
+  res.json({
+    user: user,
+    hours: order_time_limit[0],
+    minutes: order_time_limit[1],
+  });
 });
 
 router.get("/orders", async (req, res) => {
@@ -45,6 +51,29 @@ router.get("/orders", async (req, res) => {
     });
   }
   res.json(cart);
+});
+
+router.post("/order-time-limit", async (req, res) => {
+  const user = await db.checkUserLogin(req, res);
+  if (!user) return;
+
+  if (!user.admin)
+    return res.status(403).json({ message: "Non sei un amministratore" });
+
+  const { hours, minutes } = req.body;
+  if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 60) {
+    process.env.ORDER_TIME_LIMIT = `${hours}:${minutes}`;
+
+    return res.json({
+      message: "Orario limite aggiornato correttamente",
+      success: true,
+    });
+  }
+
+  res.json({
+    message: "Orario limite non aggiornato",
+    success: false,
+  });
 });
 
 module.exports = router;
