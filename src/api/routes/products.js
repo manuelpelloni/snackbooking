@@ -47,8 +47,6 @@ router.get("/:id", async (req, res) => {
   if (!user.admin)
     return res.status(403).json({ message: "Non sei un amministratore" });
 
-  console.log(req.params);
-
   const { id } = req.params;
 
   const result = await db.createQuery().input("id", sql.Int, id).query(
