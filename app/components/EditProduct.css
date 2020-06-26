@@ -1,9 +1,9 @@
-.AlterProduct {
+.EditProduct {
   width: 100%;
   max-width: 100%;
 }
 
-.container {
+.edit-product-container {
   background-color: #fff;
   max-width: 80%;
   width: 400px;

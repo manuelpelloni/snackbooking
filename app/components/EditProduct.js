@@ -58,8 +58,8 @@ const AlterProduct = () => {
   }, [id]);
 
   return (
-    <div className="AlterProduct">
-      <div className="container">
+    <div className="EditProduct">
+      <div className="edit-product-container">
         <span className="form-title">{}</span>
         <span className={`input-wrapper ${focused && "input-wrapper-focused"}`}>
           <span className="input-prefix">
