@@ -82,7 +82,7 @@ const AlterProduct = () => {
         <h2 className="form-title">{id ? "Modifica" : "Aggiungi"}</h2>
         <span className={`input-wrapper ${focused && "input-wrapper-focused"}`}>
           <span className="input-prefix">
-            <FontAwesomeIcon icon={faEdit} className="icon-size" />
+            <FontAwesomeIcon icon={faEdit} className="edit-product-icon" />
           </span>
           <input
             ref={ref}
@@ -97,7 +97,7 @@ const AlterProduct = () => {
           className={`input-wrapper ${focused1 && "input-wrapper-focused"}`}
         >
           <span className="input-prefix">
-            <FontAwesomeIcon icon={faEdit} className="icon-size" />
+            <FontAwesomeIcon icon={faEdit} className="edit-product-icon" />
           </span>
           <input
             ref={ref1}
@@ -112,7 +112,7 @@ const AlterProduct = () => {
           className={`input-wrapper ${focused2 && "input-wrapper-focused"}`}
         >
           <span className="input-prefix">
-            <FontAwesomeIcon icon={faEuroSign} className="icon-size" />
+            <FontAwesomeIcon icon={faEuroSign} className="edit-product-icon" />
           </span>
           <input
             ref={ref2}
