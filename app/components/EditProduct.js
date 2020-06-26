@@ -29,7 +29,7 @@ const useFocus = (ref, defaultState = false) => {
 
 const AlterProduct = () => {
   const { id } = useParams();
-  console.log(id);
+
   const [name, setName] = useState(null);
   const [description, setDescription] = useState(null);
   const [price, setPrice] = useState(null);
@@ -60,7 +60,7 @@ const AlterProduct = () => {
   return (
     <div className="EditProduct">
       <div className="edit-product-container">
-        <span className="form-title">{}</span>
+        <h2 className="form-title">{id ? "Modifica" : "Aggiungi"}</h2>
         <span className={`input-wrapper ${focused && "input-wrapper-focused"}`}>
           <span className="input-prefix">
             <FontAwesomeIcon icon={faEdit} className="icon-size" />
@@ -101,9 +101,13 @@ const AlterProduct = () => {
             className="input-number"
           />
         </span>
-        <button className="form-button">{id ? "Aggiorna" : "Aggiungi"}</button>
-        {id && <button className="form-button">Elimina</button>}
-        <Link to="/">Annulla</Link>
+        <button className="button update-button">
+          {id ? "Aggiorna" : "Aggiungi"}
+        </button>
+        {id && <button className="button cancel-button">Elimina</button>}
+        <p>
+          <Link to="/">Annulla</Link>
+        </p>
       </div>
     </div>
   );
