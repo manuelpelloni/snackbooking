@@ -84,12 +84,11 @@ router.get("/", async (req, res) => {
          ON users_products.user_id = users.id\
         WHERE users.submitted_at IS NOT NULL"
       );
-    console.log(result);
-    if (result.rowsAffected === 0) return null;
 
     const orders = {};
     for (const item of result.recordset) {
       const order = orders[item.class] || {
+        class: item.class,
         items: [],
       };
 
@@ -101,9 +100,13 @@ router.get("/", async (req, res) => {
 
       orders[item.class] = order;
     }
-    console.log(orders.flat(1));
-    res.json(orders.flat(1));
-  } catch (err) {}
+
+    res.json(Object.values(orders));
+  } catch (err) {
+    res.status(500).json({
+      message: "Errore nell'ottenere la lista degli ordini",
+    });
+  }
 });
 
 module.exports = router;
