@@ -50,6 +50,7 @@
   background-color: transparent;
   border: 0;
   padding: 0;
+  box-shadow: none;
 }
 
 @media only screen and (max-width: 600px) {

@@ -96,8 +96,9 @@
   background-color: transparent;
   border: 0px;
   padding: 0;
-  height: 28px;
+  height: 24.5px;
   width: 24.5px;
+  box-shadow: none;
 }
 
 .delete-item {
@@ -107,6 +108,7 @@
   height: 24.5px;
   padding: 0;
   margin: auto 0 0 auto;
+  box-shadow: none;
 }
 
 .icon-size {
