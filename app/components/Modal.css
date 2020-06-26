@@ -56,8 +56,6 @@
   background-color: #45991e;
   font-weight: bold;
   border-radius: 4px;
-  box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
-    0 7px 19px -8px rgba(0, 0, 0, 0.43);
   font-size: 11pt;
   cursor: pointer;
   border: 0;
@@ -71,8 +69,6 @@
   background-color: #b54141;
   font-weight: bold;
   border-radius: 4px;
-  box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
-    0 7px 19px -8px rgba(0, 0, 0, 0.43);
   font-size: 11pt;
   cursor: pointer;
   border: 0;
@@ -80,11 +76,12 @@
 
 .message {
   font-weight: 700;
-  text-align: center;
-  margin: 1rem;
   font-size: 14pt;
   height: auto;
   padding: 10px;
+  margin: 0 auto;
+  display: table;
+  max-width: 90%;
 }
 
 .error {
