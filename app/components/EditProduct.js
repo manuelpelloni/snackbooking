@@ -88,6 +88,7 @@ const AlterProduct = () => {
             ref={ref}
             type="text"
             value={name}
+            placeholder="Nome"
             onChange={(e) => setName(e.target.value)}
             className="input-text"
           />
@@ -102,6 +103,7 @@ const AlterProduct = () => {
             ref={ref1}
             type="text"
             value={description}
+            placeholder="Descrizione (opzionale)"
             onChange={(e) => setDescription(e.target.value)}
             className="input-text"
           />
@@ -116,6 +118,7 @@ const AlterProduct = () => {
             ref={ref2}
             type="number"
             value={price}
+            placeholder="Prezzo"
             onChange={(e) => setPrice(e.target.value)}
             className="input-number"
           />
