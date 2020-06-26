@@ -94,7 +94,7 @@ router.patch("/logout", async (req, res) => {
          SET expires_at = GETDATE()\
          WHERE id = @token"
       );
-      
+
     res.json({
       message: "Logout effettuato con successo",
     });
