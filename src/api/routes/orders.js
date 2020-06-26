@@ -74,19 +74,21 @@ router.get("/", async (req, res) => {
   if (!user.admin)
     return res.status(403).json({ message: "Non sei un amministratore" });
 
-  try{
-    const result = await db.createQuery()
+  try {
+    const result = await db
+      .createQuery()
       .query(
         "SELECT users_products.id, CONCAT(users.class_number, UPPER(users.section)) as class, products.name, products.price, users_products.quantity\
         FROM users JOIN users_products JOIN products\
          ON products.id = users_products.product_id\
          ON users_products.user_id = users.id\
-        WHERE users.submitted_at IS NOT NULL");
+        WHERE users.submitted_at IS NOT NULL"
+      );
     console.log(result);
-    if(result.rowsAffected === 0) return null;
-    
+    if (result.rowsAffected === 0) return null;
+
     const orders = {};
-    for(const item of result.recordset){
+    for (const item of result.recordset) {
       const order = orders[item.id] || {
         class: item.class,
         items: [],
@@ -102,10 +104,7 @@ router.get("/", async (req, res) => {
     }
     console.log(orders.flat(1));
     res.json(orders.flat(1));
-  }
-  catch(err){
-
-  }
+  } catch (err) {}
 });
 
 module.exports = router;
