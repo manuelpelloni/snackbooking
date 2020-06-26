@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import "./Home.css";
 import Product from "./Product";
@@ -35,7 +36,14 @@ const Home = () => {
 
   return (
     <div className="Home">
-      <div className="products-container ">{components}</div>
+      <div className="products-container ">
+        {components}
+        {admin && (
+          <Link to="/product/new" className="new-product">
+            +
+          </Link>
+        )}
+      </div>
       <Navbar />
     </div>
   );
