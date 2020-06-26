@@ -120,17 +120,19 @@ const AlterProduct = () => {
             className="input-number"
           />
         </span>
-        <button className="button update-button" onClick={editProduct}>
-          {id ? "Aggiorna" : "Aggiungi"}
-        </button>
-        {id && (
-          <button className="button cancel-button" onClick={deleteProduct}>
-            Elimina
+        <div className="button-container">
+          <button className="button update-button" onClick={editProduct}>
+            {id ? "Aggiorna" : "Aggiungi"}
           </button>
-        )}
-        <p>
-          <Link to="/">Annulla</Link>
-        </p>
+          {id && (
+            <button className="button cancel-button" onClick={deleteProduct}>
+              Elimina
+            </button>
+          )}
+          <Link to="/" className="button link-button">
+            Annulla
+          </Link>
+        </div>
       </div>
     </div>
   );
