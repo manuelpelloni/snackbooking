@@ -81,7 +81,7 @@ const CartItem = ({ item, updateTotal, buttonState }) => {
               className={`remove-item ${buttonState.cursor}`}
               onClick={removeOneItemFromCart}
             >
-              <FontAwesomeIcon icon={faMinusSquare} className="icon-size" />
+              <FontAwesomeIcon icon={faMinusSquare} className="cart-icon" />
             </button>
             <span className="show-text quantity">{quantity}</span>
             <button
@@ -89,7 +89,7 @@ const CartItem = ({ item, updateTotal, buttonState }) => {
               className={`add-item ${buttonState.cursor}`}
               onClick={addItemToCart}
             >
-              <FontAwesomeIcon icon={faPlusSquare} className="icon-size" />
+              <FontAwesomeIcon icon={faPlusSquare} className="cart-icon" />
             </button>
           </div>
           <div className="price-container">
@@ -104,7 +104,7 @@ const CartItem = ({ item, updateTotal, buttonState }) => {
             className={`delete-item ${buttonState.cursor}`}
             onClick={() => setItemVisibility(false)}
           >
-            <FontAwesomeIcon icon={faTrashAlt} className="icon-size" />
+            <FontAwesomeIcon icon={faTrashAlt} className="cart-icon" />
           </button>
         </div>
       </li>
