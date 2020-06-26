@@ -57,3 +57,36 @@
     max-width: 90%;
   }
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.time-limit {
+  height: 40px;
+  width: 50px;
+  margin: 0 6px;
+  border: 3px #001529 solid;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.set-order-time {
+  border-radius: 4px;
+  background-color: #439337;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 7px;
+  text-align: center;
+  margin-left: 20px;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  border: 3px solid #439337;
+}
