@@ -12,7 +12,10 @@ router.get("/", async (req, res) => {
     .createQuery()
     .query("SELECT id, name, description, price FROM products ORDER BY name");
 
-  res.json(result.recordset);
+  res.json({
+    products: result.recordset,
+    admin: user.admin,
+  });
 });
 
 //admin add new product

@@ -13,7 +13,7 @@ const Home = () => {
     let isSubscribed = true;
 
     request("GET", "/api/products").then((response) => {
-      if (isSubscribed) setProducts(response);
+      if (isSubscribed) setProducts(response.products);
     });
 
     return () => {
