@@ -15,9 +15,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 
-app.get(["/", "/login", "/register", "/cart", "/user"], function (req, res) {
-  res.sendFile(path.join(process.cwd(), "build", "index.html"));
-});
+app.get(
+  ["/", "/login", "/register", "/cart", "/user", "/product/:id"],
+  function (req, res) {
+    res.sendFile(path.join(process.cwd(), "build", "index.html"));
+  }
+);
 app.get(["/favicon.ico"], function (req, res) {
   res.sendFile(path.join(process.cwd(), "build", "favicon.ico"));
 });

@@ -39,6 +39,34 @@ router.post("/", async (req, res) => {
   res.send();
 });
 
+//read one product info
+router.get("/:id", async (req, res) => {
+  const user = await db.checkUserLogin(req, res);
+  if (!user) return;
+
+  if (!user.admin)
+    return res.status(403).json({ message: "Non sei un amministratore" });
+
+  console.log(req.params);
+
+  const { id } = req.params;
+
+  const result = await db.createQuery().input("id", sql.Int, id).query(
+    `SELECT price, name, description 
+       FROM products 
+       WHERE id = @id`
+  );
+
+  result.recordset[0]
+    ? res.json({
+        ...result.recordset[0],
+      })
+    : res.json({
+        message: "I dati del panino da modificare non sono stati trovati",
+        success: false,
+      });
+});
+
 router.patch("/:id", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
   if (!user) return;

@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import "./Product.css";
 
 import request from "../utils/http";
 
-const Product = ({ product }) => {
+const Product = ({ product, admin }) => {
   const [doubleClickAnimation, setDoubleClickAnimation] = useState("");
 
   const addProductToCart = async () => {
@@ -23,18 +24,26 @@ const Product = ({ product }) => {
     if (added) console.log("implementa sti cazzo di alert", message);
   };
 
-  return (
-    <div>
+  if (admin) {
+    return (
+      <Link to={`/product/${product.id}`}>
+        <button className={`Product ${doubleClickAnimation}`}>
+          <p>{product.name}</p>
+          <p>{product.price}€</p>
+        </button>
+      </Link>
+    );
+  } else {
+    return (
       <button
         className={`Product ${doubleClickAnimation}`}
-        onDoubleClick={addProductToCart}
+        onClick={addProductToCart}
       >
-        <span>{product.name}</span>
-        <br />
-        <span>{product.price}€</span>
+        <p>{product.name}</p>
+        <p>{product.price}€</p>
       </button>
-    </div>
-  );
+    );
+  }
 };
 
 export default Product;

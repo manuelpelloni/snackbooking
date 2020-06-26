@@ -5,6 +5,7 @@ import Register from "./components/forms/Register";
 import Home from "./components/Home";
 import Cart from "./components/Cart";
 import User from "./components/User";
+import EditProduct from "./components/EditProduct";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -31,6 +32,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/user" element={<User />} />
+            <Route path="/product/new" element={<EditProduct />} />
+            <Route path="/product/:id" element={<EditProduct />} />
           </Routes>
         </Router>
       </Content>

@@ -8,12 +8,16 @@ import request from "../utils/http";
 
 const Home = () => {
   const [products, setProducts] = useState(null);
+  const [admin, setAdmin] = useState(null);
 
   useEffect(() => {
     let isSubscribed = true;
 
     request("GET", "/api/products").then((response) => {
-      if (isSubscribed) setProducts(response.products);
+      if (isSubscribed) {
+        setProducts(response.products);
+        setAdmin(response.admin);
+      }
     });
 
     return () => {
@@ -21,11 +25,12 @@ const Home = () => {
     };
   }, []);
 
-  if (products === null) return <Navbar />;
+  if (products === null || admin === null) return <Navbar />;
 
   const components = [];
+
   for (const item of products) {
-    components.push(<Product key={item.id} product={item} />);
+    components.push(<Product key={item.id} product={item} admin={admin} />);
   }
 
   return (
