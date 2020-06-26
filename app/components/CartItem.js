@@ -71,7 +71,7 @@ const CartItem = ({ item, updateTotal, buttonState }) => {
       <li className={`CartItem ${buttonState.cartItem}`}>
         <span className="item-name">{item.product.name}</span>
         <span className="item-description">{item.product.description}</span>
-        <div className="button-container">
+        <div className="cart-button-container">
           <span>Quantità</span>
           <span>Importo</span>
           <span></span>
