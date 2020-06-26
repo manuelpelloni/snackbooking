@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEuroSign, faEdit } from "@fortawesome/free-solid-svg-icons";
 //import { EuroCircleOutlined, InfoCircleOutlined, EditOutlined } from "@ant-design/icons";
@@ -28,6 +28,8 @@ const useFocus = (ref, defaultState = false) => {
 };
 
 const AlterProduct = () => {
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   const [name, setName] = useState(null);
@@ -41,16 +43,33 @@ const AlterProduct = () => {
   const focused1 = useFocus(ref1);
   const focused2 = useFocus(ref2);
 
+  const editProduct = () => {
+    const body = { name, description, price };
+    const url = id ? `/api/products/${id}` : `/api/products`;
+
+    request("POST", url, body).then(() => {
+      navigate("/");
+    });
+  };
+
+  const deleteProduct = () => {
+    request("DELETE", `/api/products/${id}`).then(() => {
+      navigate("/");
+    });
+  };
+
   useEffect(() => {
     let isSubscribed = true;
 
-    request("GET", `/api/products/${id}`).then((response) => {
-      if (isSubscribed) {
-        setName(response.name);
-        setDescription(response.description);
-        setPrice(response.price);
-      }
-    });
+    if (id) {
+      request("GET", `/api/products/${id}`).then((response) => {
+        if (isSubscribed) {
+          setName(response.name);
+          setDescription(response.description);
+          setPrice(response.price);
+        }
+      });
+    }
 
     return () => {
       isSubscribed = false;
@@ -101,10 +120,14 @@ const AlterProduct = () => {
             className="input-number"
           />
         </span>
-        <button className="button update-button">
+        <button className="button update-button" onClick={editProduct}>
           {id ? "Aggiorna" : "Aggiungi"}
         </button>
-        {id && <button className="button cancel-button">Elimina</button>}
+        {id && (
+          <button className="button cancel-button" onClick={deleteProduct}>
+            Elimina
+          </button>
+        )}
         <p>
           <Link to="/">Annulla</Link>
         </p>

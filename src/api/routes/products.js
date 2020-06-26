@@ -36,7 +36,12 @@ router.post("/", async (req, res) => {
       "INSERT INTO products(name, description, price) VALUES (@name, @description, @price)"
     );
 
-  res.send();
+  if (!result.rowsAffected)
+    return res
+      .status(404)
+      .json({ message: "Impossibile inserire il prodotto", success: false });
+
+  res.json({ message: "Prodotto inserito" });
 });
 
 //read one product info
@@ -65,7 +70,8 @@ router.get("/:id", async (req, res) => {
       });
 });
 
-router.patch("/:id", async (req, res) => {
+//update a product
+router.post("/:id", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
   if (!user) return;
 
@@ -84,9 +90,17 @@ router.patch("/:id", async (req, res) => {
       "UPDATE products SET name = @name, description = @description, price = @price WHERE id = @id"
     );
 
+  if (!result.rowsAffected)
+    return res
+      .status(404)
+      .json({ message: "Il prodotto non esiste", success: false });
+
+  res.json({ message: "Prodotto modificato" });
+
   res.send();
 });
 
+//delete a product
 router.delete("/:id", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
   if (!user) return;
@@ -95,12 +109,18 @@ router.delete("/:id", async (req, res) => {
     return res.status(403).json({ message: "Non sei un amministratore" });
 
   const { id } = req.params;
+
   const result = await db
     .createQuery()
     .input("id", sql.Int, id)
-    .query("UPDATE products SET deleted_at = GETDATE() WHERE id = @id");
+    .query("DELETE FROM products WHERE id = @id");
 
-  res.send();
+  if (!result.rowsAffected)
+    return res
+      .status(404)
+      .json({ message: "Il prodotto non esiste", success: false });
+
+  res.json({ message: "Prodotto eliminato" });
 });
 
 router.post("/add-to-cart", async (req, res) => {

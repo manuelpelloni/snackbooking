@@ -27,7 +27,7 @@ const Product = ({ product, admin }) => {
   if (admin) {
     return (
       <Link to={`/product/${product.id}`}>
-        <button className={`Product ${doubleClickAnimation}`}>
+        <button className="Product">
           <p>{product.name}</p>
           <p>{product.price}€</p>
         </button>
