@@ -37,3 +37,7 @@
   padding-top: 0;
   line-height: 0.8;
 }
+
+.new-product:hover {
+  color: white;
+}
