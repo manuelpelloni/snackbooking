@@ -28,7 +28,13 @@ app.get(["/manifest.json"], function (req, res) {
   res.sendFile(path.join(process.cwd(), "build", "manifest.json"));
 });
 
-app.use("/static", express.static("build/static"));
+app.use(
+  "/static",
+  express.static("build/static", {
+    maxAge: "365 days",
+    immutable: true,
+  })
+);
 
 app.use("/api/auth", authRoute);
 app.use("/api/products", productsRoute);
