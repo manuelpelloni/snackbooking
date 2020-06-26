@@ -63,7 +63,6 @@
     "react-notifications": "^1.6.0",
     "react-router": "^6.0.0-alpha.3",
     "react-router-dom": "^6.0.0-alpha.3",
-    "react-toast": "^0.1.0",
     "react-toasts": "^3.0.6",
     "react-transition-group": "^4.4.1",
     "resolve": "1.15.0",
