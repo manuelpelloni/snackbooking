@@ -78,7 +78,7 @@ router.get("/", async (req, res) => {
     const result = await db
       .createQuery()
       .query(
-        "SELECT users_products.id, CONCAT(users.class_number, UPPER(users.section)) as class, products.name, products.price, users_products.quantity\
+        "SELECT CONCAT(users.class_number, UPPER(users.section)) as class, products.name, products.price, users_products.quantity\
         FROM users JOIN users_products JOIN products\
          ON products.id = users_products.product_id\
          ON users_products.user_id = users.id\
@@ -89,8 +89,7 @@ router.get("/", async (req, res) => {
 
     const orders = {};
     for (const item of result.recordset) {
-      const order = orders[item.id] || {
-        class: item.class,
+      const order = orders[item.class] || {
         items: [],
       };
 
@@ -100,7 +99,7 @@ router.get("/", async (req, res) => {
         quantity: item.quantity,
       });
 
-      orders[item.id] = order;
+      orders[item.class] = order;
     }
     console.log(orders.flat(1));
     res.json(orders.flat(1));
