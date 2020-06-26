@@ -7,7 +7,7 @@ const app = express();
 
 const productsRoute = require("./api/routes/products");
 const ordersRoute = require("./api/routes/orders");
-const usersRoute = require("./api/routes/auth");
+const authRoute = require("./api/routes/auth");
 const meRoute = require("./api/routes/me");
 
 app.use(cookieParser());
@@ -30,7 +30,7 @@ app.get(["/manifest.json"], function (req, res) {
 
 app.use("/static", express.static("build/static"));
 
-app.use("/api/auth", usersRoute);
+app.use("/api/auth", authRoute);
 app.use("/api/products", productsRoute);
 app.use("/api/orders", ordersRoute);
 app.use("/api/me", meRoute);
