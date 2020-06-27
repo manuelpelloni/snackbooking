@@ -1,0 +1,45 @@
+.AdminOrderItem {
+  width: 100%;
+  box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
+    0 7px 19px -8px rgba(0, 0, 0, 0.43);
+  border-radius: 4px;
+  color: #423737;
+  font-size: 11pt;
+  font-weight: 700;
+  background-color: #fff;
+  padding: 10px 25px;
+  list-style-type: none;
+  margin-bottom: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.AdminOrderItem-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1fr;
+}
+
+.show-more {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1fr;
+  grid-template-areas: "empty name quantity cost";
+}
+
+.show-more-name {
+  grid-area: name;
+}
+
+.show-more-quantity {
+  grid-area: quantity;
+}
+
+.show-more-price {
+  grid-area: cost;
+}
+
+.AdminOrderItem-header-icon {
+  width: 20px !important;
+  height: 20px;
+  line-height: 0;
+  transform: translateY(2px);
+}
