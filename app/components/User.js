@@ -1,8 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLock,
+  faUnlock,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
+
 import "./User.css";
 import "./EditProduct.css";
 
@@ -23,14 +28,11 @@ const User = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, SetConfirmPassword] = useState("");
 
-  const [areEquals, setAreEquals] = useState(true);
+  const [input, setInput] = useState(false);
+  const [input1, setInput1] = useState(false);
+  const [input2, setInput2] = useState(false);
 
-  const ref3 = useRef();
-  const ref4 = useRef();
-  const ref5 = useRef(); /*
-  const focused = useFocus(ref3);
-  const focused1 = useFocus(ref4);
-  const focused2 = useFocus(ref5);*/
+  const [areEquals, setAreEquals] = useState(true);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -59,6 +61,8 @@ const User = () => {
 
     await request("PATCH", `/api/password/change`, body).then((response) => {
       if (response.success !== true) {
+        console.log(response);
+
         setOldPassword("");
         setNewPassword("");
         SetConfirmPassword("");
@@ -132,15 +136,18 @@ const User = () => {
         </div>
       </div>
 
-      <div className="info">
+      <div className="info after-first-info">
         <h2 className="form-title">Modifica password</h2>
         <span className={`input-wrapper ${"input-wrapper-focused"}`}>
           <span className="input-prefix">
-            <FontAwesomeIcon icon={faUser} className="edit-product-icon" />
+            <FontAwesomeIcon
+              icon={input ? faUnlock : faLock}
+              className="edit-product-icon"
+              onClick={() => setInput(!input)}
+            />
           </span>
           <input
-            ref={ref3}
-            type="password"
+            type={input ? "text" : "password"}
             placeholder="Vecchia password"
             onChange={(e) => setOldPassword(e.target.value)}
             className="input-text"
@@ -148,11 +155,14 @@ const User = () => {
         </span>
         <span className={`input-wrapper ${"input-wrapper-focused"}`}>
           <span className="input-prefix">
-            <FontAwesomeIcon icon={faUser} className="edit-product-icon" />
+            <FontAwesomeIcon
+              icon={input1 ? faUnlock : faLock}
+              className="edit-product-icon"
+              onClick={() => setInput1(!input1)}
+            />
           </span>
           <input
-            ref={ref4}
-            type="password"
+            type={input1 ? "text" : "password"}
             placeholder="Nuova password"
             onChange={(e) => setNewPassword(e.target.value)}
             className="input-text"
@@ -160,28 +170,32 @@ const User = () => {
         </span>
         <span className={`input-wrapper ${"input-wrapper-focused"}`}>
           <span className="input-prefix">
-            <FontAwesomeIcon icon={faUser} className="edit-product-icon" />
+            <FontAwesomeIcon
+              icon={input2 ? faUnlock : faLock}
+              className="edit-product-icon"
+              onClick={() => setInput2(!input2)}
+            />
           </span>
           <input
-            ref={ref5}
-            type="password"
+            type={input2 ? "text" : "password"}
             placeholder="Conferma nuova password"
             onChange={(e) => {
               SetConfirmPassword(e.target.value);
-              confirmPassword === newPassword
+              e.target.value === newPassword
                 ? setAreEquals(true)
                 : setAreEquals(false);
             }}
-            className="input-number"
+            className="input-number last-form-item"
           />
-          {areEquals && <span>Password diverse</span>}
         </span>
+        {!areEquals && <span className="input-error">Password diverse</span>}
+
         <button className="button update-button" onClick={resetPassword}>
           Modifica password
         </button>
       </div>
 
-      <button onClick={logout} className="logout-button button">
+      <button onClick={logout} className="logout-button">
         <Link to="/login" className="logout-icon-color ">
           <FontAwesomeIcon
             icon={faSignOutAlt}

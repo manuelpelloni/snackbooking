@@ -15,7 +15,9 @@ const AdminOrdersItem = ({ order }) => {
       <div className="show-more">
         <span className="show-more-name">{item.name}</span>
         <span className="show-more-quantity">{item.quantity} unità</span>
-        <span className="show-more-price">{item.price * item.quantity} €</span>
+        <span className="show-more-price justify-end">
+          {item.price * item.quantity} €
+        </span>
       </div>
     );
   }
@@ -43,7 +45,7 @@ const AdminOrdersItem = ({ order }) => {
             0
           )}
         </span>
-        <span>
+        <span className="justify-end">
           Totale:{" "}
           {order.items.reduce(
             (accumulator, item) => accumulator + item.price * item.quantity,

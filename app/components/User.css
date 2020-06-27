@@ -7,16 +7,24 @@
 .info {
   max-width: 80%;
   width: 800px;
-  margin: 0 auto;
+  margin: 80px auto 0 auto;
   box-shadow: 0 0.1px 2.4px -8px rgba(0, 0, 0, 0.215),
     0 7px 19px -8px rgba(0, 0, 0, 0.43);
-  margin: 30px auto;
   font-size: 16pt;
   text-align: left;
   padding: 10px;
   background-color: white;
   color: #702727;
   border-radius: 4px;
+}
+
+.after-first-info {
+  margin-top: 30px !important;
+}
+@media only screen and (max-width: 600px) {
+  .info {
+    max-width: 90%;
+  }
 }
 
 .info-name {
@@ -29,15 +37,6 @@
   color: black;
 }
 
-.img {
-  width: 800px;
-  max-width: 80%;
-  color: black;
-  margin: 0 auto;
-  margin-top: 80px;
-  text-align: center;
-}
-
 .logout-icon-color {
   color: #b54141;
 }
@@ -45,12 +44,10 @@
 .logout-button {
   width: auto;
   display: block;
-  margin: 0 auto;
-  margin-bottom: 90px;
+  margin: 30px auto 90px auto;
   background-color: transparent;
   border: 0;
   padding: 0;
-  box-shadow: none;
 }
 
 @media only screen and (max-width: 600px) {
@@ -88,4 +85,16 @@ input[type="number"] {
   text-align: center;
   margin-left: 20px;
   border: 3px solid #439337;
+}
+
+.input-error {
+  color: #b54141;
+  font-size: 11pt;
+  margin-left: 45px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.last-form-item {
+  margin-bottom: 2px !important;
 }

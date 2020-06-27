@@ -16,17 +16,18 @@
 
 .AdminOrderItem-header {
   display: grid;
-  grid-template-columns: 0.3fr 2.7fr 1.5fr 0.5fr;
+  grid-template-columns: 0.5fr 2.5fr 1.5fr 1.5fr;
 }
 
 .show-more {
   display: grid;
-  grid-template-columns: 3fr 1.5fr 0.5fr;
+  grid-template-columns: 3fr 1.5fr 1.5fr;
   grid-template-areas: "name quantity cost";
 }
 
 .show-more-name {
   grid-area: name;
+  text-overflow: "..";
 }
 
 .show-more-quantity {
@@ -42,4 +43,8 @@
   height: 20px;
   line-height: 0;
   transform: translateY(2px);
+}
+
+.justify-end {
+  justify-self: end;
 }
