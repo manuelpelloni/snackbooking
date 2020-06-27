@@ -34,7 +34,23 @@ const AdminOrders = () => {
   return (
     <>
       <div className="AdminOrder">
-        <div className="AdminOrder-container">{components}</div>
+        <div className="AdminOrder-container">
+          {components}
+          <hr className="line-total" />
+          <div className="total">
+            {orders.reduce(
+              (accumulator, order) =>
+                accumulator +
+                order.items.reduce(
+                  (accumulator2, item) =>
+                    accumulator2 + item.price * item.quantity,
+                  0
+                ),
+              0
+            )}
+            €
+          </div>
+        </div>
       </div>
       <Navbar />
     </>
