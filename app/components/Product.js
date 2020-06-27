@@ -9,7 +9,7 @@ const Product = ({ product, admin }) => {
   const [doubleClickAnimation, setDoubleClickAnimation] = useState("");
 
   const addProductToCart = async () => {
-    setTimeout(setDoubleClickAnimation("Product-expand"));
+    setDoubleClickAnimation("Product-expand");
     setTimeout(() => {
       setDoubleClickAnimation("");
     }, 200);
