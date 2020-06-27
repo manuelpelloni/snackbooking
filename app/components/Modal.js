@@ -12,11 +12,11 @@ const Modal = ({ isShowing, hide, type, title, message, callback }) =>
               <div className={`modal-header + ${type}`}>{title}</div>
               <p className="message"> {message} </p>
               <div className="cancel-confirm-container">
-                <button className="cancel-button button" onClick={hide}>
+                <button className="cancel-button" onClick={hide}>
                   Annulla
                 </button>
                 <button
-                  className="confirm-button button"
+                  className="confirm-button"
                   onClick={() => {
                     callback();
                     hide();
