@@ -19,27 +19,15 @@ const CartItem = ({ item, updateTotal, buttonState }) => {
   };
 
   async function addItemToDB() {
-    const { success, message } = await request(
-      "POST",
-      "api/products/add-to-cart",
-      body
-    );
+    const { success, message } = await request("POST", "api/cart/add", body);
     if (!success) alert(message);
   }
   async function removeOneItemFromDB() {
-    const { success, message } = await request(
-      "POST",
-      "api/products/remove-one-from-cart",
-      body
-    );
+    const { success, message } = await request("POST", "api/cart/remove", body);
     if (!success) alert(message);
   }
   async function deleteItemFromDB() {
-    const { message } = await request(
-      "POST",
-      "api/products/delete-from-cart",
-      body
-    );
+    const { message } = await request("POST", "api/cart/delete", body);
     alert(message);
   }
 

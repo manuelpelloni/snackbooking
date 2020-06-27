@@ -9,6 +9,7 @@ const productsRoute = require("./api/routes/products");
 const ordersRoute = require("./api/routes/orders");
 const authRoute = require("./api/routes/auth");
 const meRoute = require("./api/routes/me");
+const cartRoute = require("./api/routes/cart");
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -40,6 +41,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/products", productsRoute);
 app.use("/api/orders", ordersRoute);
 app.use("/api/me", meRoute);
+app.use("/api/cart", cartRoute);
 
 app.use((req, res, next) => {
   const error = new Error("Not found");

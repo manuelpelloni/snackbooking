@@ -28,11 +28,11 @@ const Cart = () => {
   };
 
   const sumbitOrder = async () => {
-    await request("POST", "/api/orders/submit");
+    await request("POST", "/api/cart/submit");
     setSubmitted(!submitted);
   };
   const cancelOrder = async () => {
-    await request("POST", "/api/orders/cancel");
+    await request("POST", "/api/cart/cancel");
     setSubmitted(!submitted);
   };
 

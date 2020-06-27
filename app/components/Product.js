@@ -16,11 +16,7 @@ const Product = ({ product, admin }) => {
     const body = {
       product_id: product.id,
     };
-    const { added, message } = await request(
-      "POST",
-      "api/products/add-to-cart",
-      body
-    );
+    const { added, message } = await request("POST", "api/cart/add", body);
     if (added) console.log("implementa sti cazzo di alert", message);
   };
 
