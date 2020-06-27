@@ -22,20 +22,18 @@
 }
 
 .new-product {
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
   position: fixed;
-  z-index: 100;
+  right: 20px;
   bottom: 90px;
-  right: 72px;
-  background-color: #439337;
-  font-weight: 700;
-  font-size: 50pt;
+  height: 64px;
+  width: 64px;
+  background: #001529;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 999;
+  color: white !important;
   text-align: center;
-  color: white;
-  padding-top: 0;
-  line-height: 0.8;
+  font-size: 30pt;
 }
 
 .new-product:hover {

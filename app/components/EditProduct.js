@@ -2,30 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEuroSign, faEdit } from "@fortawesome/free-solid-svg-icons";
-//import { EuroCircleOutlined, InfoCircleOutlined, EditOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import "././forms/Forms.css";
 import "./EditProduct.css";
 
+import useFocus from "./useFocus";
 import request from "../utils/http";
-const useFocus = (ref, defaultState = false) => {
-  const [state, setState] = useState(defaultState);
-
-  useEffect(() => {
-    const onFocus = () => setState(true);
-    const onBlur = () => setState(false);
-    const current = ref.current;
-    current.addEventListener("focus", onFocus);
-    current.addEventListener("blur", onBlur);
-
-    return () => {
-      current.removeEventListener("focus", onFocus);
-      current.removeEventListener("blur", onBlur);
-    };
-  }, [ref]);
-
-  return state;
-};
 
 const AlterProduct = () => {
   const navigate = useNavigate();

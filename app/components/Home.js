@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./Home.css";
 import Product from "./Product";
 import Navbar from "./Navbar";
@@ -40,7 +41,7 @@ const Home = () => {
         {components}
         {admin && (
           <Link to="/product/new" className="new-product">
-            +
+            <FontAwesomeIcon icon={faPlus} className="new-product-icon" />
           </Link>
         )}
       </div>

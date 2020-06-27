@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../database");
-const sql = require("mssql");
-const moment = require("moment-timezone");
 
 router.get("/", async (req, res) => {
   const user = await db.checkUserLogin(req, res);

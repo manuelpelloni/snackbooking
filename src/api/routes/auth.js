@@ -5,7 +5,6 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const sql = require("mssql");
 const sendGrid = require("@sendgrid/mail");
-const { message } = require("antd");
 
 sendGrid.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -33,7 +32,7 @@ router.post("/register", async (req, res) => {
       message: "Indirizzo email non valido",
     });
   }
-  bcrypt.hash(password, 12, async function (err, hash) {
+  await bcrypt.hash(password, 12, async function (err, hash) {
     if (err) {
       return res.json({
         message: "Qualcosa è andato storto, riprova",

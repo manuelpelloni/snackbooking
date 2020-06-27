@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import "./User.css";
+import "./EditProduct.css";
 
 import Navbar from "./Navbar";
 import useModal from "./useModal";
@@ -17,6 +18,19 @@ const User = () => {
   const [info, setInfo] = useState(null);
   const [hours, setHours] = useState(null);
   const [minutes, setMinutes] = useState(null);
+
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, SetConfirmPassword] = useState("");
+
+  const [areEquals, setAreEquals] = useState(true);
+
+  const ref3 = useRef();
+  const ref4 = useRef();
+  const ref5 = useRef(); /*
+  const focused = useFocus(ref3);
+  const focused1 = useFocus(ref4);
+  const focused2 = useFocus(ref5);*/
 
   useEffect(() => {
     let isSubscribed = true;
@@ -35,8 +49,21 @@ const User = () => {
   }, []);
 
   const logout = async () => {
-    const { message } = await request("PATCH", "api/auth/logout");
-    if (message) alert(message);
+    await request("PATCH", "api/auth/logout");
+  };
+
+  const resetPassword = async () => {
+    if (confirmPassword !== newPassword) return;
+
+    const body = { oldPassword, newPassword, id: info.user_id };
+
+    await request("PATCH", `/api/password/change`, body).then((response) => {
+      if (response.success !== true) {
+        setOldPassword("");
+        setNewPassword("");
+        SetConfirmPassword("");
+      }
+    });
   };
 
   const handleChange = (event) => {
@@ -57,9 +84,6 @@ const User = () => {
 
   return (
     <div className="User">
-      <div className="img">
-        <FontAwesomeIcon icon={faUser} size="10x" />
-      </div>
       <div className="info">
         <span className="info-name">Email:</span>{" "}
         <span className="info-description">
@@ -107,6 +131,56 @@ const User = () => {
           />
         </div>
       </div>
+
+      <div className="info">
+        <h2 className="form-title">Modifica password</h2>
+        <span className={`input-wrapper ${"input-wrapper-focused"}`}>
+          <span className="input-prefix">
+            <FontAwesomeIcon icon={faUser} className="edit-product-icon" />
+          </span>
+          <input
+            ref={ref3}
+            type="password"
+            placeholder="Vecchia password"
+            onChange={(e) => setOldPassword(e.target.value)}
+            className="input-text"
+          />
+        </span>
+        <span className={`input-wrapper ${"input-wrapper-focused"}`}>
+          <span className="input-prefix">
+            <FontAwesomeIcon icon={faUser} className="edit-product-icon" />
+          </span>
+          <input
+            ref={ref4}
+            type="password"
+            placeholder="Nuova password"
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="input-text"
+          />
+        </span>
+        <span className={`input-wrapper ${"input-wrapper-focused"}`}>
+          <span className="input-prefix">
+            <FontAwesomeIcon icon={faUser} className="edit-product-icon" />
+          </span>
+          <input
+            ref={ref5}
+            type="password"
+            placeholder="Conferma nuova password"
+            onChange={(e) => {
+              SetConfirmPassword(e.target.value);
+              confirmPassword === newPassword
+                ? setAreEquals(true)
+                : setAreEquals(false);
+            }}
+            className="input-number"
+          />
+          {areEquals && <span>Password diverse</span>}
+        </span>
+        <button className="button update-button" onClick={resetPassword}>
+          Modifica password
+        </button>
+      </div>
+
       <button onClick={logout} className="logout-button button">
         <Link to="/login" className="logout-icon-color ">
           <FontAwesomeIcon
