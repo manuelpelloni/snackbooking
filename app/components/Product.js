@@ -26,11 +26,9 @@ const Product = ({ product, admin }) => {
 
   if (admin) {
     return (
-      <Link to={`/product/${product.id}`}>
-        <button className="Product">
-          <p>{product.name}</p>
-          <p>{product.price}€</p>
-        </button>
+      <Link to={`/product/${product.id}`} className="Product">
+        <p>{product.name}</p>
+        <p>{product.price}€</p>
       </Link>
     );
   } else {
