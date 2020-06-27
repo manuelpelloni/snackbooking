@@ -93,7 +93,7 @@ const User = () => {
             disabled={!info.admin}
           />
           {info.admin && (
-            <button className="set-order-time" onClick={toggle}>
+            <button className="set-order-time button" onClick={toggle}>
               Conferma
             </button>
           )}
@@ -107,7 +107,7 @@ const User = () => {
           />
         </div>
       </div>
-      <button onClick={logout} className="logout-button">
+      <button onClick={logout} className="logout-button button">
         <Link to="/login" className="logout-icon-color ">
           <FontAwesomeIcon
             icon={faSignOutAlt}
