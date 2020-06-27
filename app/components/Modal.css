@@ -44,7 +44,7 @@
 
 .cancel-confirm-container {
   width: calc(18rem + 20px);
-  margin: 0 auto;
+  margin: 10px auto 0 auto;
 }
 
 .confirm-button {
