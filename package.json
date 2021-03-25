@@ -4,7 +4,7 @@
   "description": "server of snackbooking",
   "main": "server.js",
   "dependencies": {
-    "@babel/core": "7.9.0",
+    "@babel/core": "7.13.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
