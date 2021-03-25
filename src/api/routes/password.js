@@ -3,8 +3,6 @@ const router = express.Router();
 const db = require("../../database");
 const bcrypt = require("bcrypt");
 const sendGrid = require("@sendgrid/mail");
-const { use } = require("bcrypt/promises");
-const { where } = require("sequelize/types");
 
 //user change password
 router.patch("/change", async (req, res) => {
