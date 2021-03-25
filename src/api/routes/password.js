@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require("../../database");
 const bcrypt = require("bcrypt");
 const sendGrid = require("@sendgrid/mail");
+const { use } = require("bcrypt/promises");
 
 //user change password
 router.patch("/change", async (req, res) => {
@@ -23,7 +24,8 @@ router.patch("/change", async (req, res) => {
       from_bin_string_digest += String.fromCharCode(password_digest[i]);
     }
     console.log(from_bin_string_digest);
-
+    
+    const match = await bcrypt.compare(password, from_bin_string_digest);
     if (match) {
       await bcrypt.hash(new_password, 12, async function (err, hash) {
         if (err) {
