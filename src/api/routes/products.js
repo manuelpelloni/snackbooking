@@ -1,19 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../database");
-const sql = require("mssql");
 
 //users request the list of avaiable products
 router.get("/", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
   if (!user) return;
 
-  const result = await db
-    .createQuery()
-    .query("SELECT id, name, description, price FROM products ORDER BY name");
+  const result = await db.Products.findAll({ order: [["name", "ASC"]] });
 
   res.json({
-    products: result.recordset,
+    products: result,
     admin: user.admin,
   });
 });
@@ -27,16 +24,13 @@ router.post("/", async (req, res) => {
     return res.status(403).json({ message: "Non sei un amministratore" });
 
   const { price, name, description } = req.body;
-  const result = await db
-    .createQuery()
-    .input("name", sql.VarChar, name)
-    .input("description", sql.VarChar, description)
-    .input("price", sql.Money, price)
-    .query(
-      "INSERT INTO products(name, description, price) VALUES (@name, @description, @price)"
-    );
+  const result = await db.Products.create({
+    price,
+    name,
+    description,
+  });
 
-  if (!result.rowsAffected)
+  if (!result)
     return res
       .status(404)
       .json({ message: "Impossibile inserire il prodotto", success: false });
@@ -53,16 +47,13 @@ router.get("/:id", async (req, res) => {
     return res.status(403).json({ message: "Non sei un amministratore" });
 
   const { id } = req.params;
+  const product = await db.Products.findOne({
+    where: { id },
+  });
 
-  const result = await db.createQuery().input("id", sql.Int, id).query(
-    `SELECT price, name, description 
-       FROM products 
-       WHERE id = @id`
-  );
-
-  result.recordset[0]
+  product.dataValues
     ? res.json({
-        ...result.recordset[0],
+        ...product.dataValues,
       })
     : res.json({
         message: "I dati del panino da modificare non sono stati trovati",
@@ -80,17 +71,16 @@ router.post("/:id", async (req, res) => {
 
   const { id } = req.params;
   const { price, name, description } = req.body;
-  const result = await db
-    .createQuery()
-    .input("id", sql.Int, id)
-    .input("name", sql.VarChar, name)
-    .input("description", sql.VarChar, description)
-    .input("price", sql.Money, price)
-    .query(
-      "UPDATE products SET name = @name, description = @description, price = @price WHERE id = @id"
-    );
+  const result = await db.Products.update(
+    {
+      name,
+      description,
+      price,
+    },
+    { where: { id: id } }
+  );
 
-  if (!result.rowsAffected)
+  if (!result.dataValues)
     return res
       .status(404)
       .json({ message: "Il prodotto non esiste", success: false });
@@ -109,13 +99,11 @@ router.delete("/:id", async (req, res) => {
     return res.status(403).json({ message: "Non sei un amministratore" });
 
   const { id } = req.params;
+  const result = await db.Products.destroy({
+    where: { id },
+  });
 
-  const result = await db
-    .createQuery()
-    .input("id", sql.Int, id)
-    .query("DELETE FROM products WHERE id = @id");
-
-  if (!result.rowsAffected)
+  if (!result.dataValues)
     return res
       .status(404)
       .json({ message: "Il prodotto non esiste", success: false });

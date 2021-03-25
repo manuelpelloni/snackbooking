@@ -9,6 +9,28 @@ router.get("/", async (req, res) => {
     return res.status(403).json({ message: "Non sei un amministratore" });
 
   try {
+    const result = await db.Users.findAll({
+      include: [
+        {
+          model: db.Products,
+        },
+      ],
+
+      attributes: [
+        /*
+        [db.sequelize.literal('"user_product"."product"."id"'), "id"],
+        [db.sequelize.literal('"users_products"."product"."price"'), "price"],*/
+        //  [db.sequelize.literal('"users_products"."quantity"'), "quantity"],
+        //  [db.sequelize.literal('"users_products"."price"'), "price"],
+        [db.sequelize.literal('"class_number" || "section"'), "class"],
+      ],
+      where: {
+        submitted_at: {
+          [db.Op.ne]: null,
+        },
+      },
+    });
+    /*
     const result = await db
       .createQuery()
       .query(
@@ -18,18 +40,20 @@ router.get("/", async (req, res) => {
          ON users_products.user_id = users.id\
         WHERE users.submitted_at IS NOT NULL"
       );
-
+*/
+    const parsed_result = result.map((obj) => obj.toJSON());
     const orders = {};
-    for (const item of result.recordset) {
+    for (const item of parsed_result) {
+      console.log(item.products.users_products);
       const order = orders[item.class] || {
         class: item.class,
         items: [],
       };
 
       order.items.push({
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
+        name: item.products[0].name,
+        price: item.products[0].price,
+        quantity: item.products[0].users_products.quantity,
       });
 
       orders[item.class] = order;
@@ -37,6 +61,8 @@ router.get("/", async (req, res) => {
 
     res.json(Object.values(orders));
   } catch (err) {
+    console.log(err);
+
     res.status(500).json({
       message: "Errore nell'ottenere la lista degli ordini",
     });

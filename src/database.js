@@ -1,36 +1,172 @@
-const sql = require("mssql");
+const { Sequelize, DataTypes, Op } = require("sequelize");
+const Pool = require("pg");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 const cookieSessionValidity = 1000 * 60 * 60 * 24 * 30; // 30 days
+const moment = require("moment-timezone");
 
-const config = {
-  connectionLimit: process.env.CONNECTION_LIMIT,
-  server: process.env.DB_HOST,
-  user: process.env.DB_ADMIN,
-  password: process.env.DB_PSW,
-  database: process.env.DB_NAME,
-  options: {
-    enableArithAbort: false,
+const sequelize = new Sequelize(process.env.CONNECTIONSTRING, {
+  dialect: "postgres",
+  host: process.env.PGHOST,
+  port: process.env.PGPORT,
+  pool: {
+    max: 20,
+    idle: 30000,
+    acquire: 60000,
   },
-};
-const pool = new sql.ConnectionPool(config);
-const poolConnect = pool.connect();
+  timezone: "utc",
+  logging: false,
+});
 
-function createQuery() {
-  return pool.request();
-}
+const Users = sequelize.define(
+  "user",
+  {
+    id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      unique: true,
+      primaryKey: true,
+      autoIncrement: true,
+      defaultValue: sequelize.literal("gen_random_uuid()"),
+    },
+    class_number: { type: DataTypes.TINYINT, allowNull: false },
+    section: { type: DataTypes.CHAR, allowNull: false },
+    submitted_at: { type: DataTypes.DATEONLY, allowNull: true },
+    admin: { type: DataTypes.BOOLEAN, allowNull: true },
+    email: { type: DataTypes.TEXT, allowNull: false },
+    password_digest: { type: DataTypes.BLOB, allowNull: false },
+  },
+  {
+    sequelize,
+    timestamps: false,
+    underscored: true,
+    paranoid: true,
+  }
+);
+
+const Products = sequelize.define(
+  "product",
+  {
+    id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      unique: true,
+      primaryKey: true,
+      autoIncrement: true,
+      defaultValue: sequelize.literal("gen_random_uuid()"),
+    },
+    name: DataTypes.TEXT,
+    description: DataTypes.TEXT,
+    price: DataTypes.DECIMAL(2, 4),
+    deleted_at: { type: DataTypes.DATEONLY, allowNull: true },
+  },
+  { sequelize, timestamps: false, underscored: true }
+);
+
+const UsersProducts = sequelize.define(
+  "users_products",
+  {
+    id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      unique: true,
+      primaryKey: true,
+      autoIncrement: true,
+      defaultValue: sequelize.literal("gen_random_uuid()"),
+    },
+    user_id: {
+      type: DataTypes.UUID,
+      references: {
+        model: Users,
+        key: "id",
+        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
+      },
+    },
+    product_id: {
+      type: DataTypes.UUID,
+      references: {
+        model: Products,
+        key: "id",
+        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
+      },
+    },
+    add_at: { type: DataTypes.DATEONLY, allowNull: true },
+    quantity: { type: DataTypes.TINYINT, defaultValue: 1 },
+  },
+  {
+    sequelize,
+    timestamps: false,
+    onDelete: "CASCADE",
+    underscored: true,
+    indexes: [
+      {
+        unique: true,
+        fields: ["user_id", "product_id"],
+      },
+    ],
+  }
+);
+
+const Sessions = sequelize.define(
+  "session",
+  {
+    id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      unique: true,
+      primaryKey: true,
+      autoIncrement: true,
+      defaultValue: sequelize.literal("gen_random_uuid()"),
+    },
+    user_id: {
+      type: DataTypes.UUID,
+      references: {
+        model: Users,
+        key: "id",
+        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
+      },
+    },
+    created_at: { type: DataTypes.DATEONLY, allowNull: true },
+    expires_at: { type: DataTypes.DATEONLY, allowNull: true },
+  },
+  {
+    sequelize,
+    timestamps: false,
+    onDelete: "CASCADE",
+    underscored: true,
+  }
+);
+
+Users.belongsToMany(Products, { through: UsersProducts });
+Products.belongsToMany(Users, { through: UsersProducts });
+
+Users.hasMany(UsersProducts);
+UsersProducts.belongsTo(Users);
+
+Products.hasMany(UsersProducts);
+UsersProducts.belongsTo(Products);
+
+Users.hasMany(Sessions);
+Sessions.belongsTo(Users);
 
 async function userFromToken(token) {
-  const result = await createQuery()
-    .input("token", sql.VarChar, token)
-    .query(
-      "SELECT users.id as user_id, CONCAT(users.class_number, UPPER(users.section)) as class, users.email, users.admin, users.submitted_at, sessions.id as token\
-        FROM sessions\
-          INNER JOIN users on users.id = sessions.user_id\
-        WHERE sessions.id = @token and getdate() <= expires_at"
-    );
-
-  return result.recordset[0];
+  const user = await Sessions.findOne({
+    include: [{ model: Users, attributes: [] }],
+    where: {
+      id: token,
+      expires_at: { [Op.gte]: moment().utc(new Date()) },
+    },
+    raw: true,
+    attributes: [
+      [sequelize.literal('"user"."id"'), "user_id"],
+      [sequelize.literal('"user"."class_number" || "user"."section"'), "class"],
+      [sequelize.literal('"user"."submitted_at"'), "submitted_at"],
+      [sequelize.literal('"user"."email"'), "email"],
+      [sequelize.literal('"user"."admin"'), "admin"],
+      [sequelize.literal('"user"."password_digest"'), "password_digest"],
+    ],
+  });
+  return user;
 }
 
 async function userFromRequest(req) {
@@ -42,22 +178,33 @@ async function userFromRequest(req) {
 
 async function validateCredentialsAndLogin(req, res) {
   const { email, password } = req.body;
-  const result = await createQuery()
-    .input("email", sql.VarChar, email)
-    .query(
-      "SELECT id AS user_id, password_digest FROM users WHERE email = @email"
-    );
 
-  const { user_id, password_digest } = result.recordset[0];
+  const user = await Users.findOne({
+    where: { email },
+  });
+  const { id: user_id, password_digest } = user;
 
-  const match = await bcrypt.compare(password, password_digest);
+  let from_bin_string_digest = "";
+  for (var i = 0; i < password_digest.length; ++i) {
+    from_bin_string_digest += String.fromCharCode(password_digest[i]);
+  }
+
+  const match = await bcrypt.compare(password, from_bin_string_digest);
   if (match) {
-    const token = uuidv4();
-    await createQuery()
+    await Sessions.create({
+      user_id,
+    });
+    const result = await Sessions.findOne({
+      where: { user_id },
+    });
+    const parsed_result = result.toJSON();
+    const token = parsed_result.id;
+
+    /* await createQuery()
       .input("id", sql.VarChar, token)
       .input("user_id", sql.Int, user_id)
       .query("INSERT INTO sessions(id, user_id) VALUES(@id, @user_id)");
-
+*/
     res.cookie("session", token, {
       maxAge: cookieSessionValidity,
       httpOnly: true,
@@ -81,7 +228,13 @@ async function checkUserLogin(req, res) {
 }
 
 module.exports = {
-  createQuery,
+  Users,
+  Products,
+  UsersProducts,
+  Sessions,
+  DataTypes,
+  Op,
+  sequelize,
   userFromToken,
   validateCredentialsAndLogin,
   userFromRequest,

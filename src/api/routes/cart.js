@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../database");
-const sql = require("mssql");
 const moment = require("moment-timezone");
 
 router.post("/add", async (req, res) => {
@@ -9,42 +8,41 @@ router.post("/add", async (req, res) => {
   if (!user) return;
 
   const { product_id } = req.body;
+  const { user_id } = user;
 
   try {
-    const result = await db
-      .createQuery()
-      .input("product_id", sql.Int, product_id)
-      .input("user_id", sql.Int, user.user_id)
-      .query(
-        `IF EXISTS (SELECT id 
-                    FROM users 
-                    WHERE submitted_at IS NULL 
-                      AND id = @user_id)
-          IF EXISTS (SELECT id
-                        FROM users_products
-                        WHERE user_id = @user_id
-                          AND product_id = @product_id
-                          AND quantity > 0)
-              BEGIN
-                  UPDATE users_products
-                    SET users_products.quantity += 1,
-                        add_at = Getdate()
-                    FROM users_products
-                      INNER JOIN users ON users_products.user_id = users.id
-                    WHERE users_products.user_id = @user_id
-                      AND users_products.product_id = @product_id
-              END
-            ELSE
-              INSERT INTO users_products (product_id, user_id, quantity)
-                VALUES (@product_id, @user_id, 1)`
-      );
-
-    if (!result.rowsAffected[0]) throw Error;
-
-    res.json({
-      message: "Aggiunto al carrello",
-      success: true,
+    const product = await db.UsersProducts.findOne({
+      where: {
+        user_id,
+        product_id,
+      },
+      raw: true,
+      attributes: ["quantity"],
     });
+
+    if (product === null)
+      db.UsersProducts.create({
+        user_id,
+        product_id,
+      }).then(() =>
+        res.json({
+          message: "Inserito nel carrello",
+          success: true,
+        })
+      );
+    else
+      db.UsersProducts.update(
+        {
+          quantity: product.quantity + 1,
+          add_at: moment.utc(new Date()),
+        },
+        { where: { user_id, product_id } }
+      ).then((a) => {
+        res.json({
+          message: "Aggiunto al carrello",
+          success: true,
+        });
+      });
   } catch (err) {
     res.status(500).json({
       message: "Non aggiunto al carrello",
@@ -56,24 +54,18 @@ router.post("/add", async (req, res) => {
 router.post("/delete", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
   if (!user) return;
-
   const { product_id } = req.body;
+  const { user_id } = user;
 
   try {
-    const result = await db
-      .createQuery()
-      .input("product_id", sql.Int, product_id)
-      .input("user_id", sql.Int, user.user_id)
-      .query(
-        `DELETE users_products
-         FROM users_products 
-          INNER JOIN users on users_products.user_id = users.id
-         WHERE users_products.user_id = @user_id 
-          AND users_products.product_id = @product_id
-          AND users.submitted_at IS NULL`
-      );
+    const deleted = await db.UsersProducts.destroy({
+      where: {
+        user_id,
+        product_id,
+      },
+    });
 
-    if (!result.rowsAffected[0]) throw Error;
+    if (deleted < 1) throw Error;
 
     res.json({
       message: "Eliminato dal carrello",
@@ -92,25 +84,18 @@ router.post("/remove", async (req, res) => {
   if (!user) return;
 
   const { product_id } = req.body;
+  const { user_id } = user;
 
   try {
-    const result = await db
-      .createQuery()
-      .input("product_id", sql.Int, product_id)
-      .input("user_id", sql.Int, user.user_id)
-      .query(
-        `UPDATE users_products
-           SET users_products.quantity = quantity-1,
-               add_at = Getdate()
-           FROM users_products
-            INNER JOIN users ON users_products.user_id = users.id
-           WHERE users_products.user_id = @user_id
-            AND users_products.product_id = @product_id
-            AND users_products.quantity >= 2
-            AND users.submitted_at IS NULL`
-      );
+    const removed = await db.UsersProducts.decrement(
+      {
+        quantity: 1,
+      },
+      { where: { user_id, product_id } }
+    );
 
-    if (!result.rowsAffected[0]) throw Error;
+    //contains the number of rows affected
+    if (removed[0][1] != 1) throw Error;
 
     res.json({
       message: "Tolto 1 pezzo dal carrello",
@@ -128,7 +113,9 @@ router.post("/submit", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
   if (!user) return;
 
-  const now = moment().tz("Europe/Rome");
+  const { user_id } = user;
+
+  const now = moment().utc(new Date());
   const order_time_limit = process.env.ORDER_TIME_LIMIT.split(":");
 
   if (
@@ -141,10 +128,10 @@ router.post("/submit", async (req, res) => {
     });
 
   try {
-    await db.createQuery().input("user_id", sql.Int, user.user_id)
-      .query(`UPDATE users 
-              SET submitted_at = GETDATE()
-              WHERE id = @user_id`);
+    await db.Users.update(
+      { submitted_at: moment().utc(new Date()) },
+      { where: { id: user_id } }
+    );
 
     res.json({
       message: "Ordine effettuato!",
@@ -160,7 +147,9 @@ router.post("/cancel", async (req, res) => {
   const user = await db.checkUserLogin(req, res);
   if (!user) return;
 
-  const now = moment().tz("Europe/Rome");
+  const { user_id } = user;
+
+  const now = moment().utc(new Date());
   const order_time_limit = process.env.ORDER_TIME_LIMIT.split(":");
 
   if (
@@ -173,11 +162,7 @@ router.post("/cancel", async (req, res) => {
     });
 
   try {
-    await db.createQuery().input("user_id", sql.Int, user.user_id)
-      .query(`UPDATE users 
-            SET submitted_at = NULL
-            WHERE id = @user_id`);
-
+    await db.Users.update({ submitted_at: null }, { where: { id: user_id } });
     res.json({
       message: "Ordine annullato",
     });
