@@ -1,0 +1,19 @@
+version: '3'
+services:
+  db:
+    image: "postgres:13.2-alpine"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: snackbooking
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "15432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "--username", "snackbooking"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-data: {}
