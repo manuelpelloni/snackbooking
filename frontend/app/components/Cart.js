@@ -24,7 +24,7 @@ const Cart = () => {
   const [total, setTotal] = useState(null);
 
   const updateTotal = (num) => {
-    return setTotal(total + num);
+    return setTotal(parseFloat(total) + parseFloat(num));
   };
   const sumbitOrder = async () => {
     await request("POST", "/api/cart/submit");
@@ -44,7 +44,7 @@ const Cart = () => {
       setTotal(
         response.items.reduce(
           (total, item) =>
-            parseFloat(total) + parseFloat(item.quantity * item.product.price),
+            parseFloat(total) + parseFloat(item.quantity) * parseFloat(item.product.price),
           0
         )
       );
@@ -87,7 +87,6 @@ const Cart = () => {
   } else {
     return (
       <div className="Cart">
-        <p>dsf</p>
         <div className="container ">
           <div className="items-container ">{components}</div>
           <hr className="total-line" />
