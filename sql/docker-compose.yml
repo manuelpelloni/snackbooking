@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: snackbooking
       POSTGRES_PASSWORD: 123456
     ports:
-      - "15432:5432"
+      - "5432:5432"
     healthcheck:
       test: ["CMD", "pg_isready", "--username", "snackbooking"]
       interval: 10s
