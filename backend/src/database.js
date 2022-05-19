@@ -7,8 +7,6 @@ const moment = require("moment-timezone");
 
 const sequelize = new Sequelize(process.env.CONNECTIONSTRING, {
   dialect: "postgres",
-  host: process.env.PGHOST,
-  port: process.env.PGPORT,
   pool: {
     max: 20,
     idle: 30000,
