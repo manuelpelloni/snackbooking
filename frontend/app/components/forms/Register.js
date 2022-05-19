@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Forms.css";
 import request from "../../utils/http";
+import handleSubmit from "../../utils/form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faUnlock, faUser } from "@fortawesome/free-solid-svg-icons";
 
@@ -9,21 +10,12 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [class_section, setYear] = useState("");
-  const [year] = useState(Math.round(Math.random() * 4 + 1));
-  const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const [section] = useState(
-    uppercaseLetters.charAt(
-      Math.round(Math.random() * uppercaseLetters.length - 1)
-    )
-  );
   const navigate = useNavigate();
 
   const onSubmit = async () => {
     if (password === confirm) {
       try {
-        console.log(password, confirm);
-        const registrationBody = { email, password, class_section };
+        const registrationBody = { email, password };
         const { message1 } = await request(
           "POST",
           "/api/auth/register",
@@ -47,7 +39,10 @@ const Register = () => {
 
   return (
     <div className="Form-container">
-      <form className="login-form center">
+      <form
+        className="login-form center"
+        onSubmit={(e) => handleSubmit(e, onSubmit)}
+      >
         <div className="input-wrapper">
           <span>
             <FontAwesomeIcon icon={faUser} className="" />
@@ -57,24 +52,33 @@ const Register = () => {
             placeholder="Enter user email"
             required
             aria-required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="input-wrapper">
           <span>
-            <FontAwesomeIcon icon={faLock} className="" />
+            <FontAwesomeIcon icon={faLock} />
           </span>
           <input
             type="password"
             placeholder="Enter user password"
             required
             aria-required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="input-wrapper">
           <span>
-            <FontAwesomeIcon icon={faLock} className="" />
+            <FontAwesomeIcon icon={faLock} />
           </span>
-          <input type="password" placeholder="Confirm user password" />
+          <input
+            type="password"
+            placeholder="Confirm user password"
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+          />
         </div>
         <input type="submit" value="Register" onClick={() => onSubmit()} />
       </form>
