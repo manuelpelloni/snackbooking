@@ -44,7 +44,8 @@ const Cart = () => {
       setTotal(
         response.items.reduce(
           (total, item) =>
-            parseFloat(total) + parseFloat(item.quantity) * parseFloat(item.product.price),
+            parseFloat(total) +
+            parseFloat(item.quantity) * parseFloat(item.product.price),
           0
         )
       );
